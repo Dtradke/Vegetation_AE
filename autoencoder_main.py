@@ -54,7 +54,7 @@ def openAndTrain(test_set=True, mod=None, train_dataset=None, val_dataset=None, 
     start_time = time.time()
     from lib import model
     masterDataSet = openDatasets(test_set, mod)
-    mod = getModelAndTrain(masterDataSet)
+    mod = getModelAndTrain(masterDataSet, mod)
     modPredict(mod, masterDataSet)
 
 
