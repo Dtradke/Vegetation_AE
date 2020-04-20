@@ -23,6 +23,7 @@ rand = False
 
 
 def openDatasets(test_set, mod):
+    data = []
     if mod is None:
         data = rawdata.RawData.load(locNames='all', special_layers='all')
     masterDataSet = dataset.Squares(data, test_set, mod)
