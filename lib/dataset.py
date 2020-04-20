@@ -27,10 +27,14 @@ class Squares(object):
     '''Makes a dataset of squares for the autoencoders'''
 
     def __init__(self, data, test_set=False, mod=None):
-        self.data = data
-        self.squares, self.square_labels = self.makeSquares()
-        if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
-        else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
+        print("mod: ", mod)
+        if mod is None:
+            self.data = data
+            self.squares, self.square_labels = self.makeSquares()
+            if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
+            else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
+        else:
+            self.testX, self.testy = [], []
 
 
     def splitDataset(self):
