@@ -38,9 +38,10 @@ except:
 
 def unet(masterDataSet, pretrained_weights = None):
     tf.debugging.set_log_device_placement(True)
-    
+
     strategy = tf.distribute.MirroredStrategy()
     with strategy.scope():
+
         input_size = masterDataSet.testX[0].shape
 
         inputs = Input(input_size)
@@ -84,16 +85,18 @@ def unet(masterDataSet, pretrained_weights = None):
         conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
         conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
 
-        model = Model(input = inputs, output = conv10)
+        mod = Model(input = inputs, output = conv10)
 
-        model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
+        mod.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
 
-        #model.summary()
+        #mod.summary()
 
         if(pretrained_weights):
         	model.load_weights(pretrained_weights)
 
-    return model
+        mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1)
+
+    return mod
 
 
 
