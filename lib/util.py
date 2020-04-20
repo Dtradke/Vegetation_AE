@@ -31,8 +31,8 @@ except:
 def checkNeighborhood(pred):
     # [1:-1,1:-1] vert, hor
     cur_pred = pred
-    hor_pad = np.full((pred.shape[1]), -1)
-    vert_pad = np.append(np.full((pred.shape[0])-1))
+    hor_pad = np.full((pred.shape[1], 1), -1)
+    vert_pad = np.append(np.full((pred.shape[0], 1), -1))
     full_pred = []
 
     for i in range(3):
@@ -80,8 +80,8 @@ def evaluateUNET(y_preds, masterDataSet):
         correct+=sq_correct
         incorrect+=sq_incorrect
 
-    print("Correct: ", correct)
-    print("Incorrect: ", incorrect)
+    print("Correct: ", correct / (correct+incorrect))
+    print("Incorrect: ", incorrect / (correct+incorrect))
     exit()
 
 
