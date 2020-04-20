@@ -37,6 +37,8 @@ except:
     import preprocess
 
 def unet(masterDataSet, pretrained_weights = None):
+    tf.debugging.set_log_device_placement(True)
+    
     strategy = tf.distribute.MirroredStrategy()
     with strategy.scope():
         input_size = masterDataSet.testX[0].shape
