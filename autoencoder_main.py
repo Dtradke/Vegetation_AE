@@ -22,33 +22,37 @@ rand = False
 
 
 
-def openDatasets(test_set):
-    data = rawdata.RawData.load(locNames='all', special_layers='all')
-    masterDataSet = dataset.Squares(data, test_set)
-    if not test_set:
+def openDatasets(test_set, mod):
+    if mod is None:
+        data = rawdata.RawData.load(locNames='all', special_layers='all')
+    masterDataSet = dataset.Squares(data, test_set, mod)
+    if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
-        testSiteDataset = dataset.Squares(new_data, test_set)
+        testSiteDataset = dataset.Squares(new_data, test_set, mod=None)
         masterDataSet.testX = testSiteDataset.squares
         masterDataSet.testy = testSiteDataset.square_labels
     return masterDataSet
 
-def getModelAndTrain(masterDataSet):
-    mod = model.unet(masterDataSet)
-    mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=15, verbose=1)
-    time_string = time.strftime("%Y%m%d-%H%M%S")
-    fname = 'models/' + time_string + '_UNET-test_site.h5'
-    print("Saving: ", fname)
-    mod.save_weights(fname)
+def getModelAndTrain(masterDataSet, mod):
+    if mod is None:
+        mod = model.unet(masterDataSet)
+        mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=15, verbose=1)
+        time_string = time.strftime("%Y%m%d-%H%M%S")
+        fname = 'models/' + time_string + '_UNET-test_site.h5'
+        print("Saving: ", fname)
+        mod.save_weights(fname)
+    else:
+        mod = model.unet(masterDataSet, pretrained_weights='models/20200420-230825_UNET-test_site.h5')
     return mod
 
 def modPredict(mod, masterDataSet):
     y_preds = mod.predict(masterDataSet.testX)
     util.evaluateUNET(y_preds, masterDataSet)
 
-def openAndTrain(test_set=True, train_dataset=None, val_dataset=None, test_dataset=None):
+def openAndTrain(test_set=True, mod=None, train_dataset=None, val_dataset=None, test_dataset=None):
     start_time = time.time()
     from lib import model
-    masterDataSet = openDatasets(test_set)
+    masterDataSet = openDatasets(test_set, mod)
     mod = getModelAndTrain(masterDataSet)
     modPredict(mod, masterDataSet)
 
@@ -59,7 +63,10 @@ if __name__ == "__main__":
         openAndTrain(True)
     else:
         print("========= TEST SITE =========")
-        openAndTrain(False)
+        if 'mod' in sys.argv:
+            openAndTrain(False, mod='mod')
+        else:
+            openAndTrain(False)
 
 # if len(sys.argv) == 5:
 #     print("Making picture from predictions")
