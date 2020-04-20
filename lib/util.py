@@ -30,7 +30,7 @@ except:
 
 def checkNeighborhood(pred):
     # [1:-1,1:-1] vert, hor
-    cur_pred = np.expand_dims(pred, axis=0)
+    cur_pred = np.squeeze(pred)
     hor_pad = np.full((pred.shape[1], ), -1)
     vert_pad = np.full((pred.shape[0], 1), -1)
     full_pred = []
