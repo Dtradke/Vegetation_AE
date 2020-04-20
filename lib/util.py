@@ -39,30 +39,30 @@ def checkNeighborhood(pred):
     for i in range(3):
         for j in range(3):
             cur_pred = pred
-            # print('start')
-            # print(pred.shape, " ", cur_pred.shape)
+            print('start')
+            print(pred.shape, " ", cur_pred.shape)
             if i == 0:
                 cur_pred = cur_pred[:,1:] #cut top
                 hor_pad = np.full((cur_pred.shape[1], ), -1)
                 cur_pred = np.vstack((cur_pred, hor_pad)) #add bottom
-            # print(pred.shape, " ", cur_pred.shape)
+            print(pred.shape, " ", cur_pred.shape)
             if j == 0:
                 cur_pred = cur_pred[1:,:] #cut left
                 vert_pad = np.full((cur_pred.shape[0], 1), -1)
                 cur_pred = np.concatenate((cur_pred, vert_pad), axis=1) # add right
-            # print(pred.shape, " ", cur_pred.shape)
+            print(pred.shape, " ", cur_pred.shape)
             if i == 2:
                 cur_pred = cur_pred[:,:-1] # cut bottom
                 hor_pad = np.full((cur_pred.shape[1], ), -1)
                 cur_pred = np.vstack((hor_pad, cur_pred)) # add top
-            # print(pred.shape, " ", cur_pred.shape)
+            print(pred.shape, " ", cur_pred.shape)
             if j == 2:
                 cur_pred = cur_pred[:-1,:] #cut right
                 vert_pad = np.full((cur_pred.shape[0], 1), -1)
                 cur_pred = np.concatenate((vert_pad, cur_pred), axis=1) # add left
-            # print(pred.shape, " ", cur_pred.shape)
+            print(pred.shape, " ", cur_pred.shape)
             full_pred.append(np.subtract(pred, cur_pred))
-            # print("loop")
+            print("loop")
 
     print(len(full_pred))
     for pred in full_pred:
