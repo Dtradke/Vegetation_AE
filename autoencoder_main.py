@@ -43,7 +43,7 @@ def getModelAndTrain(masterDataSet, mod):
         print("Saving: ", fname)
         mod.save_weights(fname)
     else:
-        mod = model.unet(masterDataSet, pretrained_weights='models/20200420-230825_UNET-test_set.h5')
+        mod = model.unet(masterDataSet, pretrained_weights='models/20200420-230825_UNET-test_site.h5')
     return mod
 
 def modPredict(mod, masterDataSet):
