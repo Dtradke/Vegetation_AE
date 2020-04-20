@@ -83,9 +83,12 @@ def evaluateUNET(y_preds, masterDataSet):
         pred[pred < 0.33] = 0
         pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
         pred[pred >= 0.66] = 1
-        sq_correct, sq_incorrect = checkNeighborhood(pred)
-        correct+=sq_correct
-        incorrect+=sq_incorrect
+        # sq_correct, sq_incorrect = checkNeighborhood(pred)
+        # correct+=sq_correct
+        # incorrect+=sq_incorrect
+        diff = np.subtract(pred, val)
+        correct = val.size - np.count_nonzero(diff)
+        incorrect = np.count_nonzero(diff)
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
