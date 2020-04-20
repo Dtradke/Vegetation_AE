@@ -74,7 +74,7 @@ def evaluateUNET(y_preds, masterDataSet):
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
         pred[pred < 0.33] = 0
-        pred[pred >= 0.33 && pred < 0.66] = 0.5
+        pred[(pred >= 0.33 & pred < 0.66)] = 0.5
         pred[pred >= 0.66] = 1
         sq_correct, sq_incorrect = checkNeighborhood(pred)
         correct+=sq_correct
