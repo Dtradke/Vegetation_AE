@@ -38,6 +38,8 @@ def checkNeighborhood(pred):
 
     for i in range(3):
         for j in range(3):
+            print('start')
+            print(pred.shape, " ", cur_pred.shape)
             if i == 0:
                 cur_pred = cur_pred[:,1:] #cut top
                 hor_pad = np.full((cur_pred.shape[1], ), -1)
