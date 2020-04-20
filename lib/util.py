@@ -39,16 +39,16 @@ def checkNeighborhood(pred):
         for j in range(3):
             if i == 0:
                 cur_pred = cur_pred[:,1:] #cut top
-                cur_pred = np.append([pred_cut, hor_pad], axis=0) #add bottom
+                cur_pred = np.append([cur_pred, hor_pad], axis=0) #add bottom
             if j == 0:
                 cur_pred = cur_pred[1:,:] #cut left
-                cur_pred = np.append([pred, vert_pad], axis=1) # add right
+                cur_pred = np.append([cur_pred, vert_pad], axis=1) # add right
             if i == 2:
                 cur_pred = cur_pred[:,:-1] # cut bottom
-                cur_pred = np.append([hor_pad, pred], axis=0) # add top
+                cur_pred = np.append([hor_pad, cur_pred], axis=0) # add top
             if j == 2:
                 cur_pred = cur_pred[:-1,:] #cut right
-                cur_pred = np.append([vert_pad, pred], axis=1) # add left
+                cur_pred = np.append([vert_pad, cur_pred], axis=1) # add left
             full_pred.append(np.subtract(pred, cur_pred))
 
     print(len(full_pred))
