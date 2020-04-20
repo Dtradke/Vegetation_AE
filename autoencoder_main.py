@@ -37,12 +37,16 @@ def getModelAndTrain(masterDataSet):
     mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1)
     return mod
 
+def modPredict(mod, masterDataSet):
+    y_preds = mod.predict(masterDataSet.testX)
+    util.evaluateUNET(y_preds, masterDataSet)
 
 def openAndTrain(test_set=True, train_dataset=None, val_dataset=None, test_dataset=None):
     start_time = time.time()
     from lib import model
     masterDataSet = openDatasets(test_set)
     mod = getModelAndTrain(masterDataSet)
+    modPredict(mod, masterDataSet)
 
 
 if __name__ == "__main__":
