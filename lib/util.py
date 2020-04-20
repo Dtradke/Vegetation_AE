@@ -30,24 +30,37 @@ except:
 
 def checkNeighborhood(pred):
     # [1:-1,1:-1] vert, hor
-    pred_cut = [1:-1,1:-1]
+    cur_pred = pred
     hor_pad = np.full((pred.shape[1]), -1)
     vert_pad = np.append(np.full((pred.shape[0])), -1)
     full_pred = []
 
     for i in range(3):
         for j in range(3):
-            if i == 0 or i == 1:
-                cur_pred = np.append([pred, hor_pad], axis=0) #bottom
-            if j == 0 or j == 1:
-                cur_pred = np.append([pred, vert_pad], axis=1) #right
-            if i == 2 or i == 1:
-                cur_pred = np.append([hor_pad, pred], axis=0) #top
-            if j == 2 or j == 1:
-                cur_pred = np.append([vert_pad, pred], axis=1) #left
+            if i == 0:
+                cur_pred = cur_pred[:,1:] #cut top
+                cur_pred = np.append([pred_cut, hor_pad], axis=0) #add bottom
+            if j == 0:
+                cur_pred = cur_pred[1:,:] #cut left
+                cur_pred = np.append([pred, vert_pad], axis=1) # add right
+            if i == 2:
+                cur_pred = cur_pred[:,:-1] # cut bottom
+                cur_pred = np.append([hor_pad, pred], axis=0) # add top
+            if j == 2:
+                cur_pred = cur_pred[:-1,:] #cut right
+                cur_pred = np.append([vert_pad, pred], axis=1) # add left
             full_pred.append(np.subtract(pred, cur_pred))
 
+    print(len(full_pred))
+    preds = [p[p==0] = -1000 for p in full_pred]
+    preds = np.sum(preds, axis=0)
+    preds[preds > -500] == 0
 
+    correct = np.count_nonzero(preds)
+    incorrect = preds.size - correct
+    print("square Correct: ", correct)
+    print("square Incorrect: ", incorrect)
+    return correct, incorrect
 
 
 
@@ -61,11 +74,9 @@ def evaluateUNET(y_preds, masterDataSet):
         pred[pred < 0.33] = 0
         pred[pred >= 0.33 && pred < 0.66] = 0.5
         pred[pred >= 0.66] = 1
-        answer = checkNeighborhood(pred)
-        diff = np.subtract(val, pred)
-        wrong = np.count_nonzero(diff)
-        incorrect+=wrong
-        correct+=(diff.size - wrong)
+        sq_correct, sq_incorrect = checkNeighborhood(pred)
+        correct+=sq_correct
+        incorrect+=sq_incorrect
 
     print("Correct: ", correct)
     print("Incorrect: ", incorrect)
