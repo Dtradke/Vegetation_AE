@@ -31,23 +31,27 @@ except:
 def checkNeighborhood(pred):
     # [1:-1,1:-1] vert, hor
     cur_pred = np.squeeze(pred)
-    hor_pad = np.full((pred.shape[1]-1, ), -1)
-    vert_pad = np.full((pred.shape[0]-1, 1), -1)
+    # hor_pad = np.full((pred.shape[1]-1, ), -1)
+    # vert_pad = np.full((pred.shape[0]-1, 1), -1)
     full_pred = []
 
     for i in range(3):
         for j in range(3):
             if i == 0:
                 cur_pred = cur_pred[:,1:] #cut top
+                hor_pad = np.full((cur_pred.shape[1], ), -1)
                 cur_pred = np.vstack((cur_pred, hor_pad)) #add bottom
             if j == 0:
                 cur_pred = cur_pred[1:,:] #cut left
+                vert_pad = np.full((cur_pred.shape[0], 1), -1)
                 cur_pred = np.concatenate((cur_pred, vert_pad), axis=1) # add right
             if i == 2:
                 cur_pred = cur_pred[:,:-1] # cut bottom
+                hor_pad = np.full((cur_pred.shape[1], ), -1)
                 cur_pred = np.vstack((hor_pad, cur_pred)) # add top
             if j == 2:
                 cur_pred = cur_pred[:-1,:] #cut right
+                vert_pad = np.full((cur_pred.shape[0], 1), -1)
                 cur_pred = np.concatenate((vert_pad, cur_pred), axis=1) # add left
             full_pred.append(np.subtract(pred, cur_pred))
 
