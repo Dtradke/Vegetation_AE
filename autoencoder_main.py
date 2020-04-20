@@ -34,7 +34,11 @@ def openDatasets(test_set):
 
 def getModelAndTrain(masterDataSet):
     mod = model.unet(masterDataSet)
-    mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1)
+    mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=15, verbose=1)
+    time_string = time.strftime("%Y%m%d-%H%M%S")
+    fname = 'models/' + time_string + '_UNET-test_site.h5'
+    print("Saving: ", fname)
+    mod.save_weights(fname)
     return mod
 
 def modPredict(mod, masterDataSet):

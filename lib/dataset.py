@@ -26,7 +26,7 @@ SQUARE_DIM = 64
 class Squares(object):
     '''Makes a dataset of squares for the autoencoders'''
 
-    def __init__(self, data, test_set=False):
+    def __init__(self, data, test_set=False, mod=None):
         self.data = data
         self.squares, self.square_labels = self.makeSquares()
         if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
