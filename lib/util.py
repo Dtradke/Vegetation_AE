@@ -52,11 +52,13 @@ def checkNeighborhood(pred):
             full_pred.append(np.subtract(pred, cur_pred))
 
     print(len(full_pred))
-    preds = [p[p==0] = -1000 for p in full_pred]
-    preds = np.sum(preds, axis=0)
-    preds[preds > -500] == 0
+    for pred in full_pred:
+        pred[pred==0] = -1000
+    # preds = [p[p==0] = -1000 for p in full_pred]
+    full_pred = np.sum(full_pred, axis=0)
+    full_pred[full_pred > -500] == 0
 
-    correct = np.count_nonzero(preds)
+    correct = np.count_nonzero(full_pred)
     incorrect = preds.size - correct
     print("square Correct: ", correct)
     print("square Incorrect: ", incorrect)
