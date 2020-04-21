@@ -795,7 +795,7 @@ def openDataset(fname, file_loc=None):
             list_split = split_list2(pts_arr, 2)
 
 
-            cores = 2
+            cores = 40 #was 2
             chunksize = 1
             with Pool(processes=cores) as pool:
                 newPtList_arr = pool.map(make_newPtList, list_split, chunksize)

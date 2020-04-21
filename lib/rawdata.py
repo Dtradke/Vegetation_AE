@@ -172,13 +172,14 @@ class Location(object):
                 obj_heights[obj_heights < 10] = 0
                 obj_heights[obj_heights >= 10] = 1
             else:
-                obj_heights[obj_heights < 5] = 0
-                obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.5
+                # obj_heights[self.footprints == 0] = 0
+                obj_heights[obj_heights < 5] = 0.33
+                obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
                 obj_heights[obj_heights >= 10] = 1
 
                 # NOTE: added for softmax
                 obj_heights = np.squeeze(obj_heights)
-                obj_heights = to_categorical(obj_heights, 3)
+                obj_heights = to_categorical(obj_heights, 4) #3
 
 
         if small_obj_heights:
@@ -235,7 +236,7 @@ class SpecialLayer(object):
     def __init__(self, locName, layer_name, allVeg=None, footprints=None, obj_heights=None):
         self.locName = locName
         self.layer_name = layer_name
-        self.allVeg = allVeg if allVeg is not None else self.loadAllVeg()
+        self.allVeg = allVeg if allVeg is not None else self.loadAllVeg() # 1 means not vegetation
         self.footprints = footprints     if footprints   is not None else self.loadFootprints()
         self.obj_heights = obj_heights              if obj_heights is not None else self.loadObjHeights()
 
@@ -283,8 +284,12 @@ class SpecialLayer(object):
                 obj_heights[obj_heights < 10] = 0
                 obj_heights[obj_heights >= 10] = 1
             else:
-                obj_heights[obj_heights < 5] = 0
-                obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.5
+                # obj_heights[obj_heights < 5] = 0
+                # obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.5
+                # obj_heights[obj_heights >= 10] = 1
+                obj_heights[self.footprints == 1] = 0
+                obj_heights[obj_heights < 5] = 0.33
+                obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
                 obj_heights[obj_heights >= 10] = 1
 
         if small_obj_heights:
