@@ -54,9 +54,8 @@ def modPredict(mod, masterDataSet):
     y_preds = mod.predict(masterDataSet.testX)
     util.evaluateUNET(y_preds, masterDataSet)
 
-def openAndTrain(test_set=True, mod=None, load_datasets=True):
+def openAndTrain(test_set=True, mod=None, load_datasets=False):
     start_time = time.time()
-    from lib import model
     if loadDatasets:
         datasets = util.loadDatasets()
         masterDataSet = dataset.Squares(datasets=datasets)
