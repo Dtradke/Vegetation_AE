@@ -155,9 +155,7 @@ def formatPreds(pred, val):
 
     #NOTE: added for softmax (commented above)
     max_pred = np.argmax(pred, axis=2)
-    # print(val)
     max_val = np.argmax(val, axis=2)
-    # print(max_val)
     return max_pred, max_val
 
 def evaluateUNET(y_preds, masterDataSet):
@@ -198,7 +196,6 @@ def evaluateUNET(y_preds, masterDataSet):
     print("grass: ", total_val["grass"])
     print("shrub: ", total_val["shrub"])
     print("tree: ", total_val["tree"])
-    exit()
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
