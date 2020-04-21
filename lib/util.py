@@ -141,7 +141,6 @@ def slowCheckNeighborhood(pred, val):
                     except:
                         pass
 
-    # print("val: ", val.shape)
     correct_val_fast["footprint"]+=np.count_nonzero((answers == 0) & (val == 0))
     correct_val_fast["grass"]+=np.count_nonzero((answers == 0) & (val == 1))
     correct_val_fast["shrub"]+=np.count_nonzero((answers == 0) & (val == 2))
@@ -192,6 +191,12 @@ def evaluateUNET(y_preds, masterDataSet):
         incorrect+= np.count_nonzero(diff)
 
         # viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, diff)
+
+    print("foot: ", total_val["footprint"])
+    print("grass: ", total_val["grass"])
+    print("shrub: ", total_val["shrub"])
+    print("tree: ", total_val["tree"])
+    exit()
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
