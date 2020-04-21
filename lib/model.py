@@ -26,8 +26,8 @@ from keras.optimizers import SGD
 import random
 print('done.')
 
-classify = True
-bin_class = False
+classify = False
+bin_class = True
 GPU = False
 
 
@@ -79,7 +79,10 @@ def unet(masterDataSet, pretrained_weights = None):
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     # conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
-    conv10 = Conv2D(4, 1, activation = 'softmax')(conv9)
+    if classify:
+        conv10 = Conv2D(4, 1, activation = 'softmax')(conv9)
+    elif bin_class:
+        conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
 
     model = Model(input = inputs, output = conv10)
 

@@ -10,8 +10,8 @@ from keras.utils import to_categorical
 from lib import util
 
 PIXEL_SIZE = 1
-classify = True
-bin_class = False
+classify = False
+bin_class = True
 small_obj_heights = False
 
 def loadLocations(input_arr):
@@ -89,7 +89,8 @@ class Location(object):
 
         if classify:
             if bin_class:
-                self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
+                # self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
+                self.obj_height_classification = self.layer_obj_heights
             else:
                 # print("Before: ", self.layer_obj_heights)
                 self.obj_height_classification = self.layer_obj_heights #to_categorical(self.layer_obj_heights, 4)
@@ -171,14 +172,18 @@ class Location(object):
         if classify:
             print('classify')
             if bin_class:
-                obj_heights[obj_heights < 10] = 0
-                obj_heights[obj_heights >= 10] = 1
+                # obj_heights[obj_heights < 10] = 0
+                # obj_heights[obj_heights >= 10] = 1
+                obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
+                obj_heights[(obj_heights < 10) & (self.specialLayers['footprints'].allVeg == 0)] = 1 #0.33
+                obj_heights[obj_heights >= 10] = 2 #1.0
+                # NOTE: added for softmax
+                obj_heights = to_categorical(obj_heights, 3)
             else:
                 obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
                 obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 1 #0.33
                 obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 2 #0.66
                 obj_heights[obj_heights >= 20] = 3 #1.0
-
                 # NOTE: added for softmax
                 obj_heights = to_categorical(obj_heights, 4) #3
 
@@ -281,7 +286,10 @@ class SpecialLayer(object):
         if classify:
             print('classify')
             if bin_class:
-                obj_heights[obj_heights < 10] = 0
+                # obj_heights[obj_heights < 10] = 0
+                # obj_heights[obj_heights >= 10] = 1
+                obj_heights[self.footprints == 1] = 0
+                obj_heights[(obj_heights < 10) & (self.footprints == 0)] = 0.5
                 obj_heights[obj_heights >= 10] = 1
             else:
                 # obj_heights[obj_heights < 5] = 0

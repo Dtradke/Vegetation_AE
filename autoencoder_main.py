@@ -17,9 +17,9 @@ from lib import model
 from multiprocessing import Pool
 
 
-classify = True
-bin_class = False
-rand = False
+# classify = True
+# bin_class = False
+# rand = False
 
 
 

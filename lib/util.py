@@ -211,7 +211,11 @@ def evaluateUNET(y_preds, masterDataSet):
     print("grass: ", correct_val_fast["grass"])
     print("shrub: ", correct_val_fast["shrub"])
     print("tree: ", correct_val_fast["tree"])
-    print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
+    try:
+        print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
+    except:
+        print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " below 10: ", correct_val_fast["grass"] / total_val["grass"], " above 10: ", correct_val_fast["shrub"] / total_val["shrub"])
+
     print("Neighborhoods check:")
     print("n - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
     print("n - Incorrect: ", ck_incorrect_total / (ck_correct_total+ck_incorrect_total))
@@ -219,7 +223,12 @@ def evaluateUNET(y_preds, masterDataSet):
     print("grass: ", correct_val_slow["grass"])
     print("shrub: ", correct_val_slow["shrub"])
     print("tree: ", correct_val_slow["tree"])
-    print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
+    try:
+        print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
+    except:
+        print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " below 10: ", correct_val_slow["grass"] / total_val["grass"], " above 10: ", correct_val_slow["shrub"] / total_val["shrub"])
+
+
     exit()
 
 
