@@ -175,7 +175,10 @@ class Location(object):
                 obj_heights[obj_heights < 5] = 0
                 obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.5
                 obj_heights[obj_heights >= 10] = 1
+                print(obj_heights.shape)
+                obj_heights = np.squeeze(obj_heights)
                 obj_heights = to_categorical(obj_heights, 3)
+                print(obj_heights.shape)
 
 
         if small_obj_heights:
