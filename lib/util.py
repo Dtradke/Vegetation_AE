@@ -78,14 +78,17 @@ def evaluateUNET(y_preds, masterDataSet):
     incorrect = 0
     correct = 0
 
+    nincorrect = 0
+    ncorrect = 0
+
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
         pred[pred < 0.33] = 0
         pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
         pred[pred >= 0.66] = 1
-        # sq_correct, sq_incorrect = checkNeighborhood(pred)
-        # correct+=sq_correct
-        # incorrect+=sq_incorrect
+        sq_correct, sq_incorrect = checkNeighborhood(pred)
+        ncorrect+=sq_correct
+        nincorrect+=sq_incorrect
         diff = np.subtract(pred, val)
         correct = val.size - np.count_nonzero(diff)
         incorrect = np.count_nonzero(diff)
@@ -105,6 +108,9 @@ def evaluateUNET(y_preds, masterDataSet):
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
+    print("Neighborhoods:")
+    print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
+    print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
     exit()
 
 
