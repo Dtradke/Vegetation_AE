@@ -192,8 +192,8 @@ def evaluateUNET(y_preds, masterDataSet):
         ck_correct_total+=ck_correct
         ck_incorrect_total+=ck_incorrect
         diff = np.subtract(pred, val)
-        correct+= val.size - np.count_nonzero(diff)
-        incorrect+= np.count_nonzero(diff)
+        correct+=np.count_nonzero((diff == 0) & (val != 0))
+        incorrect+= np.count_nonzero((diff != 0) & (val != 0))
 
         # viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, diff)
 
