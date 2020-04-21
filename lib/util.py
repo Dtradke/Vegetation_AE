@@ -111,7 +111,6 @@ def checkNeighborhood(pred, val):
                 if entry == 0:
                     answers_counter[i][j] = 0
 
-    print(full_pred.shape)
     correct_val_fast["footprint"]+=np.count_nonzero((answers_counter == 0) & (val_y == 0))
     correct_val_fast["grass"]+=np.count_nonzero((answers_counter == 0) & (val_y == 1))
     correct_val_fast["shrub"]+=np.count_nonzero((answers_counter == 0) & (val_y == 2))
