@@ -6,6 +6,7 @@ import cv2
 from time import localtime, strftime
 import time
 import csv
+import sys
 
 
 try:
@@ -27,6 +28,21 @@ except:
 #     for c in channels:
 #         c[invalidPixelIndices(c)] = np.nan
 #     return cv2.merge(channels)
+
+def saveDatasets(masterDataSet, fname):
+    fname = fname[:-3]
+    np.save('output/datasets/' + fname + 'trainX.npy', masterDataSet.trainX)
+    np.save('output/datasets/' + fname + 'trainy.npy', masterDataSet.trainy)
+    np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.testX)
+    np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
+
+def loadDatasets(sys.argv):
+    datasets = []
+    for fname in sys.argv:
+        if fname[-3:] == '.npy':
+            datasets.append(np.load('output/datasets/' + fname))
+    return datasets
+
 
 def checkNeighborhood(pred, val):
     # [1:-1,1:-1] cuts hor, vert

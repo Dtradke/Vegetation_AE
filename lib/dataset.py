@@ -26,16 +26,30 @@ SQUARE_DIM = 64
 class Squares(object):
     '''Makes a dataset of squares for the autoencoders'''
 
-    def __init__(self, data, test_set=False, mod=None):
+    def __init__(self, data, test_set=False, mod=None, datasets=None):
         print("mod: ", mod)
-        if mod is None:
-            self.data = data
-            self.squares, self.square_labels = self.makeSquares()
-            if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
-            else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
+        if datasets is not None:
+            self.sortDatasets(datasets)
         else:
-            self.testX, self.testy = [], []
+            if mod is None:
+                self.data = data
+                self.squares, self.square_labels = self.makeSquares()
+                if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
+                else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
+            else:
+                self.testX, self.testy = [], []
 
+    def sortDatasets(self, datasets):
+        three_dim = []
+        two_dim = []
+        for i in datasets:
+            try:
+                if i.shape[2] > 0: three_dim.append(i)
+            except: two_dim.append(i)
+        if three_dim[0].shape[0] > three_dim[1].shape[0]: self.trainX, self.testX = three_dim[0].shape[0], three_dim[1].shape[0]
+        else: self.trainX, self.testX = three_dim[1].shape[0], three_dim[0].shape[0]
+        if two_dim[0].shape[0] > two_dim[1].shape[0]: self.trainy, self.testy = two_dim[0].shape[0], two_dim[1].shape[0]
+        else: self.trainy, self.testy = two_dim[1].shape[0], two_dim[0].shape[0]
 
     def splitDataset(self):
         split = 0.8
