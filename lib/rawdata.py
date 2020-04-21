@@ -196,6 +196,7 @@ class Location(object):
                             row.append(np.array([0,0,1,0]))
                         elif col < 1.1:
                             row.append(np.array([0,0,0,1]))
+                        print(col, " ", row[-1])
                     arr.append(np.array(row))
                 obj_heights = np.array(arr)
 
