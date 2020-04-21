@@ -172,12 +172,11 @@ class Location(object):
                 obj_heights[obj_heights < 10] = 0
                 obj_heights[obj_heights >= 10] = 1
             else:
-                # obj_heights[obj_heights < 5] = 0
-                # obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.5
-                # obj_heights[obj_heights >= 10] = 1
-                obj_heights[obj_heights < 5] = np.array([1,0,0])
-                obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = np.array([0,1,0])
-                obj_heights[obj_heights >= 10] = np.array([0,0,1])
+                obj_heights[obj_heights < 5] = 0
+                obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.5
+                obj_heights[obj_heights >= 10] = 1
+                obj_heights = to_categorical(obj_heights, 3)
+
 
         if small_obj_heights:
             obj_heights[obj_heights<0] = 0
