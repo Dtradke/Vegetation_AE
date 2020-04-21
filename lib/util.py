@@ -128,6 +128,14 @@ def slowCheckNeighborhood(pred, val):
 
     return (answers.size - np.count_nonzero(answers)), np.count_nonzero(answers)
 
+def formatPreds(pred):
+    # pred[pred < 0.33] = 0
+    # pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
+    # pred[pred >= 0.66] = 1
+    print(pred)
+    print(pred.shape)
+    exit()
+    return pred
 
 def evaluateUNET(y_preds, masterDataSet):
     incorrect = 0
@@ -140,9 +148,7 @@ def evaluateUNET(y_preds, masterDataSet):
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
-        pred[pred < 0.33] = 0
-        pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
-        pred[pred >= 0.66] = 1
+        pred = formatPreds(pred)
         sq_correct, sq_incorrect = checkNeighborhood(pred, val)
         ck_correct, ck_incorrect = slowCheckNeighborhood(pred, val)
         ncorrect+=sq_correct
