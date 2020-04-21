@@ -57,18 +57,26 @@ def checkNeighborhood(pred):
                 cur_pred = np.concatenate((vert_pad, cur_pred), axis=1) # add left
             full_pred.append(np.subtract(pred, cur_pred))
 
+    import sys
+    np.set_printoptions(threshold=sys.maxsize)
+    # print(full_pred[0])
+    # exit()
+
+
+
     # print(len(full_pred))
     for pred in full_pred:
         # print(pred)
         pred[pred==0] = -1000
     # preds = [p[p==0] = -1000 for p in full_pred]
     full_pred = np.sum(full_pred, axis=0)
-    full_pred[full_pred > -500] == 0
+    full_pred[full_pred > -100] = 0
+    full_pred[full_pred < -100] = 1
 
     correct = np.count_nonzero(full_pred)
     incorrect = pred.size - correct
-    print("square Correct: ", correct)
-    print("square Incorrect: ", incorrect)
+    # print("square Correct: ", correct)
+    # print("square Incorrect: ", incorrect)
     return correct, incorrect
 
 
@@ -86,31 +94,37 @@ def evaluateUNET(y_preds, masterDataSet):
         pred[pred < 0.33] = 0
         pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
         pred[pred >= 0.66] = 1
-        # sq_correct, sq_incorrect = checkNeighborhood(pred)
-        # ncorrect+=sq_correct
-        # nincorrect+=sq_incorrect
+        sq_correct, sq_incorrect = checkNeighborhood(pred)
+        ncorrect+=sq_correct
+        nincorrect+=sq_incorrect
         diff = np.subtract(pred, val)
-        correct = val.size - np.count_nonzero(diff)
-        incorrect = np.count_nonzero(diff)
+        correct+= val.size - np.count_nonzero(diff)
+        incorrect+= np.count_nonzero(diff)
 
-        try:
-            plt.imshow(np.squeeze(masterDataSet.testX[i][:, :, 2]))
-            plt.show()
-            plt.imshow(np.squeeze(val))
-            plt.show()
-            plt.imshow(np.squeeze(pred))
-            plt.show()
-            plt.imshow(np.squeeze(diff))
-            plt.show()
-        except:
-            pass
-
+        # arr = [masterDataSet.testX[i][:, :, 2], val, pred, diff]
+        # titles = ['layer', 'val', 'pred', 'diff']
+        # count = 0
+        #
+        # fig = plt.figure(figsize=(8, 8))
+        # columns = 2
+        # rows = 2
+        #
+        # ax = []
+        # for i in range(columns*rows):
+        #     img = np.squeeze(arr[count])
+        #     # create subplot and append to ax
+        #     ax.append( fig.add_subplot(rows, columns, i+1) )
+        #     ax[-1].set_title(titles[count] + ": " + str(round((val.size - np.count_nonzero(diff)) / val.size, 4)))  # set title
+        #     plt.imshow(img) #, alpha=0.25
+        #     count+=1
+        #
+        # plt.show()
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
-    # print("Neighborhoods:")
-    # print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
-    # print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
+    print("Neighborhoods:")
+    print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
+    print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
     exit()
 
 
