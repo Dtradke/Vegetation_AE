@@ -30,13 +30,15 @@ except:
 #     return cv2.merge(channels)
 
 def saveDatasets(masterDataSet, fname):
+    print("Saving datasets")
     fname = fname[:-3]
     np.save('output/datasets/' + fname + 'trainX.npy', masterDataSet.trainX)
     np.save('output/datasets/' + fname + 'trainy.npy', masterDataSet.trainy)
     np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.testX)
     np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
 
-def loadDatasets(sys.argv):
+def loadDatasets():
+    print("Loading Datasets")
     datasets = []
     for fname in sys.argv:
         if fname[-3:] == '.npy':
