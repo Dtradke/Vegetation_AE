@@ -37,7 +37,7 @@ def openDatasets(test_set, mod):
 def getModelAndTrain(masterDataSet, mod):
     if mod is None:
         mod = model.unet(masterDataSet)
-        mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1)
+        mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=60, verbose=1)
         time_string = time.strftime("%Y%m%d-%H%M%S")
         fname = 'models/' + time_string + '_UNET-test_site.h5'
         print("Saving: ", fname)
