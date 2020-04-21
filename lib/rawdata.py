@@ -188,13 +188,13 @@ class Location(object):
                     row = []
                     for j, col in enumerate(r):
                         print(col)
-                        if col == 0:
+                        if col < 0.1:
                             row.append(np.array([1,0,0,0]))
-                        if col == 0.33:
+                        elif col < 0.4:
                             row.append(np.array([0,1,0,0]))
-                        if col == 0.66:
+                        elif col < 0.7:
                             row.append(np.array([0,0,1,0]))
-                        if col == 1:
+                        elif col < 1.1:
                             row.append(np.array([0,0,0,1]))
                         print(row)
                         exit()
