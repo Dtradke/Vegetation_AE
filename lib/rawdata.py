@@ -176,6 +176,7 @@ class Location(object):
                 obj_heights[obj_heights < 5] = 0.33
                 obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
                 obj_heights[obj_heights >= 10] = 1
+                print(obj_heights)
 
                 # NOTE: added for softmax
                 obj_heights = np.squeeze(obj_heights)
@@ -291,6 +292,7 @@ class SpecialLayer(object):
                 obj_heights[obj_heights < 5] = 0.33
                 obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
                 obj_heights[obj_heights >= 10] = 1
+
 
         if small_obj_heights:
             obj_heights[obj_heights<0] = 0
