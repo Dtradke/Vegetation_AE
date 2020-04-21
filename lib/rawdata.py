@@ -183,24 +183,24 @@ class Location(object):
                 # NOTE: added for softmax
                 obj_heights = np.squeeze(obj_heights)
                 # print("before: ", obj_heights)
-                # arr = []
-                # for i, r in enumerate(obj_heights):
-                #     row = []
-                #     for j, col in enumerate(r):
-                #         # print(col)
-                #         if col < 0.1:
-                #             row.append(np.array([1,0,0,0]))
-                #         elif col < 0.4:
-                #             row.append(np.array([0,1,0,0]))
-                #         elif col < 0.7:
-                #             row.append(np.array([0,0,1,0]))
-                #         elif col < 1.1:
-                #             row.append(np.array([0,0,0,1]))
-                #         # print(col, " ", row[-1])
-                #     arr.append(np.array(row))
-                # obj_heights = np.array(arr)
+                arr = []
+                for i, r in enumerate(obj_heights):
+                    row = []
+                    for j, col in enumerate(r):
+                        # print(col)
+                        if col < 0.1:
+                            row.append(np.array([1,0,0,0]))
+                        elif col < 0.4:
+                            row.append(np.array([0,1,0,0]))
+                        elif col < 0.7:
+                            row.append(np.array([0,0,1,0]))
+                        elif col < 1.1:
+                            row.append(np.array([0,0,0,1]))
+                        # print(col, " ", row[-1])
+                    arr.append(np.array(row))
+                obj_heights = np.array(arr)
 
-                obj_heights = to_categorical(obj_heights, 4) #3
+                # obj_heights = to_categorical(obj_heights, 4) #3
                 # print("after: ", obj_heights)
 
 
