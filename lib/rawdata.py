@@ -91,7 +91,7 @@ class Location(object):
             if bin_class:
                 self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
             else:
-                self.obj_height_classification = to_categorical(self.layer_obj_heights, 3)
+                self.obj_height_classification = to_categorical(self.layer_obj_heights, 4)
 
     def normalizeLayers(self):
         for i, key in enumerate(self.layers):
@@ -172,7 +172,7 @@ class Location(object):
                 obj_heights[obj_heights < 10] = 0
                 obj_heights[obj_heights >= 10] = 1
             else:
-                obj_heights[self.specialLayers['footprints'].allVeg == 0] = 0
+                obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0
                 obj_heights[obj_heights < 5] = 0.33
                 obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
                 obj_heights[obj_heights >= 10] = 1
