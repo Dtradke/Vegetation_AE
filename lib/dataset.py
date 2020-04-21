@@ -76,9 +76,6 @@ class Squares(object):
                     last = v_split[-1]
                     if last.shape[0] < SQUARE_DIM:
                         v_split.pop()
-                    # v_split = [np.expand_dims(v, axis=2) for v in v_split]
-                    # print(v_split[0].shape)
-                    # exit()
                     layer_squares = layer_squares + v_split
                 layers_arr.append(np.array(layer_squares))
             cubes = np.stack(layers_arr, axis=3)
@@ -104,7 +101,7 @@ class Squares(object):
             last = v_split[-1]
             if last.shape[0] < SQUARE_DIM:
                 v_split.pop()
-            v_split = [np.expand_dims(v, axis=2) for v in v_split]
+            # v_split = [np.expand_dims(v, axis=2) for v in v_split]
             squares = squares + v_split
         return np.array(squares)
 
