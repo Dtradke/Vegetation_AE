@@ -56,7 +56,7 @@ def modPredict(mod, masterDataSet):
 
 def openAndTrain(test_set=True, mod=None, load_datasets=False):
     start_time = time.time()
-    if loadDatasets:
+    if load_datasets:
         datasets = util.loadDatasets()
         masterDataSet = dataset.Squares(datasets=datasets)
     else:
