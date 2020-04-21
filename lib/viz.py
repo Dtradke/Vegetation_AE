@@ -19,7 +19,7 @@ classify = True
 bin_class = False
 small_obj_heights = False
 
-def viewResult(masterDataSet.testX[i][:, :, 2], val, pred, diff):
+def viewResult(layer, val, pred, diff):
     titles = ['layer', 'val', 'pred', 'diff']
     count = 0
 
