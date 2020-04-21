@@ -91,7 +91,9 @@ class Location(object):
             if bin_class:
                 self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
             else:
+                print("Before: ", self.layer_obj_heights)
                 self.obj_height_classification = to_categorical(self.layer_obj_heights, 4)
+                print("After: ", self.obj_height_classification)
 
     def normalizeLayers(self):
         for i, key in enumerate(self.layers):
@@ -176,11 +178,13 @@ class Location(object):
                 obj_heights[obj_heights < 5] = 0.33
                 obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
                 obj_heights[obj_heights >= 10] = 1
-                print(obj_heights)
+                # print(obj_heights)
 
                 # NOTE: added for softmax
                 obj_heights = np.squeeze(obj_heights)
+                print("before: ", obj_heights)
                 obj_heights = to_categorical(obj_heights, 4) #3
+                print("after: ", obj_heights)
 
 
         if small_obj_heights:
