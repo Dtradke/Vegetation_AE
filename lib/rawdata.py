@@ -87,14 +87,13 @@ class Location(object):
         # what is the height and width of a layer of data
         self.layerSize = list(self.layers.values())[0].shape[:2]
 
-        if classify:
-            if bin_class:
-                # self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
-                self.obj_height_classification = self.layer_obj_heights
-            else:
-                # print("Before: ", self.layer_obj_heights)
-                self.obj_height_classification = self.layer_obj_heights #to_categorical(self.layer_obj_heights, 4)
-                # print("After: ", self.obj_height_classification)
+        if bin_class:
+            # self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
+            self.obj_height_classification = self.layer_obj_heights
+        elif classify:
+            # print("Before: ", self.layer_obj_heights)
+            self.obj_height_classification = self.layer_obj_heights #to_categorical(self.layer_obj_heights, 4)
+            # print("After: ", self.obj_height_classification)
 
     def normalizeLayers(self):
         for i, key in enumerate(self.layers):
