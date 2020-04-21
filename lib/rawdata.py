@@ -174,39 +174,13 @@ class Location(object):
                 obj_heights[obj_heights < 10] = 0
                 obj_heights[obj_heights >= 10] = 1
             else:
-                obj_heights = np.where(self.specialLayers['footprints'].allVeg == 1,obj_heights,0)
-                # obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0
-                obj_heights[obj_heights < 5] = 0.33
-                obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
-                obj_heights[obj_heights >= 10] = 1
-                # print(obj_heights)
-
-                print(obj_heights.size, " nonzero: ", np.count_nonzero(obj_heights), " check: ", np.count_nonzero(self.specialLayers['footprints'].allVeg == 1))
+                obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
+                obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 1 #0.33
+                obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 2 #0.66
+                obj_heights[obj_heights >= 10] = 3 #1.0
 
                 # NOTE: added for softmax
-                obj_heights = np.squeeze(obj_heights)
-                # print("before: ", obj_heights)
-                arr = []
-                for i, r in enumerate(obj_heights):
-                    row = []
-                    for j, col in enumerate(r):
-                        # print(col)
-                        if col < 0.1:
-                            print("Should be zero")
-                            row.append(np.array([1,0,0,0]))
-                        elif col < 0.4:
-                            row.append(np.array([0,1,0,0]))
-                        elif col < 0.7:
-                            row.append(np.array([0,0,1,0]))
-                        elif col < 1.1:
-                            row.append(np.array([0,0,0,1]))
-                        # print(col, " ", row[-1])
-                    arr.append(np.array(row))
-                obj_heights = np.array(arr)
-
-                # obj_heights = to_categorical(obj_heights, 4) #3
-                # print("after: ", obj_heights)
-
+                obj_heights = to_categorical(obj_heights, 4) #3
 
         if small_obj_heights:
             obj_heights[obj_heights<0] = 0
@@ -314,7 +288,7 @@ class SpecialLayer(object):
                 # obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.5
                 # obj_heights[obj_heights >= 10] = 1
                 obj_heights[self.footprints == 1] = 0
-                obj_heights[obj_heights < 5] = 0.33
+                obj_heights[(obj_heights < 5) & (self.footprints == 0)] = 0.33
                 obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
                 obj_heights[obj_heights >= 10] = 1
 
