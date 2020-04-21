@@ -128,14 +128,15 @@ def slowCheckNeighborhood(pred, val):
 
     return (answers.size - np.count_nonzero(answers)), np.count_nonzero(answers)
 
-def formatPreds(pred):
+def formatPreds(pred, val):
     # pred[pred < 0.33] = 0
     # pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
     # pred[pred >= 0.66] = 1
-    print(pred[0])
+
+    #NOTE: added for softmax (commented above)
     max_pred = np.argmax(pred, axis=2)
-    print(max_pred[0])
-    return max_pred
+    max_val = np.argmax(val, axis=2)
+    return max_pred, max_val
 
 def evaluateUNET(y_preds, masterDataSet):
     incorrect = 0
@@ -148,7 +149,7 @@ def evaluateUNET(y_preds, masterDataSet):
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
-        pred = formatPreds(pred)
+        pred, val = formatPreds(pred, val)
         sq_correct, sq_incorrect = checkNeighborhood(pred, val)
         ck_correct, ck_incorrect = slowCheckNeighborhood(pred, val)
         ncorrect+=sq_correct
