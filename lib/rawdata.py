@@ -174,13 +174,14 @@ class Location(object):
                 obj_heights[obj_heights < 10] = 0
                 obj_heights[obj_heights >= 10] = 1
             else:
-                obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0
+                obj_heights = np.where(self.specialLayers['footprints'].allVeg == 1,obj_heights,0)
+                # obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0
                 obj_heights[obj_heights < 5] = 0.33
                 obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
                 obj_heights[obj_heights >= 10] = 1
                 # print(obj_heights)
 
-                print(obj_heights.size, " nonzero: ", np.count_nonzero(obj_heights == 0), " check: ", np.count_nonzero(self.specialLayers['footprints'].allVeg == 1))
+                print(obj_heights.size, " nonzero: ", np.count_nonzero(obj_heights), " check: ", np.count_nonzero(self.specialLayers['footprints'].allVeg == 1))
 
                 # NOTE: added for softmax
                 obj_heights = np.squeeze(obj_heights)
