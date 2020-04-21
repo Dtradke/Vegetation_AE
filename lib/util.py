@@ -8,6 +8,8 @@ import time
 import csv
 import sys
 
+classify = False
+bin_class = True
 
 try:
     import matplotlib.pyplot as plt
@@ -32,22 +34,26 @@ except:
 def saveExperiment(mod, masterDataSet, test_set):
     time_string = time.strftime("%Y%m%d-%H%M%S")
     if test_set:
-        fname = 'models/' + time_string + '_UNET-test_set.h5'
+        if bin_class: fname = 'models/' + time_string + '_UNET-test_set_BIN.h5'
+        else: fname = 'models/' + time_string + '_UNET-test_set_CLASS.h5'
         saveDatasets(masterDataSet, fname)
     else:
-        fname = 'models/' + time_string + '_UNET-test_site.h5'
+        if bin_class: fname = 'models/' + time_string + '_UNET-test_site_BIN.h5'
+        else: fname = 'models/' + time_string + '_UNET-test_site_CLASS.h5'
     print("Saving: ", fname)
     mod.save_weights(fname)
 
 def saveDatasets(masterDataSet, fname):
     print("Saving datasets")
+    if bin_class: mode = '_BIN'
+    else: mode = '_CLASS'
     fname = fname[7:-3]
-    np.save('output/datasets/' + fname + 'trainX.npy', masterDataSet.trainX)
-    np.save('output/datasets/' + fname + 'trainy.npy', masterDataSet.trainy)
-    np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.valX)
-    np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.valy)
-    np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.testX)
-    np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
+    np.save('output/datasets/' + fname + 'trainX' + mode + '.npy', masterDataSet.trainX)
+    np.save('output/datasets/' + fname + 'trainy' + mode + '.npy', masterDataSet.trainy)
+    np.save('output/datasets/' + fname + 'testX' + mode + '.npy', masterDataSet.valX)
+    np.save('output/datasets/' + fname + 'testy' + mode + '.npy', masterDataSet.valy)
+    np.save('output/datasets/' + fname + 'testX' + mode + '.npy', masterDataSet.testX)
+    np.save('output/datasets/' + fname + 'testy' + mode + '.npy', masterDataSet.testy)
 
 def loadDatasets():
     print("Loading Datasets")
