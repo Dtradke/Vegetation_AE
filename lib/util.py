@@ -59,7 +59,7 @@ def checkNeighborhood(pred):
 
     # print(len(full_pred))
     for pred in full_pred:
-        print(pred)
+        # print(pred)
         pred[pred==0] = -1000
     # preds = [p[p==0] = -1000 for p in full_pred]
     full_pred = np.sum(full_pred, axis=0)
@@ -86,9 +86,9 @@ def evaluateUNET(y_preds, masterDataSet):
         pred[pred < 0.33] = 0
         pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
         pred[pred >= 0.66] = 1
-        sq_correct, sq_incorrect = checkNeighborhood(pred)
-        ncorrect+=sq_correct
-        nincorrect+=sq_incorrect
+        # sq_correct, sq_incorrect = checkNeighborhood(pred)
+        # ncorrect+=sq_correct
+        # nincorrect+=sq_incorrect
         diff = np.subtract(pred, val)
         correct = val.size - np.count_nonzero(diff)
         incorrect = np.count_nonzero(diff)
@@ -108,9 +108,9 @@ def evaluateUNET(y_preds, masterDataSet):
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
-    print("Neighborhoods:")
-    print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
-    print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
+    # print("Neighborhoods:")
+    # print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
+    # print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
     exit()
 
 
