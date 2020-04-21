@@ -61,7 +61,15 @@ def loadDatasets():
     return datasets
 
 
+
+# Global dicts for results
+correct_val_slow = {"footprint":0, "grass":0, "shrub":0, "tree":0}
+correct_val_fast = {"footprint":0, "grass":0, "shrub":0, "tree":0}
+
 def checkNeighborhood(pred, val):
+    global correct_val_fast
+
+
     # [1:-1,1:-1] cuts hor, vert
     val_y = np.squeeze(val)
     cur_pred = np.squeeze(pred)
@@ -103,6 +111,12 @@ def checkNeighborhood(pred, val):
                 if entry == 0:
                     answers_counter[i][j] = 0
 
+    print(full_pred.shape)
+    correct_val_fast["footprint"]+=np.count_nonzero((answers_counter == 0) & (val_y == 0))
+    correct_val_fast["grass"]+=np.count_nonzero((answers_counter == 0) & (val_y == 1))
+    correct_val_fast["shrub"]+=np.count_nonzero((answers_counter == 0) & (val_y == 2))
+    correct_val_fast["tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 3))
+
     incorrect = np.count_nonzero(answers_counter)
     correct = val.size - incorrect
     # print("square Correct: ", correct)
@@ -111,6 +125,8 @@ def checkNeighborhood(pred, val):
 
 
 def slowCheckNeighborhood(pred, val):
+    global correct_val_slow
+
     val = np.squeeze(val)
     answers = np.ones_like(val)
     diff = 1
@@ -126,6 +142,12 @@ def slowCheckNeighborhood(pred, val):
                     except:
                         pass
 
+    print("val: ", val.shape)
+    correct_val_fast["footprint"]+=np.count_nonzero((answers == 0) & (val == 0))
+    correct_val_fast["grass"]+=np.count_nonzero((answers == 0) & (val == 1))
+    correct_val_fast["shrub"]+=np.count_nonzero((answers == 0) & (val == 2))
+    correct_val_fast["tree"]+=np.count_nonzero((answers == 0) & (val == 3))
+
     return (answers.size - np.count_nonzero(answers)), np.count_nonzero(answers)
 
 def formatPreds(pred, val):
@@ -139,6 +161,8 @@ def formatPreds(pred, val):
     return max_pred, max_val
 
 def evaluateUNET(y_preds, masterDataSet):
+    global correct_val_slow
+    global correct_val_fast
     incorrect = 0
     correct = 0
 
@@ -147,9 +171,17 @@ def evaluateUNET(y_preds, masterDataSet):
     ck_correct_total = 0
     ck_incorrect_total = 0
 
+    total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
+
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
         pred, val = formatPreds(pred, val)
+
+        total_val["footprint"]+=np.count_nonzero(val == 0)
+        total_val["grass"]+=np.count_nonzero(val == 1)
+        total_val["shrub"]+=np.count_nonzero(val == 2)
+        total_val["tree"]+=np.count_nonzero(val == 3)
+
         sq_correct, sq_incorrect = checkNeighborhood(pred, val)
         ck_correct, ck_incorrect = slowCheckNeighborhood(pred, val)
         ncorrect+=sq_correct
@@ -167,9 +199,11 @@ def evaluateUNET(y_preds, masterDataSet):
     print("Neighborhoods:")
     print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
     print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
+    print("foot: ", correct_val_fast["footprints"] / total_val["footprints"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
     print("Neighborhoods check:")
     print("n - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
     print("n - Incorrect: ", ck_incorrect_total / (ck_correct_total+ck_incorrect_total))
+    print("foot: ", correct_val_slow["footprints"] / total_val["footprints"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
     exit()
 
 
