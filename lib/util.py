@@ -29,20 +29,35 @@ except:
 #         c[invalidPixelIndices(c)] = np.nan
 #     return cv2.merge(channels)
 
+def saveExperiment(mod, masterDataSet, test_set):
+    time_string = time.strftime("%Y%m%d-%H%M%S")
+    if test_set:
+        fname = 'models/' + time_string + '_UNET-test_set.h5'
+        saveDatasets(masterDataSet, fname)
+    else:
+        fname = 'models/' + time_string + '_UNET-test_site.h5'
+    print("Saving: ", fname)
+    mod.save_weights(fname)
+
 def saveDatasets(masterDataSet, fname):
     print("Saving datasets")
-    fname = fname[:-3]
+    fname = fname[7:-3]
     np.save('output/datasets/' + fname + 'trainX.npy', masterDataSet.trainX)
     np.save('output/datasets/' + fname + 'trainy.npy', masterDataSet.trainy)
+    np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.valX)
+    np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.valy)
     np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.testX)
     np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
 
 def loadDatasets():
     print("Loading Datasets")
+    files = ['inX.npy', 'iny.npy', 'alX.npy', 'aly.npy', 'stX.npy', 'sty.npy']
+    count = 0
     datasets = []
     for fname in sys.argv:
-        if fname[-3:] == '.npy':
+        if fname[-7:] == files[count]:
             datasets.append(np.load('output/datasets/' + fname))
+            count+=0
     return datasets
 
 

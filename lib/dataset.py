@@ -29,27 +29,23 @@ class Squares(object):
     def __init__(self, data, test_set=False, mod=None, datasets=None):
         print("mod: ", mod)
         if datasets is not None:
-            self.sortDatasets(datasets)
+            self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
         else:
             if mod is None:
                 self.data = data
                 self.squares, self.square_labels = self.makeSquares()
                 if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
                 else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
+                self.makeValDataset()
             else:
                 self.testX, self.testy = [], []
 
-    def sortDatasets(self, datasets):
-        three_dim = []
-        two_dim = []
-        for i in datasets:
-            try:
-                if i.shape[2] > 0: three_dim.append(i)
-            except: two_dim.append(i)
-        if three_dim[0].shape[0] > three_dim[1].shape[0]: self.trainX, self.testX = three_dim[0].shape[0], three_dim[1].shape[0]
-        else: self.trainX, self.testX = three_dim[1].shape[0], three_dim[0].shape[0]
-        if two_dim[0].shape[0] > two_dim[1].shape[0]: self.trainy, self.testy = two_dim[0].shape[0], two_dim[1].shape[0]
-        else: self.trainy, self.testy = two_dim[1].shape[0], two_dim[0].shape[0]
+    def makeValDataset(self):
+        l = int(self.trainX.shape[0] * 0.9)
+        self.valX = self.trainX[-l:]
+        self.valy = self.trainy[-l:]
+        self.trainX = self.trainX[:l]
+        self.trainy = self.trainy[:l]
 
     def splitDataset(self):
         split = 0.8
