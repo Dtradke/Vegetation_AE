@@ -180,6 +180,8 @@ class Location(object):
                 obj_heights[obj_heights >= 10] = 1
                 # print(obj_heights)
 
+                print(obj_heights.size, " nonzero: ", np.count_nonzero(obj_heights == 0), " check: ", np.count_nonzero(self.specialLayers['footprints'].allVeg == 1))
+
                 # NOTE: added for softmax
                 obj_heights = np.squeeze(obj_heights)
                 # print("before: ", obj_heights)
