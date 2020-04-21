@@ -187,11 +187,11 @@ class Location(object):
                 for i, r in enumerate(obj_heights):
                     row = []
                     for j, col in enumerate(r):
-                        print(col)
                         if col == 0: row.append(np.array([1,0,0,0]))
                         if col == 0.33: row.append(np.array([0,1,0,0]))
                         if col == 0.66: row.append(np.array([0,0,1,0]))
                         if col == 1: row.append(np.array([0,0,0,1]))
+                    print(row)
                     arr.append(np.array(row))
                 obj_heights = np.array(arr)
 
