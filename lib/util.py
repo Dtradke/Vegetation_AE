@@ -89,17 +89,18 @@ def evaluateUNET(y_preds, masterDataSet):
         diff = np.subtract(pred, val)
         correct = val.size - np.count_nonzero(diff)
         incorrect = np.count_nonzero(diff)
+
         try:
-            plt.imshow(np.squeeze(masterDataSet.testX[i][0]))
+            plt.imshow(np.squeeze(masterDataSet.testX[i][:, :, 2]))
+            plt.show()
+            plt.imshow(np.squeeze(val))
+            plt.show()
+            plt.imshow(np.squeeze(pred))
+            plt.show()
+            plt.imshow(np.squeeze(diff))
             plt.show()
         except:
             pass
-        plt.imshow(np.squeeze(val))
-        plt.show()
-        plt.imshow(np.squeeze(pred))
-        plt.show()
-        plt.imshow(np.squeeze(diff))
-        plt.show()
 
 
     print("Correct: ", correct / (correct+incorrect))

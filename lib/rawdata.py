@@ -1,6 +1,7 @@
 from os import listdir
 import os
 import numpy as np
+import sys
 # import cv2
 # from scipy import ndimage
 from multiprocessing import Pool
@@ -95,9 +96,10 @@ class Location(object):
     def normalizeLayers(self):
         for i, key in enumerate(self.layers):
             layer = self.layers[key]
-            maxs = np.full(layer.shape, np.amax(layer))
-            mins = np.full(layer.shape, np.amin(layer))
-            self.layers[key] = np.divide(np.subtract(layer, mins), np.subtract(maxs, mins))
+            xmax, xmin = layer.max(), layer.min()
+            layer = (layer - xmin) / (xmax - xmin)
+            self.layers[key] = layer
+
 
 
     def loadLayers(self):
@@ -117,6 +119,12 @@ class Location(object):
         ndvi = np.loadtxt(directory + 'ndvi.txt', delimiter=',')#util.openImg(folder+'ndvi.tif')
         aspect = np.loadtxt(directory + 'aspect.txt', delimiter=',')#util.openImg(folder+'aspect.tif')
         footprints = self.loadVeg(self.name)
+
+        aspect[aspect>359] = 359
+        aspect[aspect<0] = 0
+        slope[slope>90] = 90
+        slope[slope<0] = 0
+        ndvi[ndvi<0] = 0
 
         f_32 = [dem, slope, ndvi, aspect]
         # above_zero = [dem, slope]
