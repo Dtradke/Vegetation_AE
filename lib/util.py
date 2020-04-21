@@ -28,8 +28,9 @@ except:
 #         c[invalidPixelIndices(c)] = np.nan
 #     return cv2.merge(channels)
 
-def checkNeighborhood(pred):
+def checkNeighborhood(pred, val):
     # [1:-1,1:-1] cuts hor, vert
+    val_y = np.squeeze(val)
     cur_pred = np.squeeze(pred)
     pred = cur_pred
     # hor_pad = np.full((pred.shape[1]-1, ), -1)
@@ -55,31 +56,44 @@ def checkNeighborhood(pred):
                 cur_pred = cur_pred[:,:-1] #cut right
                 vert_pad = np.full((cur_pred.shape[0], 1), -1)
                 cur_pred = np.concatenate((vert_pad, cur_pred), axis=1) # add left
-            full_pred.append(np.subtract(pred, cur_pred))
+            full_pred.append(np.subtract(val_y, cur_pred))
 
     import sys
     np.set_printoptions(threshold=sys.maxsize)
     # print(full_pred[0])
     # exit()
 
-
-
-    # print(len(full_pred))
+    answers_counter = np.ones_like(full_pred[0])
     for pred in full_pred:
-        # print(pred)
-        pred[pred==0] = -1000
-    # preds = [p[p==0] = -1000 for p in full_pred]
-    full_pred = np.sum(full_pred, axis=0)
-    full_pred[full_pred > -100] = 0
-    full_pred[full_pred < -100] = 1
+        for i, row in enumerate(pred):
+            for j, entry in enumerate(row):
+                if entry == 0:
+                    answers_counter[i][j] = 0
 
-    correct = np.count_nonzero(full_pred)
-    incorrect = pred.size - correct
+    incorrect = np.count_nonzero(answers_counter)
+    correct = val.size - incorrect
     # print("square Correct: ", correct)
     # print("square Incorrect: ", incorrect)
     return correct, incorrect
 
 
+def slowCheckNeighborhood(pred, val):
+    val = np.squeeze(val)
+    answers = np.ones_like(val)
+    diff = 1
+
+    for i, row in enumerate(val):
+        for j, entry in enumerate(row):
+            for iter_i in range(3):
+                for iter_j in range(3):
+                    try:
+                        diff = entry - pred[(i-1)+iter_i][(j-1)+iter_j]
+                        if diff == 0:
+                            answers[i][j] = 0
+                    except:
+                        pass
+
+    return (answers.size - np.count_nonzero(answers)), np.count_nonzero(answers)
 
 
 def evaluateUNET(y_preds, masterDataSet):
@@ -88,43 +102,34 @@ def evaluateUNET(y_preds, masterDataSet):
 
     nincorrect = 0
     ncorrect = 0
+    ck_correct_total = 0
+    ck_incorrect_total = 0
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
         pred[pred < 0.33] = 0
         pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
         pred[pred >= 0.66] = 1
-        sq_correct, sq_incorrect = checkNeighborhood(pred)
+        sq_correct, sq_incorrect = checkNeighborhood(pred, val)
+        ck_correct, ck_incorrect = slowCheckNeighborhood(pred, val)
         ncorrect+=sq_correct
         nincorrect+=sq_incorrect
+        ck_correct_total+=ck_correct
+        ck_incorrect_total+=ck_incorrect
         diff = np.subtract(pred, val)
         correct+= val.size - np.count_nonzero(diff)
         incorrect+= np.count_nonzero(diff)
 
-        # arr = [masterDataSet.testX[i][:, :, 2], val, pred, diff]
-        # titles = ['layer', 'val', 'pred', 'diff']
-        # count = 0
-        #
-        # fig = plt.figure(figsize=(8, 8))
-        # columns = 2
-        # rows = 2
-        #
-        # ax = []
-        # for i in range(columns*rows):
-        #     img = np.squeeze(arr[count])
-        #     # create subplot and append to ax
-        #     ax.append( fig.add_subplot(rows, columns, i+1) )
-        #     ax[-1].set_title(titles[count] + ": " + str(round((val.size - np.count_nonzero(diff)) / val.size, 4)))  # set title
-        #     plt.imshow(img) #, alpha=0.25
-        #     count+=1
-        #
-        # plt.show()
+        # viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, diff)
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
     print("Neighborhoods:")
     print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
     print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
+    print("Neighborhoods check:")
+    print("n - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
+    print("n - Incorrect: ", ck_incorrect_total / (ck_correct_total+ck_incorrect_total))
     exit()
 
 

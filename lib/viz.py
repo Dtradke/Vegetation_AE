@@ -19,6 +19,25 @@ classify = True
 bin_class = False
 small_obj_heights = False
 
+def viewResult(masterDataSet.testX[i][:, :, 2], val, pred, diff):
+    titles = ['layer', 'val', 'pred', 'diff']
+    count = 0
+
+    fig = plt.figure(figsize=(8, 8))
+    columns = 2
+    rows = 2
+
+    ax = []
+    for i in range(columns*rows):
+        img = np.squeeze(arr[count])
+        # create subplot and append to ax
+        ax.append( fig.add_subplot(rows, columns, i+1) )
+        ax[-1].set_title(titles[count] + ": " + str(round((val.size - np.count_nonzero(diff)) / val.size, 4)))  # set title
+        plt.imshow(img) #, alpha=0.25
+        count+=1
+
+    plt.show()
+
 def norm_predictions(preds):
     max_pred = 0
     min_pred = 1000
