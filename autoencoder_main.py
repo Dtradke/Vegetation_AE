@@ -28,6 +28,7 @@ def openDatasets(test_set, mod):
     if mod is None:
         data = rawdata.RawData.load(locNames='all', special_layers='all')
     masterDataSet = dataset.Squares(data, test_set, mod)
+    print(masterDataSet.testy)
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         testSiteDataset = dataset.Squares(new_data, test_set, mod=None)
