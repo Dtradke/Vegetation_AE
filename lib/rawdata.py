@@ -10,8 +10,11 @@ from keras.utils import to_categorical
 from lib import util
 
 PIXEL_SIZE = 1
-classify = False
-bin_class = True
+
+classify = True
+if classify: bin_class = False
+else: bin_class = True
+
 small_obj_heights = False
 
 def loadLocations(input_arr):

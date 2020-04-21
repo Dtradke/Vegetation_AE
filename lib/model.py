@@ -26,8 +26,10 @@ from keras.optimizers import SGD
 import random
 print('done.')
 
-classify = False
-bin_class = True
+classify = True
+if classify: bin_class = False
+else: bin_class = True
+
 GPU = False
 
 

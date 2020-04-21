@@ -8,8 +8,9 @@ import time
 import csv
 import sys
 
-classify = False
-bin_class = True
+classify = True
+if classify: bin_class = False
+else: bin_class = True
 
 try:
     import matplotlib.pyplot as plt

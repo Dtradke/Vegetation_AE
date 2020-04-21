@@ -15,8 +15,10 @@ except:
 from lib import dataset
 from lib import util
 
-classify = False
-bin_class = True
+classify = True
+if classify: bin_class = False
+else: bin_class = True
+
 small_obj_heights = False
 
 def viewResult(layer, val, pred, diff):
