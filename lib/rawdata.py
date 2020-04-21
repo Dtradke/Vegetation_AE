@@ -189,6 +189,7 @@ class Location(object):
                     for j, col in enumerate(r):
                         # print(col)
                         if col < 0.1:
+                            print("Should be zero")
                             row.append(np.array([1,0,0,0]))
                         elif col < 0.4:
                             row.append(np.array([0,1,0,0]))
