@@ -133,9 +133,9 @@ def formatPreds(pred):
     # pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
     # pred[pred >= 0.66] = 1
     print(pred[0])
-    pred = np.amax(pred, axis=1)
-    print(pred[0])
-    return pred
+    max_pred = np.amax(pred, axis=1)
+    print(max_pred[0])
+    return max_pred
 
 def evaluateUNET(y_preds, masterDataSet):
     incorrect = 0
