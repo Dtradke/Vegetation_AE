@@ -179,7 +179,7 @@ class Location(object):
 
                 # NOTE: added for softmax
                 obj_heights = np.squeeze(obj_heights)
-                obj_heights = to_categorical(obj_heights, 3) #3
+                obj_heights = to_categorical(obj_heights, 4) #3
 
 
         if small_obj_heights:
