@@ -182,13 +182,20 @@ class Location(object):
 
                 # NOTE: added for softmax
                 obj_heights = np.squeeze(obj_heights)
-                obj_heights[obj_heights == 0] = np.array([1,0,0,0])
-                obj_heights[obj_heights == 0.33] = np.array([0,1,0,0])
-                obj_heights[obj_heights == 0.66] = np.array([0,0,1,0])
-                obj_heights[obj_heights == 1] = np.array([0,0,0,1])
-                # print("before: ", obj_heights)
+                print("before: ", obj_heights)
+                arr = []
+                for i in obj_heights:
+                    row = []
+                    for j in i:
+                        if obj_heights[i][j] == 0: row.append(np.array([1,0,0,0]))
+                        if obj_heights[i][j] == 0.33: row.append(np.array([0,1,0,0]))
+                        if obj_heights[i][j] == 0.66: row.append(np.array([0,0,1,0]))
+                        if obj_heights[i][j] == 1: row.append(np.array([0,0,0,1]))
+                    arr.append(np.array(row))
+                obj_heights = np.array(arr)
+
                 # obj_heights = to_categorical(obj_heights, 4) #3
-                # print("after: ", obj_heights)
+                print("after: ", obj_heights)
 
 
         if small_obj_heights:
