@@ -116,8 +116,11 @@ def checkNeighborhood(pred, val):
     correct_val_fast["shrub"]+=np.count_nonzero((answers_counter == 0) & (val_y == 2))
     correct_val_fast["tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 3))
 
-    incorrect = np.count_nonzero(answers_counter)
-    correct = val.size - incorrect
+    correct = np.count_nonzero((answers_counter == 0) & (val_y != 0))
+    incorrect = np.count_nonzero((answers_counter != 0) & (val_y != 0))
+
+    # incorrect = np.count_nonzero(answers_counter)
+    # correct = val.size - incorrect
     # print("square Correct: ", correct)
     # print("square Incorrect: ", incorrect)
     return correct, incorrect
@@ -146,7 +149,9 @@ def slowCheckNeighborhood(pred, val):
     correct_val_slow["shrub"]+=np.count_nonzero((answers == 0) & (val == 2))
     correct_val_slow["tree"]+=np.count_nonzero((answers == 0) & (val == 3))
 
-    return (answers.size - np.count_nonzero(answers)), np.count_nonzero(answers)
+    correct = np.count_nonzero((answers == 0) & (val != 0))
+    incorrect = np.count_nonzero((answers != 0) & (val != 0))
+    return correct, incorrect
 
 def formatPreds(pred, val):
     # pred[pred < 0.33] = 0
