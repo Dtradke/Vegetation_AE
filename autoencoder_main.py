@@ -28,12 +28,14 @@ def openDatasets(test_set, mod):
         testSiteDataset = dataset.Squares(new_data, test_set, mod=None)
         masterDataSet.testX = testSiteDataset.squares
         masterDataSet.testy = testSiteDataset.square_labels
+    print(masterDataSet.testy)
+    exit()
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set):
     if mod is None:
         mod = model.unet(masterDataSet)
-        mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy))
+        mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy))
         util.saveExperiment(mod, masterDataSet, test_set)
     else:
         mod = model.unet(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
