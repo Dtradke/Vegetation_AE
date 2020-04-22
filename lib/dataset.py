@@ -16,9 +16,8 @@ from sklearn.utils import shuffle
 
 AOIRadius = 11
 
-classify = True
-if classify: bin_class = False
-else: bin_class = True
+classify = False
+bin_class = False
 
 small_obj_heights = False
 

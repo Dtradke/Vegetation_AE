@@ -15,9 +15,8 @@ except:
 from lib import dataset
 from lib import util
 
-classify = True
-if classify: bin_class = False
-else: bin_class = True
+classify = False
+bin_class = False
 
 small_obj_heights = False
 

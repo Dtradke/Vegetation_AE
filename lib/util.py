@@ -8,9 +8,8 @@ import time
 import csv
 import sys
 
-classify = True
-if classify: bin_class = False
-else: bin_class = True
+classify = False
+bin_class = False
 
 try:
     import matplotlib.pyplot as plt
@@ -36,18 +35,21 @@ def saveExperiment(mod, masterDataSet, test_set):
     time_string = time.strftime("%Y%m%d-%H%M%S")
     if test_set:
         if bin_class: fname = 'models/' + time_string + '_UNET-test_set_BIN.h5'
-        else: fname = 'models/' + time_string + '_UNET-test_set_CLASS.h5'
+        elif classify: fname = 'models/' + time_string + '_UNET-test_set_CLASS.h5'
+        else: fname = 'models/' + time_string + '_UNET-test_set_NORM.h5'
         saveDatasets(masterDataSet, fname)
     else:
         if bin_class: fname = 'models/' + time_string + '_UNET-test_site_BIN.h5'
-        else: fname = 'models/' + time_string + '_UNET-test_site_CLASS.h5'
+        elif: fname = 'models/' + time_string + '_UNET-test_site_CLASS.h5'
+        else: fname = 'models/' + time_string + '_UNET-test_site_NORM.h5'
     print("Saving: ", fname)
     mod.save_weights(fname)
 
 def saveDatasets(masterDataSet, fname):
     print("Saving datasets")
     if bin_class: mode = '_BIN'
-    else: mode = '_CLASS'
+    elif classify: mode = '_CLASS'
+    else: mode = '_NORM'
     fname = fname[7:-3]
     np.save('output/datasets/' + fname + 'trainX' + mode + '.npy', masterDataSet.trainX)
     np.save('output/datasets/' + fname + 'trainy' + mode + '.npy', masterDataSet.trainy)
@@ -68,7 +70,6 @@ def loadDatasets():
     return datasets
 
 
-
 # Global dicts for results
 correct_val_slow = {"footprint":0, "grass":0, "shrub":0, "tree":0}
 correct_val_fast = {"footprint":0, "grass":0, "shrub":0, "tree":0}
@@ -76,13 +77,10 @@ correct_val_fast = {"footprint":0, "grass":0, "shrub":0, "tree":0}
 def checkNeighborhood(pred, val):
     global correct_val_fast
 
-
     # [1:-1,1:-1] cuts hor, vert
     val_y = np.squeeze(val)
     cur_pred = np.squeeze(pred)
     pred = cur_pred
-    # hor_pad = np.full((pred.shape[1]-1, ), -1)
-    # vert_pad = np.full((pred.shape[0]-1, 1), -1)
     full_pred = []
 
     for i in range(3):
@@ -161,14 +159,18 @@ def slowCheckNeighborhood(pred, val):
     return correct, incorrect
 
 def formatPreds(pred, val):
-    # pred[pred < 0.33] = 0
-    # pred[(pred >= 0.33) & (pred < 0.66)] = 0.5
-    # pred[pred >= 0.66] = 1
 
     #NOTE: added for softmax (commented above)
-    max_pred = np.argmax(pred, axis=2)
-    max_val = np.argmax(val, axis=2)
-    return max_pred, max_val
+    if classify or bin_class:
+        max_pred = np.argmax(pred, axis=2)
+        max_val = np.argmax(val, axis=2)
+        return max_pred, max_val
+    else:
+        pred[pred < 0.25] = 0
+        pred[(pred >= 0.25) & (pred < .5)] = 0.33
+        pred[(pred >= 0.5) & (pred < 0.66)] = 0.66
+        pred[pred >= 0.66] = 1
+        return pred, val
 
 def evaluateUNET(y_preds, masterDataSet):
     # global correct_val_slow
