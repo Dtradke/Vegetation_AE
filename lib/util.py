@@ -170,10 +170,10 @@ def formatPreds(pred, val):
         pred[(pred >= 0.25) & (pred < .5)] = 1
         pred[(pred >= 0.5) & (pred < 0.66)] = 2
         pred[pred >= 0.66] = 3
-        val[val < 0.25] = 0
-        val[(val >= 0.25) & (val < .5)] = 1
-        val[(val >= 0.5) & (val < 0.66)] = 2
-        val[val >= 0.66] = 3
+        val[val == 0] = 0
+        val[val == 0.33] = 1
+        val[val == 0.66] = 2
+        val[val == 1] = 3
         return pred, val
 
 def evaluateUNET(y_preds, masterDataSet):

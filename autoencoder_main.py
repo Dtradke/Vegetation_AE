@@ -28,8 +28,6 @@ def openDatasets(test_set, mod):
         testSiteDataset = dataset.Squares(new_data, test_set, mod=None)
         masterDataSet.testX = testSiteDataset.squares
         masterDataSet.testy = testSiteDataset.square_labels
-    print(masterDataSet.testy)
-    exit()
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set):
