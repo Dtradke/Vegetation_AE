@@ -40,7 +40,7 @@ def saveExperiment(mod, masterDataSet, test_set):
         saveDatasets(masterDataSet, fname)
     else:
         if bin_class: fname = 'models/' + time_string + '_UNET-test_site_BIN.h5'
-        elif: fname = 'models/' + time_string + '_UNET-test_site_CLASS.h5'
+        elif classify: fname = 'models/' + time_string + '_UNET-test_site_CLASS.h5'
         else: fname = 'models/' + time_string + '_UNET-test_site_NORM.h5'
     print("Saving: ", fname)
     mod.save_weights(fname)
