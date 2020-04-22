@@ -89,9 +89,9 @@ def unet(masterDataSet, pretrained_weights = None):
 
     model = Model(input = inputs, output = conv10)
 
-    sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-    model.compile(optimizer = sgd, loss = 'binary_crossentropy', metrics = ['accuracy'])
-    # model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
+    # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+    # model.compile(optimizer = sgd, loss = 'binary_crossentropy', metrics = ['accuracy'])
+    model.compile(optimizer = Adam(lr = 1e-3), loss = 'binary_crossentropy', metrics = ['accuracy'])
 
     # model.summary()
 
