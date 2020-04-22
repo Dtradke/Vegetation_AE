@@ -171,6 +171,7 @@ def formatPreds(pred, val):
         pred[(pred >= 0.5) & (pred < 0.66)] = 2
         pred[pred >= 0.66] = 3
         print("before: ", val)
+        val = np.squeeze(val)
         val[val == 0] = 0
         val[val == 0.33] = 1
         val[val == 0.66] = 2
