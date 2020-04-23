@@ -16,6 +16,7 @@ from lib import util
 from lib import model
 from multiprocessing import Pool
 
+SPLIT = False
 
 
 def openDatasets(test_set, mod):
@@ -32,11 +33,18 @@ def openDatasets(test_set, mod):
 
 def getModelAndTrain(masterDataSet, mod, test_set):
     if mod is None:
-        mod = model.unet(masterDataSet)
-        mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy))
-        util.saveExperiment(mod, masterDataSet, test_set)
+        if SPLIT:
+            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
+            print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
+            mod = model.unet_split(X_split_1, X_split_2)
+            mod.fit([X_split_1, X_split_2], masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy))
+        else:
+            mod = model.unet(masterDataSet)
+            mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy))
+            # util.saveExperiment(mod, masterDataSet, test_set)
     else:
-        mod = model.unet(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
+        if SPLIT: mod = model.unet_split(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
+        else: mod = model.unet(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
     return mod
 
 def modPredict(mod, masterDataSet):
