@@ -171,12 +171,10 @@ def formatPreds(pred, val):
         pred[(pred >= 0.25) & (pred < .5)] = 1
         pred[pred < 0.25] = 0
         val = np.squeeze(val)
-        print("before: ", val[0])
         val[val == 1] = 3
         val[val == 0.66] = 2
         val[val == 0.33] = 1
         val[val == 0] = 0
-        print("after: ", val[0])
         return pred, val
 
 def evaluateUNET(y_preds, masterDataSet):
