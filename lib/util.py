@@ -8,7 +8,7 @@ import time
 import csv
 import sys
 
-classify = False
+classify = True
 bin_class = False
 
 try:

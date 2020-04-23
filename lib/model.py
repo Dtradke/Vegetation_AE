@@ -27,7 +27,7 @@ from keras.optimizers import SGD
 import random
 print('done.')
 
-classify = False
+classify = True
 bin_class = False
 
 GPU = False
@@ -85,7 +85,7 @@ def unet(masterDataSet, pretrained_weights = None):
     elif bin_class:
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
     else:
-        conv10 = Conv2D(1, 1, activation = 'relu')(conv9) #sigmoid
+        conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
 
 
     model = Model(input = inputs, output = conv10)
