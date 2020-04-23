@@ -146,16 +146,16 @@ class Location(object):
         grvi = np.divide(band_4, band_2, out=np.zeros_like(band_4), where=band_2!=0)
 
         layers = {
-                # 'dem':dem,
-                # 'slope':slope,
-                # 'ndvi':ndvi,
-                # 'aspect':aspect,
+                'dem':dem,
+                'slope':slope,
+                'aspect':aspect,
+                'ndvi':ndvi,
                 'band_4':band_4,
                 'band_3':band_3,
                 'band_2':band_2,
                 'band_1':band_1,
                 'footprints': footprints,
-                # 'grvi': grvi
+                'grvi': grvi
                 }
 
         for name, layer in layers.items():

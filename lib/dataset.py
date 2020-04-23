@@ -62,7 +62,6 @@ class Squares(object):
         for i, loc in enumerate(self.data.locs.values()):
             print("Making squares for: ", loc.name)
             layers_arr = []
-            labels_arr = []
             cube = []
             for layer in loc.layers.values():
                 split_indices = [SQUARE_DIM*d for d in range(1,(layer.shape[1]//SQUARE_DIM)+1)]
