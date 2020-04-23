@@ -27,8 +27,8 @@ from keras.optimizers import SGD
 import random
 print('done.')
 
-classify = True
-bin_class = False
+classify = False
+bin_class = True
 
 GPU = False
 
@@ -120,7 +120,6 @@ def encoder(inputs):
 
     conv5 = Conv2D(1024, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(pool4)
 
-
     return conv1, conv2, conv3, drop4, conv5
 
 
@@ -170,7 +169,6 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
     else:
         conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
         conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
-
 
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
