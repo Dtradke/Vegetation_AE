@@ -85,7 +85,7 @@ def unet(masterDataSet, pretrained_weights = None):
     elif bin_class:
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
     else:
-        conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
+        conv10 = Conv2D(1, 1, activation = 'relu')(conv9) #sigmoid
 
 
     model = Model(input = inputs, output = conv10)
