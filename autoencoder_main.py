@@ -51,7 +51,11 @@ def getModelAndTrain(masterDataSet, mod, test_set):
     return mod
 
 def modPredict(mod, masterDataSet):
-    y_preds = mod.predict(masterDataSet.testX)
+    if SPLIT:
+        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:4], masterDataSet.testX[:,:,:,4:]
+        y_preds = mod.predict([X_split_1, X_split_2])
+    else:
+        y_preds = mod.predict(masterDataSet.testX)
     util.evaluateUNET(y_preds, masterDataSet)
 
 def openAndTrain(test_set=True, mod=None, load_datasets=False):
