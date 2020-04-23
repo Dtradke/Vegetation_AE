@@ -16,7 +16,7 @@ from lib import util
 from lib import model
 from multiprocessing import Pool
 
-SPLIT = False
+SPLIT = True
 
 
 def openDatasets(test_set, mod):
