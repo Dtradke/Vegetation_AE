@@ -35,12 +35,12 @@ def getModelAndTrain(masterDataSet, mod, test_set):
     if mod is None:
         if SPLIT:
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:4], masterDataSet.trainX[:,:,:,4:]
-            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:4], masterDataSet.valy[:,:,:,4:]
+            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:4], masterDataSet.valX[:,:,:,4:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
             mod = model.unet_split(X_split_1, X_split_2)
             inputs = [X_split_1, X_split_2]
             vals = [val_split_1, val_split_2]
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(vals))
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(vals, masterDataSet.valy))
         else:
             mod = model.unet(masterDataSet)
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy))
