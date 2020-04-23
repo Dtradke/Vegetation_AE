@@ -12,7 +12,7 @@ from lib import util
 PIXEL_SIZE = 1
 
 classify = False
-bin_class = True
+bin_class = False
 
 small_obj_heights = False
 

@@ -16,7 +16,7 @@ from lib import dataset
 from lib import util
 
 classify = False
-bin_class = True
+bin_class = False
 
 small_obj_heights = False
 

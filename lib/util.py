@@ -9,7 +9,7 @@ import csv
 import sys
 
 classify = False
-bin_class = True
+bin_class = False
 
 try:
     import matplotlib.pyplot as plt

@@ -28,7 +28,7 @@ import random
 print('done.')
 
 classify = False
-bin_class = True
+bin_class = False
 
 GPU = False
 
