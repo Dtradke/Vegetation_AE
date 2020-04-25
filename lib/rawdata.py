@@ -131,7 +131,7 @@ class Location(object):
 
     def shift(self):
         special_layers = SpecialLayer.getVegLayer(self.name)
-        specialLayers = {layer_name:SpecialLayer(self.name, layer_name, degrees) for layer_name in special_layers}
+        specialLayers = {layer_name:SpecialLayer(self.name, layer_name, shift=True) for layer_name in special_layers}
         rot_layers = {}
         layer_obj_heights = self.layer_obj_heights[32:,32:]
         layers_copy = self.layers
