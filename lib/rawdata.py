@@ -129,7 +129,7 @@ class Location(object):
                 rot_layers[key] = np.rot90(layer)
         return specialLayers, layer_obj_heights, rot_layers
 
-    def shift(self, degrees):
+    def shift(self):
         special_layers = SpecialLayer.getVegLayer(self.name)
         specialLayers = {layer_name:SpecialLayer(self.name, layer_name, degrees) for layer_name in special_layers}
         rot_layers = {}
