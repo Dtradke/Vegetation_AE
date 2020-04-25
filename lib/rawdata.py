@@ -15,6 +15,7 @@ classify = False
 bin_class = False
 
 small_obj_heights = False
+AUGMENT = True
 
 def loadLocations(input_arr):
     locName = input_arr
@@ -49,6 +50,18 @@ class RawData(object):
 
                 for i in location_list_return:
                     locs[list(i.keys())[0]] = i[list(i.keys())[0]]
+
+                if AUGMENT:
+                    new_locs = {}
+                    rotations = 1
+                    while rotations < 4:
+                        for i, key in enumerate(locs.keys()):
+                            key_string = key + str(rotations)
+                            specialLayers, layer_obj_heights, rot_layers = locs[key].rotate((rotations * 90))
+                            new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
+                        rotations+=1
+                    locs.update(new_locs)
+                    print(locs)
 #endtraining
             else:
                 print('one testing location')
@@ -61,6 +74,7 @@ class RawData(object):
             locs = {n:Location.load(n, special_layers[n]) for n in locNames}
             print('4')
         return RawData(locs)
+
 
     def getClassificationOutput(self, locName, location):
         loc = self.locs[locName]
@@ -85,17 +99,33 @@ class Location(object):
         self.specialLayers = specialLayers
         self.layer_obj_heights = obj_heights if obj_heights is not None else self.loadLayerObjHeights()
         self.layers = layers if layers is not None else self.loadLayers()
-        self.normalizeLayers()
-        # what is the height and width of a layer of data
+        if layers is None:
+            self.normalizeLayers()
+            # if bin_class:
+            #     # self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
+            #     self.obj_height_classification = self.layer_obj_heights
+            # elif classify:
+            #     # print("Before: ", self.layer_obj_heights)
+            #     self.obj_height_classification = self.layer_obj_heights #to_categorical(self.layer_obj_heights, 4)
+                # print("After: ", self.obj_height_classification)
+        self.obj_height_classification = self.layer_obj_heights
         self.layerSize = list(self.layers.values())[0].shape[:2]
 
-        if bin_class:
-            # self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
-            self.obj_height_classification = self.layer_obj_heights
-        elif classify:
-            # print("Before: ", self.layer_obj_heights)
-            self.obj_height_classification = self.layer_obj_heights #to_categorical(self.layer_obj_heights, 4)
-            # print("After: ", self.obj_height_classification)
+    def rotate(self, degrees):
+        special_layers = SpecialLayer.getVegLayer(self.name)
+        specialLayers = {layer_name:SpecialLayer(self.name, layer_name, degrees) for layer_name in special_layers}
+        rot_layers = {}
+        layer_obj_heights = self.layer_obj_heights
+        layers_copy = self.layers
+        for i in range(degrees//90):
+            layer_obj_heights = np.rot90(layer_obj_heights)
+            for j, key in enumerate(self.layers.keys()):
+                layer = layers_copy[key]
+                rot_layers[key] = np.rot90(layer)
+        return specialLayers, layer_obj_heights, rot_layers
+
+
+
 
     def normalizeLayers(self):
         for i, key in enumerate(self.layers):
@@ -244,12 +274,19 @@ class Location(object):
 
 class SpecialLayer(object):
 
-    def __init__(self, locName, layer_name, allVeg=None, footprints=None, obj_heights=None):
+    def __init__(self, locName, layer_name, degrees=0, allVeg=None, footprints=None, obj_heights=None):
         self.locName = locName
         self.layer_name = layer_name
         self.allVeg = allVeg if allVeg is not None else self.loadAllVeg() # 1 means not vegetation
         self.footprints = footprints     if footprints   is not None else self.loadFootprints()
         self.obj_heights = obj_heights              if obj_heights is not None else self.loadObjHeights()
+        if degrees > 0:
+            print("before rotation: ", self.allVeg.shape)
+            for i in range(degrees//90):
+                self.allVeg = np.rot90(self.allVeg)
+                self.footprints = np.rot90(self.footprints)
+                self.obj_heights = np.rot90(self.obj_heights)
+            print("after rotation: ", self.allVeg.shape)
 
     def loadAllVeg(self):
         cwd = os.getcwd()

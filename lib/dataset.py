@@ -56,6 +56,8 @@ class Squares(object):
         testy = self.square_labels[int(self.squares.shape[0] * split):]
         return trainX, trainy, testX, testy
 
+
+# TODO: ADD AUGMENTATION - rotation and offset
     def makeSquares(self):
         all_cubes = []
         all_cubes_labels = []
