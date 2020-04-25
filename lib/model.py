@@ -269,7 +269,7 @@ def getMSE(r1, r2):
     # subtracted = add([r1,minus_r2])
     # out= Lambda(lambda x: x**2)(subtracted)
     # model = Model([r1,r2],out)
-    return K.mean(K.square(K.stack(l1) - K.stack(l2)))
+    return K.mean(K.square(K.stack(r1) - K.stack(r2)))
     # return model
 
 class BaseModel(object):
