@@ -42,14 +42,14 @@ class Squares(object):
                 self.testX, self.testy = [], []
 
     def makeValDataset(self):
-        l = int(self.trainX.shape[0] * 0.9)
+        l = int(self.trainX.shape[0] * 0.8)
         self.valX = self.trainX[-l:]
         self.valy = self.trainy[-l:]
         self.trainX = self.trainX[:l]
         self.trainy = self.trainy[:l]
 
     def splitDataset(self):
-        split = 0.8
+        split = 0.7
         trainX = self.squares[:int(self.squares.shape[0] * split)]
         trainy = self.square_labels[:int(self.squares.shape[0] * split)]
         testX = self.squares[int(self.squares.shape[0] * split):]

@@ -60,6 +60,11 @@ class RawData(object):
                             specialLayers, layer_obj_heights, rot_layers = locs[key].rotate((rotations * 90))
                             new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
                         rotations+=1
+
+                    for i, key in enumerate(locs.keys()):
+                        key_string = key + "_shift_"+ str(rotations)
+                        specialLayers, layer_obj_heights, rot_layers = locs[key].shift()
+                        new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
                     locs.update(new_locs)
                     print(locs)
 #endtraining
@@ -122,6 +127,17 @@ class Location(object):
             for j, key in enumerate(self.layers.keys()):
                 layer = layers_copy[key]
                 rot_layers[key] = np.rot90(layer)
+        return specialLayers, layer_obj_heights, rot_layers
+
+    def shift(self, degrees):
+        special_layers = SpecialLayer.getVegLayer(self.name)
+        specialLayers = {layer_name:SpecialLayer(self.name, layer_name, degrees) for layer_name in special_layers}
+        rot_layers = {}
+        layer_obj_heights = self.layer_obj_heights[32:,32:]
+        layers_copy = self.layers
+        for j, key in enumerate(self.layers.keys()):
+            layer = layers_copy[key]
+            rot_layers[key] = layer[32:,32:]
         return specialLayers, layer_obj_heights, rot_layers
 
 
@@ -274,7 +290,7 @@ class Location(object):
 
 class SpecialLayer(object):
 
-    def __init__(self, locName, layer_name, degrees=0, allVeg=None, footprints=None, obj_heights=None):
+    def __init__(self, locName, layer_name, degrees=0, shift=False, allVeg=None, footprints=None, obj_heights=None):
         self.locName = locName
         self.layer_name = layer_name
         self.allVeg = allVeg if allVeg is not None else self.loadAllVeg() # 1 means not vegetation
@@ -287,6 +303,12 @@ class SpecialLayer(object):
                 self.footprints = np.rot90(self.footprints)
                 self.obj_heights = np.rot90(self.obj_heights)
             print("after rotation: ", self.allVeg.shape)
+        if shift:
+            print("before cut: ", self.allVeg.shape)
+            self.allVeg = self.allVeg[32:,32:]
+            self.footprints = self.footprints[32:,32:]
+            self.obj_heights = self.obj_heights[32:,32:]
+            print("after cut: ", self.allVeg.shape)
 
     def loadAllVeg(self):
         cwd = os.getcwd()
