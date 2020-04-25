@@ -258,8 +258,8 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
 
 # NOTE: REGULARIZE BY RANDOM CONCAT OF THESE INSTEAD
 def euclidean_distance(A, B):
-    rshpA = K.expand_dims( A,dim = 1)
-    rshpB = K.expand_dims( B,dim = 0)
+    rshpA = K.expand_dims( A,axis = 0) #1
+    rshpB = K.expand_dims( B,axis = 0)
     diff= rshpA-rshpB
     return diff
 
