@@ -234,7 +234,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     arr = [conv2_1, conv2_2]
     x = K.constant(value = np.array([1,1]))
     conv2_x = K.dropout(x, 0.5, seed=1334)
-    merge6 = concatenate([arr = [K.argmax(conv2_x, axis=1)],up8], axis = 3)
+    merge6 = concatenate([arr[K.argmax(conv2_x, axis=1)],up8], axis = 3)
     # mse_mod1 = getMSE(up8, conv2_1)
     # mse_mod2 = getMSE(up8, conv2_2)
     # if mse_mod1 < mse_mod2:
