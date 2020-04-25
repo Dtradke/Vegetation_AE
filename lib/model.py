@@ -205,8 +205,12 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     up6 = Conv2D(512, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(drop5))
     mse_return1 = euclidean_distance(up6, drop4_1)
     mse_return2 = euclidean_distance(up6, drop4_2)
-    print("MSE: ", mse_return1)
-    print("MSE2: ", mse_return2)
+    mse_mod1 = getMSE(up6, drop4_1)
+    mse_mod2 = getMSE(up6, drop4_2)
+    print("ED: ", mse_return1)
+    print("ED2: ", mse_return2)
+    print("MSE: ", mse_mod1)
+    print("MSE2: ", mse_mod2)
     merge6 = concatenate([drop4_1,up6], axis = 3)
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
     merge6 = concatenate([drop4_2,conv6], axis = 3)
@@ -252,7 +256,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
 
     return model
 
-
+# NOTE: REGULARIZE BY RANDOM CONCAT OF THESE INSTEAD
 def euclidean_distance(A, B):
     rshpA = K.expand_dims( A,dim = 1)
     rshpB = K.expand_dims( B,dim = 0)
@@ -261,11 +265,12 @@ def euclidean_distance(A, B):
 
 # Lambda for subtracting two tensors
 def getMSE(r1, r2):
-    minus_r2 = Lambda(lambda x: -x)(r2)
-    subtracted = add([r1,minus_r2])
-    out= Lambda(lambda x: x**2)(subtracted)
-    model = Model([r1,r2],out)
-    return model
+    # minus_r2 = Lambda(lambda x: -x)(r2)
+    # subtracted = add([r1,minus_r2])
+    # out= Lambda(lambda x: x**2)(subtracted)
+    # model = Model([r1,r2],out)
+    return K.mean(K.square(K.stack(l1) - K.stack(l2)))
+    # return model
 
 class BaseModel(object):
 
