@@ -206,7 +206,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     arr = [drop4_1, drop4_2]
     x = K.constant(value = np.array([1,1]))
     drop4_x = K.dropout(x, 0.5, seed=1334)
-    merge6 = concatenate([arr[K.argmax(drop4_x, axis=1)],up6], axis = 3)
+    merge6 = concatenate([arr[K.argmax(drop4_x)],up6], axis = 3)
     # mse_mod1 = getMSE(up6, drop4_1)
     # mse_mod2 = getMSE(up6, drop4_2)
     # if mse_mod1 < mse_mod2:
@@ -220,7 +220,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     arr = [conv3_1, conv3_2]
     x = K.constant(value = np.array([1,1]))
     conv3_x = K.dropout(x, 0.5, seed=1334)
-    merge6 = concatenate([arr[K.argmax(conv3_x, axis=1)],up7], axis = 3)
+    merge6 = concatenate([arr[K.argmax(conv3_x)],up7], axis = 3)
     # mse_mod1 = getMSE(up7, conv3_1)
     # mse_mod2 = getMSE(up7, conv3_2)
     # if mse_mod1 < mse_mod2:
@@ -234,7 +234,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     arr = [conv2_1, conv2_2]
     x = K.constant(value = np.array([1,1]))
     conv2_x = K.dropout(x, 0.5, seed=1334)
-    merge6 = concatenate([arr[K.argmax(conv2_x, axis=1)],up8], axis = 3)
+    merge6 = concatenate([arr[K.argmax(conv2_x)],up8], axis = 3)
     # mse_mod1 = getMSE(up8, conv2_1)
     # mse_mod2 = getMSE(up8, conv2_2)
     # if mse_mod1 < mse_mod2:
@@ -248,7 +248,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     arr = [conv1_1, conv1_2]
     x = K.constant(value = np.array([1,1]))
     conv1_x = K.dropout(x, 0.5, seed=1334)
-    merge6 = concatenate([arr[K.argmax(conv1_x, axis=1)],up9], axis = 3)
+    merge6 = concatenate([arr[K.argmax(conv1_x)],up9], axis = 3)
     # mse_mod1 = getMSE(up8, conv1_1)
     # mse_mod2 = getMSE(up8, conv1_2)
     # if mse_mod1 < mse_mod2:
