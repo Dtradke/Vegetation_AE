@@ -207,12 +207,6 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     x = K.constant(value = np.array([1,1]))
     drop4_x = K.dropout(x, 0.5, seed=1334)
     merge6 = concatenate([arr[K.argmax(drop4_x)],up6], axis = 3)
-    # mse_mod1 = getMSE(up6, drop4_1)
-    # mse_mod2 = getMSE(up6, drop4_2)
-    # if mse_mod1 < mse_mod2:
-    #     merge6 = concatenate([drop4_1,up6], axis = 3)
-    # else:
-    #     merge6 = concatenate([drop4_2,up6], axis = 3)
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv6)
 
@@ -221,12 +215,6 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     x = K.constant(value = np.array([1,1]))
     conv3_x = K.dropout(x, 0.5, seed=1334)
     merge7 = concatenate([arr[K.argmax(conv3_x)],up7], axis = 3)
-    # mse_mod1 = getMSE(up7, conv3_1)
-    # mse_mod2 = getMSE(up7, conv3_2)
-    # if mse_mod1 < mse_mod2:
-    #     merge7 = concatenate([conv3_1,up7], axis = 3)
-    # else:
-    #     merge7 = concatenate([conv3_2,up7], axis = 3)
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge7)
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv7)
 
@@ -235,12 +223,6 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     x = K.constant(value = np.array([1,1]))
     conv2_x = K.dropout(x, 0.5, seed=1334)
     merge8 = concatenate([arr[K.argmax(conv2_x)],up8], axis = 3)
-    # mse_mod1 = getMSE(up8, conv2_1)
-    # mse_mod2 = getMSE(up8, conv2_2)
-    # if mse_mod1 < mse_mod2:
-    #     merge8 = concatenate([conv2_1,up7], axis = 3)
-    # else:
-    #     merge8 = concatenate([conv2_2,up7], axis = 3)
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge8)
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv8)
 
@@ -249,12 +231,6 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     x = K.constant(value = np.array([1,1]))
     conv1_x = K.dropout(x, 0.5, seed=1334)
     merge9 = concatenate([arr[K.argmax(conv1_x)],up9], axis = 3)
-    # mse_mod1 = getMSE(up8, conv1_1)
-    # mse_mod2 = getMSE(up8, conv1_2)
-    # if mse_mod1 < mse_mod2:
-    #     merge9 = concatenate([conv1_1,up9], axis = 3)
-    # else:
-    #     merge9 = concatenate([conv1_2,up9], axis = 3)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     if classify:

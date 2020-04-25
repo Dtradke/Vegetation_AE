@@ -229,15 +229,15 @@ class Location(object):
         elif classify:
             obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
             obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 1 #0.33
-            obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 2 #0.66
-            obj_heights[obj_heights >= 20] = 3 #1.0
+            obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 2 #0.66
+            obj_heights[obj_heights >= 10] = 3 #1.0
             # NOTE: added for softmax
             obj_heights = to_categorical(obj_heights, 4) #3
         else:
             obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
             obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 0.33
-            obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66
-            obj_heights[obj_heights >= 20] = 1.0
+            obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66
+            obj_heights[obj_heights >= 10] = 1.0
 
         if small_obj_heights:
             obj_heights[obj_heights<0] = 0
@@ -357,13 +357,13 @@ class SpecialLayer(object):
         elif classify:
             obj_heights[self.footprints == 1] = 0
             obj_heights[(obj_heights < 5) & (self.footprints == 0)] = 0.33
-            obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.5
-            obj_heights[obj_heights >= 20] = 1
+            obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
+            obj_heights[obj_heights >= 10] = 1
         else:
             obj_heights[self.footprints == 1] = 0
             obj_heights[(obj_heights < 5) & (self.footprints == 0)] = 0.33
-            obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.5
-            obj_heights[obj_heights >= 20] = 1
+            obj_heights[(obj_heights >= 5) & (obj_heights < 10)] = 0.66 #0.5
+            obj_heights[obj_heights >= 10] = 1
 
 
         if small_obj_heights:
