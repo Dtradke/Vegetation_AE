@@ -203,42 +203,54 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     drop5 = Dropout(0.5)(conv5)
 
     up6 = Conv2D(512, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(drop5))
-    mse_mod1 = getMSE(up6, drop4_1)
-    mse_mod2 = getMSE(up6, drop4_2)
-    if mse_mod1 < mse_mod2:
-        merge6 = concatenate([drop4_1,up6], axis = 3)
-    else:
-        merge6 = concatenate([drop4_2,up6], axis = 3)
+    x = K.variable(value = np.array([drop4_1, drop4_2]))
+    drop4_x = K.dropout(x, 0.5, seed=1334)
+    merge6 = concatenate([K.argmax(drop4_x, axis=1),up6], axis = 3)
+    # mse_mod1 = getMSE(up6, drop4_1)
+    # mse_mod2 = getMSE(up6, drop4_2)
+    # if mse_mod1 < mse_mod2:
+    #     merge6 = concatenate([drop4_1,up6], axis = 3)
+    # else:
+    #     merge6 = concatenate([drop4_2,up6], axis = 3)
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv6)
 
     up7 = Conv2D(256, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv6))
-    mse_mod1 = getMSE(up7, conv3_1)
-    mse_mod2 = getMSE(up7, conv3_2)
-    if mse_mod1 < mse_mod2:
-        merge7 = concatenate([conv3_1,up7], axis = 3)
-    else:
-        merge7 = concatenate([conv3_2,up7], axis = 3)
+    x = K.variable(value = np.array([conv3_1, conv3_2]))
+    conv3_x = K.dropout(x, 0.5, seed=1334)
+    merge6 = concatenate([K.argmax(conv3_x, axis=1),up7], axis = 3)
+    # mse_mod1 = getMSE(up7, conv3_1)
+    # mse_mod2 = getMSE(up7, conv3_2)
+    # if mse_mod1 < mse_mod2:
+    #     merge7 = concatenate([conv3_1,up7], axis = 3)
+    # else:
+    #     merge7 = concatenate([conv3_2,up7], axis = 3)
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge7)
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv7)
 
     up8 = Conv2D(128, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv7))
-    mse_mod1 = getMSE(up8, conv2_1)
-    mse_mod2 = getMSE(up8, conv2_2)
-    if mse_mod1 < mse_mod2:
-        merge8 = concatenate([conv2_1,up7], axis = 3)
-    else:
-        merge8 = concatenate([conv2_2,up7], axis = 3)
+    x = K.variable(value = np.array([conv2_1, conv2_2]))
+    conv2_x = K.dropout(x, 0.5, seed=1334)
+    merge6 = concatenate([K.argmax(conv2_x, axis=1),up8], axis = 3)
+    # mse_mod1 = getMSE(up8, conv2_1)
+    # mse_mod2 = getMSE(up8, conv2_2)
+    # if mse_mod1 < mse_mod2:
+    #     merge8 = concatenate([conv2_1,up7], axis = 3)
+    # else:
+    #     merge8 = concatenate([conv2_2,up7], axis = 3)
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge8)
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv8)
 
     up9 = Conv2D(64, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv8))
-    mse_mod1 = getMSE(up8, conv2_1)
-    mse_mod2 = getMSE(up8, conv2_2)
-    if mse_mod1 < mse_mod2:
-        merge9 = concatenate([conv1_1,up9], axis = 3)
-    else:
-        merge9 = concatenate([conv1_2,up9], axis = 3)
+    x = K.variable(value = np.array([conv1_1, conv1_2]))
+    conv1_x = K.dropout(x, 0.5, seed=1334)
+    merge6 = concatenate([K.argmax(conv1_x, axis=1),up9], axis = 3)
+    # mse_mod1 = getMSE(up8, conv1_1)
+    # mse_mod2 = getMSE(up8, conv1_2)
+    # if mse_mod1 < mse_mod2:
+    #     merge9 = concatenate([conv1_1,up9], axis = 3)
+    # else:
+    #     merge9 = concatenate([conv1_2,up9], axis = 3)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     if classify:
