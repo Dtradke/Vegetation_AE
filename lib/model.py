@@ -18,8 +18,6 @@ from keras import optimizers
 from keras.layers import Lambda
 from keras.layers import add
 
-
-print('importing keras...')
 import keras.models
 from keras.models import Sequential, Model
 from keras.layers import Dense, Activation, Dropout, Flatten, Concatenate, Input
@@ -27,8 +25,11 @@ from keras.layers import BatchNormalization
 from keras.optimizers import SGD, RMSprop
 from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D
 from keras.optimizers import SGD
+
+from keras.callbacks import EarlyStopping
+from keras.callbacks import ModelCheckpoint
+
 import random
-print('done.')
 
 classify = True
 bin_class = False

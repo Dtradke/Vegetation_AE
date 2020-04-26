@@ -16,7 +16,7 @@ classify = True
 bin_class = False
 
 small_obj_heights = False
-AUGMENT = False
+AUGMENT = True
 
 def loadLocations(input_arr):
     locName = input_arr
@@ -31,15 +31,10 @@ class RawData(object):
     def load(locNames='all', special_layers='all', new_data=None):
         print("in rawdata load")
         if locNames == 'all':
-            print('1')
             locNames = listdir_nohidden('data/')
-            print('1')
         if locNames == 'untrain':
-            print('2')
             locNames = listdir_nohidden('data/_untrained/')
-            print('2')
         if special_layers == 'all':
-            print('3')
             if new_data is None:
 #training
                 print("four locations")
@@ -73,12 +68,9 @@ class RawData(object):
                 print('one testing location')
                 locs = {n:Location.load(n, 'all') for n in locNames}
 
-            print('3')
         else:
             # assumes dates is a dict, with keys being locNames and vals being special_layers
-            print('4')
             locs = {n:Location.load(n, special_layers[n]) for n in locNames}
-            print('4')
         return RawData(locs)
 
 
