@@ -30,7 +30,7 @@ from keras.optimizers import SGD
 import random
 print('done.')
 
-classify = False
+classify = True
 bin_class = False
 
 GPU = False

@@ -1,5 +1,6 @@
 from time import localtime, strftime
 import csv
+from mpl_toolkits.mplot3d import axes3d
 
 
 import numpy as np
@@ -15,10 +16,23 @@ except:
 from lib import dataset
 from lib import util
 
-classify = False
+classify = True
 bin_class = False
 
 small_obj_heights = False
+
+def view3d(layer):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    x = np.arange(0,layer.shape[0],1)
+    y = np.arange(0,layer.shape[1],1)
+    X,Y = np.meshgrid(x,y)
+    Z = layer
+    dem3d=ax.plot_surface(X,Y, Z,cmap='afmhot', linewidth=0)
+    ax.set_title('RESULT')
+    ax.set_zlabel('Vegetation Height (ft)')
+    plt.show()
+
 
 def viewResult(layer, val, pred, diff):
     titles = ['layer', 'val', 'pred', 'diff']
