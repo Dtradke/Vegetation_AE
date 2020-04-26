@@ -16,7 +16,7 @@ classify = True
 bin_class = False
 
 small_obj_heights = False
-AUGMENT = True
+AUGMENT = False
 
 def loadLocations(input_arr):
     locName = input_arr
