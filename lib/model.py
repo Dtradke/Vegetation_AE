@@ -83,8 +83,8 @@ def unet(masterDataSet, pretrained_weights = None):
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     if classify:
-        conv9 = Conv2D(8, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9) #putting these in here better for trees
-        conv10 = Conv2D(4, 1, activation = 'softmax')(conv9)
+        conv9 = Conv2D(10, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9) #putting these in here better for trees
+        conv10 = Conv2D(5, 1, activation = 'softmax')(conv9)
     elif bin_class:
         conv9 = Conv2D(6, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
@@ -164,8 +164,8 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
     merge9 = concatenate([conv1_1,conv9], axis = 3)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
     if classify:
-        conv9 = Conv2D(8, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        conv10 = Conv2D(4, 1, activation = 'softmax')(conv9)
+        conv9 = Conv2D(10, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+        conv10 = Conv2D(5, 1, activation = 'softmax')(conv9)
     elif bin_class:
         conv9 = Conv2D(6, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
@@ -234,8 +234,8 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     if classify:
-        conv9 = Conv2D(8, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        conv10 = Conv2D(4, 1, activation = 'softmax')(conv9)
+        conv9 = Conv2D(10, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+        conv10 = Conv2D(5, 1, activation = 'softmax')(conv9)
     elif bin_class:
         conv9 = Conv2D(6, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
