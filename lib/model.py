@@ -205,10 +205,16 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     drop5 = Dropout(0.5)(conv5)
 
     up6 = Conv2D(512, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(drop5))
+    print(drop4_1)
+    print(drop4_2)
     conc_4 = concatenate([drop4_1, drop4_2], axis=3)
-    conc_4 = Reshape((2, 8, 8, 512))(conc_4)
+    print(conc_4)
+    conc_4 = Reshape((-1, 2, 8, 8, 512))(conc_4)
+    print(conc_4)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_4)
     #concat both with decoding
+    print(dropout_layer)
+    print()
     conc_4 = concatenate([dropout_layer[0][0], dropout_layer[0][1], up6[0]])
     #more decoding layers
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_4)
