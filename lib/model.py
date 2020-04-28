@@ -188,19 +188,6 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
 
     return model
 
-def preprocess_input(x):
-
-    x=tf.reshape(x,())
-    x = tf.image.decode_jpeg(x,channels=3)
-    x = tf.image.resize_images(x,(299,299))
-    x = tf.cast(x, tf.float32)
-    x = tf.math.divide(x, 255.0)
-    x = tf.math.subtract(x, 0.5)
-    x = tf.math.multiply(x, 2.0)
-
-    x = tf.placeholder_with_default(x,[None,299,299,3])
-
-    return x
 
 
 def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
@@ -222,8 +209,8 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     conc_4 = Reshape((2, 8, 8, 512))(conc_4)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_4)
     dropout_layer_0, dropout_layer_1 = tf.split(dropout_layer, 2, axis=1)
-    dropout_layer_0 = tf.squeeze(dropout_layer_0, 1)
-    dropout_layer_1 = tf.squeeze(dropout_layer_1, 1)
+    dropout_layer_0 = Lambda(lambda x: tf.squeeze(x, axis=1))(dropout_layer_0)
+    dropout_layer_1 = Lambda(lambda x: tf.squeeze(x, axis=1))(dropout_layer_1)
     conc_4 = concatenate([dropout_layer_0, dropout_layer_1, up6])
     #more decoding layers
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_4)
@@ -234,8 +221,8 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     conc_3 = Reshape((2, 16, 16, 256))(conc_3)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_3)
     dropout_layer_0, dropout_layer_1 = tf.split(dropout_layer, 2, axis=1)
-    dropout_layer_0 = tf.squeeze(dropout_layer_0, 1)
-    dropout_layer_1 = tf.squeeze(dropout_layer_1, 1)
+    dropout_layer_0 = Lambda(lambda x: tf.squeeze(x, axis=1))(dropout_layer_0)
+    dropout_layer_1 = Lambda(lambda x: tf.squeeze(x, axis=1))(dropout_layer_1)
     conc_3 = concatenate([dropout_layer_0, dropout_layer_1, up7])
     #more decoding layers
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_3)
@@ -246,8 +233,8 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     conc_2 = Reshape((2, 32, 32, 128))(conc_2)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_2)
     dropout_layer_0, dropout_layer_1 = tf.split(dropout_layer, 2, axis=1)
-    dropout_layer_0 = tf.squeeze(dropout_layer_0, 1)
-    dropout_layer_1 = tf.squeeze(dropout_layer_1, 1)
+    dropout_layer_0 = Lambda(lambda x: tf.squeeze(x, axis=1))(dropout_layer_0)
+    dropout_layer_1 = Lambda(lambda x: tf.squeeze(x, axis=1))(dropout_layer_1)
     conc_2 = concatenate([dropout_layer_0, dropout_layer_1, up8])
     #more decoding layers
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_2)
@@ -258,8 +245,8 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     conc_1 = Reshape((2, 64, 64, 64))(conc_1)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_1)
     dropout_layer_0, dropout_layer_1 = tf.split(dropout_layer, 2, axis=1)
-    dropout_layer_0 = tf.squeeze(dropout_layer_0, 1)
-    dropout_layer_1 = tf.squeeze(dropout_layer_1, 1)
+    dropout_layer_0 = Lambda(lambda x: tf.squeeze(x, axis=1))(dropout_layer_0)
+    dropout_layer_1 = Lambda(lambda x: tf.squeeze(x, axis=1))(dropout_layer_1)
     conc_1 = concatenate([dropout_layer_0, dropout_layer_1, up9])
     #more decoding layers
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_1)
