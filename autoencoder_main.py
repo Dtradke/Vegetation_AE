@@ -42,7 +42,7 @@ def getModelAndTrain(masterDataSet, mod, test_set):
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:4], masterDataSet.trainX[:,:,:,4:]
             val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:4], masterDataSet.valX[:,:,:,4:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
-            mod = model.unet_mse(X_split_1, X_split_2)
+            mod = model.unet_split(X_split_1, X_split_2)
             inputs = [X_split_1, X_split_2]
             vals = [val_split_1, val_split_2]
 
