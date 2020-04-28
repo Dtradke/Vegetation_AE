@@ -210,22 +210,10 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     # drop4_x = K.dropout(x, 0.5, seed=1334)
 
     print(drop4_1)
-    sess = tf.Session()
-    with sess.as_default():
-        printa = tf.print(drop4_1)
-        with tf.control_dependencies([printa]):
-            out = tf.add(drop4_1, drop4_1)
-        sess.run(out)
-    # tf.print(drop4_1, output_stream=sys.stderr)
-    # tf.Print(drop4_1)
     print(drop4_2)
-    # tf.print(drop4_2, output_stream=sys.stderr)
-    # tf.Print(drop4_2)
     conc_4 = concatenate([drop4_1, drop4_2], axis=1)
-    # tf.print(conc_4, output_stream=sys.stderr)
-    # tf.Print(conc_4)
     print(conc_4)
-    conc_4 = Reshape((2, 512, 8, 8))(conc_4)
+    conc_4 = Reshape((2, 8, 8, 512))(conc_4)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 1, 2])(conc_4)
 
     #
