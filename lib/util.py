@@ -121,7 +121,7 @@ def checkNeighborhood(pred, val):
     correct_val_fast["grass"]+=np.count_nonzero((answers_counter == 0) & (val_y == 1))
     correct_val_fast["shrub"]+=np.count_nonzero((answers_counter == 0) & (val_y == 2))
     correct_val_fast["tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 3))
-    correct_val_fast["tall_tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 4))
+    # correct_val_fast["tall_tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 4))
 
     correct = np.count_nonzero((answers_counter == 0) & (val_y != 0))
     incorrect = np.count_nonzero((answers_counter != 0) & (val_y != 0))
@@ -151,7 +151,7 @@ def slowCheckNeighborhood(pred, val):
     correct_val_slow["grass"]+=np.count_nonzero((answers == 0) & (val == 1))
     correct_val_slow["shrub"]+=np.count_nonzero((answers == 0) & (val == 2))
     correct_val_slow["tree"]+=np.count_nonzero((answers == 0) & (val == 3))
-    correct_val_slow["tall_tree"]+=np.count_nonzero((answers == 0) & (val == 4))
+    # correct_val_slow["tall_tree"]+=np.count_nonzero((answers == 0) & (val == 4))
 
     correct = np.count_nonzero((answers == 0) & (val != 0))
     incorrect = np.count_nonzero((answers != 0) & (val != 0))
@@ -194,7 +194,8 @@ def evaluateUNET(y_preds, masterDataSet):
     ck_correct_total = 0
     ck_incorrect_total = 0
 
-    total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0}
+    # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0}
+    total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
@@ -204,7 +205,7 @@ def evaluateUNET(y_preds, masterDataSet):
         total_val["grass"]+=np.count_nonzero(val == 1)
         total_val["shrub"]+=np.count_nonzero(val == 2)
         total_val["tree"]+=np.count_nonzero(val == 3)
-        total_val["tall_tree"]+=np.count_nonzero(val == 4)
+        # total_val["tall_tree"]+=np.count_nonzero(val == 4)
 
         sq_correct, sq_incorrect = checkNeighborhood(pred, val)
         ck_correct, ck_incorrect = slowCheckNeighborhood(pred, val)
@@ -223,7 +224,7 @@ def evaluateUNET(y_preds, masterDataSet):
     print("grass: ", total_val["grass"])
     print("shrub: ", total_val["shrub"])
     print("tree: ", total_val["tree"])
-    print("tall tree: ", total_val["tall_tree"])
+    # print("tall tree: ", total_val["tall_tree"])
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
@@ -234,9 +235,10 @@ def evaluateUNET(y_preds, masterDataSet):
     print("grass: ", correct_val_fast["grass"])
     print("shrub: ", correct_val_fast["shrub"])
     print("tree: ", correct_val_fast["tree"])
-    print("tall tree: ", correct_val_fast["tall_tree"])
+    # print("tall tree: ", correct_val_fast["tall_tree"])
     try:
-        print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"], " tall_tree: ", correct_val_fast["tall_tree"] / total_val["tall_tree"])
+        # print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"], " tall_tree: ", correct_val_fast["tall_tree"] / total_val["tall_tree"])
+        print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
     except:
         print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " below 10: ", correct_val_fast["grass"] / total_val["grass"], " above 10: ", correct_val_fast["shrub"] / total_val["shrub"])
 
@@ -247,9 +249,10 @@ def evaluateUNET(y_preds, masterDataSet):
     print("grass: ", correct_val_slow["grass"])
     print("shrub: ", correct_val_slow["shrub"])
     print("tree: ", correct_val_slow["tree"])
-    print("tall tree: ", correct_val_slow["tall_tree"])
+    # print("tall tree: ", correct_val_slow["tall_tree"])
     try:
-        print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"], " tall_tree: ", correct_val_slow["tall_tree"] / total_val["tall_tree"])
+        # print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"], " tall_tree: ", correct_val_slow["tall_tree"] / total_val["tall_tree"])
+        print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
     except:
         print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " below 10: ", correct_val_slow["grass"] / total_val["grass"], " above 10: ", correct_val_slow["shrub"] / total_val["shrub"])
 
