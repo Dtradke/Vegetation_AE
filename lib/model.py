@@ -188,6 +188,19 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
 
     return model
 
+def preprocess_input(x):
+
+    x=tf.reshape(x,())
+    x = tf.image.decode_jpeg(x,channels=3)
+    x = tf.image.resize_images(x,(299,299))
+    x = tf.cast(x, tf.float32)
+    x = tf.math.divide(x, 255.0)
+    x = tf.math.subtract(x, 0.5)
+    x = tf.math.multiply(x, 2.0)
+
+    x = tf.placeholder_with_default(x,[None,299,299,3])
+
+    return x
 
 
 def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
@@ -213,8 +226,10 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     print(conc_4)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_4)
     #concat both with decoding
-    dropout_layer_0 = Reshape((-1, 8, 8, 512))(dropout_layer[0][0])
-    dropout_layer_1 = Reshape((-1, 8, 8, 512))(dropout_layer[0][1])
+    dropout_layer_0 = preprocess_input(dropout_layer[0][0])
+    dropout_layer_1 = preprocess_input(dropout_layer[0][1])
+    # Reshape((-1, 8, 8, 512))(dropout_layer[0][0])
+    # dropout_layer_1 = Reshape((-1, 8, 8, 512))(dropout_layer[0][1])
     print(dropout_layer_0)
     print(dropout_layer_1)
     print(up6)
