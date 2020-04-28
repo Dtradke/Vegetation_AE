@@ -45,9 +45,9 @@ def getModelAndTrain(masterDataSet, mod, test_set):
             inputs = [X_split_1, X_split_2]
             vals = [val_split_1, val_split_2]
 
-            es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
-            mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=500, verbose=0, validation_data=(vals, masterDataSet.valy), callbacks=[es, mc])
+            # es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
+            # mc = ModelCheckpoint('models/split_drop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(vals, masterDataSet.valy)) #, callbacks=[es, mc]
         else:
             mod = model.unet(masterDataSet)
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy))
