@@ -212,10 +212,10 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     print(dropout_layer)
     print(dropout_layer[0][0])
     print(dropout_layer[0][1])
-    conc_4 = concatenate([dropout_layer[0][0], dropout_layer[0][1]])
+    conc_4 = concatenate([dropout_layer[0][0], dropout_layer[0][1], up6])
     print(conc_4)
     print(up6)
-    merge6 = concatenate([conc_4,up6[0]], axis = 3)
+    # merge6 = concatenate([conc_4,up6[0]], axis = 3)
     #more decoding layers
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv6)
