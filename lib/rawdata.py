@@ -87,6 +87,46 @@ class RawData(object):
         # layer = loc.specialLayers[special_layer]
         return layer.layer_obj_heights
 
+    def normalizeAllLayers(self):
+        layer_maxs = {
+                'dem':[],
+                'slope':[90],
+                'aspect':[359],
+                'band_4':[255],
+                'band_3':[255],
+                'band_2':[255],
+                'band_1':[255],
+                'grvi':[]
+                }
+        layer_mins = {
+                'dem':[],
+                'slope':[0],
+                'aspect':[0],
+                'band_4':[0],
+                'band_3':[0],
+                'band_2':[0],
+                'band_1':[0],
+                'grvi':[]
+                }
+
+        for loc in self.locs.values():
+            for layer_key in loc.layers.keys():
+                if layer_key in layer_maxs.keys():
+                    layer_maxs[layer_key].append(np.amax(loc.layers[layer_key]))
+                    layer_mins[layer_key].append(np.amin(loc.layers[layer_key]))
+
+        print(layer_maxs)
+        print(layer_mins)
+
+        for loc in self.locs.values():
+            for layer_key in loc.layers.keys():
+                if layer_key in layer_maxs.keys():
+                    layer = loc.layers[layer_key]
+                    xmax, xmin = max(layer_maxs[layer_key]), min(layer_mins[layer_key])
+                    layer = (layer - xmin) / (xmax - xmin)
+                    loc.layers[layer_key] = layer
+
+
     def __repr__(self):
         return "Dataset({})".format(list(self.locs.values()))
 
@@ -97,8 +137,10 @@ class Location(object):
         self.specialLayers = specialLayers
         self.layer_obj_heights = obj_heights if obj_heights is not None else self.loadLayerObjHeights()
         self.layers = layers if layers is not None else self.loadLayers()
-        if layers is None:
-            self.normalizeLayers()
+        # if layers is None:
+        #     self.normalizeLayers()
+
+
             # if bin_class:
             #     # self.obj_height_classification = to_categorical(self.layer_obj_heights, 2)
             #     self.obj_height_classification = self.layer_obj_heights
