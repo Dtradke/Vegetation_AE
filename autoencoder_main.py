@@ -45,14 +45,6 @@ def getModelAndTrain(masterDataSet, mod, test_set):
             inputs = [X_split_1, X_split_2]
             vals = [val_split_1, val_split_2]
 
-            layer_outs = mod(inputs)
-            for f in layer_outs:
-                print()
-                print(f)
-            exit()
-            print('Intermediate xy layer:\n\n',layer_outs[0])
-            print('Dropout layer:\n\n', layer_outs[1])
-
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
             mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=500, verbose=0, validation_data=(vals, masterDataSet.valy), callbacks=[es, mc])

@@ -205,73 +205,72 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     drop5 = Dropout(0.5)(conv5)
 
     up6 = Conv2D(512, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(drop5))
-    # arr = [drop4_1, drop4_2]
-    # x = K.constant(value = np.array([1,1]))
-    # drop4_x = K.dropout(x, 0.5, seed=1334)
-
-    print(drop4_1)
-    print(drop4_2)
     conc_4 = concatenate([drop4_1, drop4_2], axis=3)
-    print(conc_4)
     conc_4 = Reshape((2, 8, 8, 512))(conc_4)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_4)
+    #concat both with decoding
+    conc_4 = concatenate([dropout_layer[0], dropout_layer[1]], axis=3)
+    merge6 = concatenate([conc_4,up6], axis = 3)
+    #more decoding layers
+    conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
+    conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv6)
 
-    #
-    # merge6 = concatenate([arr[K.argmax(drop4_x)],up6], axis = 3)
-    # conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
-    # conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv6)
-    #
-    # up7 = Conv2D(256, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv6))
-    # arr = [conv3_1, conv3_2]
-    # x = K.constant(value = np.array([1,1]))
-    # conv3_x = K.dropout(x, 0.5, seed=1334)
-    # merge7 = concatenate([arr[K.argmax(conv3_x)],up7], axis = 3)
-    # conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge7)
-    # conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv7)
-    #
-    # up8 = Conv2D(128, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv7))
-    # arr = [conv2_1, conv2_2]
-    # x = K.constant(value = np.array([1,1]))
-    # conv2_x = K.dropout(x, 0.5, seed=1334)
-    # merge8 = concatenate([arr[K.argmax(conv2_x)],up8], axis = 3)
-    # conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge8)
-    # conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv8)
-    #
-    # up9 = Conv2D(64, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv8))
-    # arr = [conv1_1, conv1_2]
-    # x = K.constant(value = np.array([1,1]))
-    # conv1_x = K.dropout(x, 0.5, seed=1334)
-    # merge9 = concatenate([arr[K.argmax(conv1_x)],up9], axis = 3)
-    # conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
-    # conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-    # if classify:
-    #     conv9 = Conv2D(10, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-    #     conv10 = Conv2D(5, 1, activation = 'softmax')(conv9)
-    # elif bin_class:
-    #     conv9 = Conv2D(6, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-    #     conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
-    # else:
-    #     conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-    #     conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
+    up7 = Conv2D(256, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv6))
+    conc_3 = concatenate([conv3_1, conv3_1], axis=3)
+    conc_3 = Reshape((2, 16, 16, 256))(conc_3)
+    dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_3)
+    #concat both with decoding
+    conc_3 = concatenate([dropout_layer[0], dropout_layer[1]], axis=3)
+    merge7 = concatenate([conc_3,up7], axis = 3)
+    #more decoding layers
+    conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge7)
+    conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv7)
 
-    model = Model(input = [inputs_1, inputs_2], output = dropout_layer)
+    up8 = Conv2D(128, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv7))
+    conc_2 = concatenate([conv2_1, conv2_1], axis=3)
+    conc_2 = Reshape((2, 32, 32, 128))(conc_2)
+    dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_2)
+    #concat both with decoding
+    conc_2 = concatenate([dropout_layer[0], dropout_layer[1]], axis=3)
+    merge8 = concatenate([conc_2,up8], axis = 3)
+    #more decoding layers
+    conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge8)
+    conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv8)
 
-    model.summary()
+    up9 = Conv2D(64, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv8))
+    conc_1 = concatenate([conv1_1, conv1_1], axis=3)
+    conc_1 = Reshape((2, 8, 8, 256))(conc_1)
+    dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_1)
+    #concat both with decoding
+    conc_1 = concatenate([dropout_layer[0], dropout_layer[1]], axis=3)
+    merge9 = concatenate([conc_1,up9], axis = 3)
+    #more decoding layers
+    conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
+    conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+    if classify:
+        conv9 = Conv2D(10, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+        conv10 = Conv2D(5, 1, activation = 'softmax')(conv9)
+    elif bin_class:
+        conv9 = Conv2D(6, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+        conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
+    else:
+        conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+        conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
 
-    outp = [layer.output for layer in model.layers[2:]]
-    functor = K.function([inputs_1, inputs_2], outp)
-    return functor
-    #
-    # # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-    # # model.compile(optimizer = sgd, loss = 'binary_crossentropy', metrics = ['accuracy'])
-    # model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
-    #
-    # # model.summary()
-    #
-    # if(pretrained_weights):
-    # 	model.load_weights(pretrained_weights)
-    #
-    # return model
+    model = Model(input = [inputs_1, inputs_2], output = conv10)
+
+
+
+    # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+    # model.compile(optimizer = sgd, loss = 'binary_crossentropy', metrics = ['accuracy'])
+    model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
+
+    # model.summary()
+
+    if(pretrained_weights):
+    	model.load_weights(pretrained_weights)
+
+    return model
 
 # NOTE: REGULARIZE BY RANDOM CONCAT OF THESE INSTEAD
 def euclidean_distance(A, B):
