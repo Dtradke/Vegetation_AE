@@ -216,7 +216,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     print(dropout_layer[0])
     print(dropout_layer[1])
     print(up6)
-    conc_4 = concatenate([dropout_layer[0], dropout_layer[1], up6)
+    conc_4 = concatenate([dropout_layer[0], dropout_layer[1], up6])
     print(conc_4)
     #more decoding layers
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_4)
