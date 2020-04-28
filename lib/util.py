@@ -179,6 +179,10 @@ def formatPreds(pred, val):
         val[val == 0] = 0
         return pred, val
 
+
+
+# TODO: Look at the squares which the model performs worst on
+
 def evaluateUNET(y_preds, masterDataSet):
     # global correct_val_slow
     # global correct_val_fast
