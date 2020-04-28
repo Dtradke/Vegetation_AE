@@ -226,7 +226,7 @@ class Location(object):
             # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 3 #0.66
             obj_heights[obj_heights >= 40] = 3 #1.0
             # NOTE: added for softmax
-            obj_heights = to_categorical(obj_heights, 5) #3
+            obj_heights = to_categorical(obj_heights, 4) #3
         else:
             obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
             obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 0.33 #0.25
