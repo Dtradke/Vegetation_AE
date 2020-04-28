@@ -209,7 +209,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     print(drop4_2)
     conc_4 = concatenate([drop4_1, drop4_2], axis=3)
     print(conc_4)
-    conc_4 = Reshape((-1, 2, 8, 8, 512))(conc_4)
+    conc_4 = Reshape((2, 8, 8, 512))(conc_4)
     print(conc_4)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_4)
     #concat both with decoding
