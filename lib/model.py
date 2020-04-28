@@ -209,15 +209,9 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     conc_4 = Reshape((2, 8, 8, 512))(conc_4)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_4)
     #concat both with decoding
-    print(dropout_layer)
-    print(dropout_layer[0][0])
-    print(dropout_layer[0][1])
     conc_4 = concatenate([dropout_layer[0][0], dropout_layer[0][1], up6[0]])
-    print(conc_4)
-    print(up6)
-    # merge6 = concatenate([conc_4,up6[0]], axis = 3)
     #more decoding layers
-    conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
+    conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_4)
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv6)
 
     up7 = Conv2D(256, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv6))
@@ -225,10 +219,9 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     conc_3 = Reshape((2, 16, 16, 256))(conc_3)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_3)
     #concat both with decoding
-    conc_3 = concatenate([dropout_layer[0], dropout_layer[1]], axis=3)
-    merge7 = concatenate([conc_3,up7], axis = 3)
+    conc_3 = concatenate([dropout_layer[0][0], dropout_layer[0][1], up7[0]])
     #more decoding layers
-    conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge7)
+    conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_3)
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv7)
 
     up8 = Conv2D(128, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv7))
@@ -236,21 +229,19 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     conc_2 = Reshape((2, 32, 32, 128))(conc_2)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_2)
     #concat both with decoding
-    conc_2 = concatenate([dropout_layer[0], dropout_layer[1]], axis=3)
-    merge8 = concatenate([conc_2,up8], axis = 3)
+    conc_2 = concatenate([dropout_layer[0][0], dropout_layer[0][1], up8[0]])
     #more decoding layers
-    conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge8)
+    conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_2)
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv8)
 
     up9 = Conv2D(64, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv8))
-    conc_1 = concatenate([conv1_1, conv1_1], axis=3)
+    conc_1 = concatenate([conv2_1, conv2_1], axis=3)
     conc_1 = Reshape((2, 64, 64, 64))(conc_1)
     dropout_layer = Dropout(rate=0.5, noise_shape=[None, 2, 1, 1, 1])(conc_1)
     #concat both with decoding
-    conc_1 = concatenate([dropout_layer[0], dropout_layer[1]], axis=3)
-    merge9 = concatenate([conc_1,up9], axis = 3)
+    conc_1 = concatenate([dropout_layer[0][0], dropout_layer[0][1], up9[0]])
     #more decoding layers
-    conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
+    conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_1)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     if classify:
         conv9 = Conv2D(10, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
