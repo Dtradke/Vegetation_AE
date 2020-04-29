@@ -59,17 +59,28 @@ class Squares(object):
             print(i, " - foot: ", round((footprint/total), 4)," - grass: ", round((grass/total), 4)," - shrub: ", round((shrub/total), 4)," - tree: ", round((tree/total), 4))
 
     def makeClasses(self):
+        print(self.square_labels.shape)
         square_label = np.array(self.square_labels)
-        print(square_label.shape)
         square_label = square_label.flatten()
         sorted_squares = np.sort(square_label)
-        print(sorted_squares)
-        print(sorted_squares.shape)
         sorted_squares = sorted_squares[sorted_squares != -1]
-        print(sorted_squares.shape)
-        split_arr = np.split(sorted_squares, 3)
-        print(split_arr)
-        exit()
+        if classify:
+            split_arr = np.split(sorted_squares, 3)
+            grass = split_arr[0][-1]
+            shrub = split_arr[1][-1]
+            tree = split_arr[2][-1]
+            self.square_labels[self.square_labels == -1] = 0
+            self.square_labels[self.square_labels <= grass] = 1
+            self.square_labels[(self.square_labels > grass) & (self.square_labels <= shrub)] = 2
+            self.square_labels[self.square_labels > shrub] = 3
+            print(self.square_labels)
+            print(self.square_labels.shape)
+            exit()
+        if bin_class:
+            split_arr = np.split(sorted_squares, 2)
+            grass = split_arr[0][-1]
+            tree = split_arr[1][-1]
+
 
     def makeValDataset(self):
         l = int(self.trainX.shape[0] * 0.8)
