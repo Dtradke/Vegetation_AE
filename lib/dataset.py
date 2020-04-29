@@ -75,6 +75,10 @@ class Squares(object):
             self.square_labels[self.square_labels > shrub] = 3
             print(self.square_labels)
             print(self.square_labels.shape)
+            print(np.count_nonzero(self.square_labels == 0))
+            print(np.count_nonzero(self.square_labels == 1))
+            print(np.count_nonzero(self.square_labels == 2))
+            print(np.count_nonzero(self.square_labels == 3))
             exit()
         if bin_class:
             split_arr = np.split(sorted_squares, 2)
