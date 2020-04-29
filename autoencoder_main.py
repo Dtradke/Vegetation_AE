@@ -19,7 +19,7 @@ from multiprocessing import Pool
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
-SPLIT = False
+SPLIT = True
 
 
 
