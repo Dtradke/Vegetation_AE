@@ -62,10 +62,10 @@ class Squares(object):
         square_label = np.array(self.square_labels)
         print(square_label.shape)
         square_label.flatten()
-        sorted_squares = np.sort(square_label, 3)
+        sorted_squares = np.sort(square_label)
         print(sorted_squares.shape)
         sorted_squares = sorted_squares[sorted_squares != -1]
-        split_arr = np.split(sorted_squares)
+        split_arr = np.split(sorted_squares, 3)
         print(split_arr)
         exit()
 
