@@ -69,8 +69,8 @@ class Squares(object):
             grass = split_arr[0][-1]
             shrub = split_arr[1][-1]
             tree = split_arr[2][-1]
+            self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
             self.square_labels[self.square_labels == -1] = 0
-            self.square_labels[self.square_labels <= grass] = 1
             self.square_labels[(self.square_labels > grass) & (self.square_labels <= shrub)] = 2
             self.square_labels[self.square_labels > shrub] = 3
             print(self.square_labels)
