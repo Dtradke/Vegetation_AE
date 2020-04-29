@@ -50,9 +50,11 @@ class Squares(object):
             grass = 0
             shrub = 0
             tree = 0
+            print(np.argmax(self.square_labels[i], 2))
+            print(np.argmax(self.square_labels[i], 2).shape)
             for j, row in enumerate(square):
                 print(self.square_labels[i][j])
-                print(np.argmax(self.square_labels[i][j]).shape)
+                print(np.argmax(self.square_labels[i][j], 1).shape)
 
                 # print(np.amax(self.square_labels[j]))
                 footprint += np.count_nonzero(np.amax(self.square_labels[j]) == 0)
