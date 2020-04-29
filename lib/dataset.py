@@ -59,9 +59,9 @@ class Squares(object):
             print(i, " - foot: ", round((footprint/total), 4)," - grass: ", round((grass/total), 4)," - shrub: ", round((shrub/total), 4)," - tree: ", round((tree/total), 4))
 
     def makeClasses(self):
-        squares = np.array(self.square_labels)
-        flat_squares = np.flatten(squares)
-        sorted_squares = np.sort(flat_squares)
+        square_label = np.array(self.square_labels)
+        square_label.flatten()
+        sorted_squares = np.sort(square_label)
         split_arr = np.split(sorted_squares)
         print(split_arr)
         exit()
