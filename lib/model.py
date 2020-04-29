@@ -99,7 +99,7 @@ def unet(masterDataSet, pretrained_weights = None):
 
     # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer = sgd, loss = 'binary_crossentropy', metrics = ['accuracy'])
-    model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
+    model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy'])
     # NOTE: think about mse loss because of softmax
     # model.summary()
 
