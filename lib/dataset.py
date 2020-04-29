@@ -66,7 +66,7 @@ class Squares(object):
         sorted_squares = np.sort(square_label)
         sorted_squares = sorted_squares[sorted_squares != -1]
         if classify:
-            for i range(sorted_squares.shape[0]):
+            for i in range(sorted_squares.shape[0]):
                 try:
                     split_arr = np.split(sorted_squares, 4)
                     break
@@ -83,7 +83,7 @@ class Squares(object):
             self.square_labels[self.square_labels > tree] = 3
             self.square_labels = to_categorical(self.square_labels, 4)
         if bin_class:
-            for i range(sorted_squares.shape[0]):
+            for i in range(sorted_squares.shape[0]):
                 try:
                     split_arr = np.split(sorted_squares, 2)
                     break
