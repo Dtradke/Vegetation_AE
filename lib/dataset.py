@@ -35,11 +35,22 @@ class Squares(object):
             if mod is None:
                 self.data = data
                 self.squares, self.square_labels = self.makeSquares()
+                self.measureBal()
                 if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
                 else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
                 self.makeValDataset()
             else:
                 self.testX, self.testy = [], []
+
+    def measureBal(self):
+        total = self.square_labels[0].size
+        for i, square in enumerate(self.squares):
+            footprint = np.count_nonzero(self.square_labels[i] == 0)
+            grass = np.count_nonzero(self.square_labels[i] == 1)
+            shrub = np.count_nonzero(self.square_labels[i] == 2)
+            tree = np.count_nonzero(self.square_labels[i] == 3)
+
+            print(i, " - foot: ", round((footprint/total), 4)," - grass: ", round((grass/total), 4)," - shrub: ", round((shrub/total), 4)," - tree: ", round((tree/total), 4))
 
     def makeValDataset(self):
         l = int(self.trainX.shape[0] * 0.8)
