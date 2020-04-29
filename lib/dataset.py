@@ -50,20 +50,10 @@ class Squares(object):
             grass = 0
             shrub = 0
             tree = 0
-            print(np.argmax(self.square_labels[i], 2))
-            print(np.argmax(self.square_labels[i], 2).shape)
-            for j, row in enumerate(square):
-                print(self.square_labels[i][j])
-                print(np.argmax(self.square_labels[i][j], 1).shape)
-
-                # print(np.amax(self.square_labels[j]))
-                footprint += np.count_nonzero(np.amax(self.square_labels[j]) == 0)
-                grass += np.count_nonzero(np.amax(self.square_labels[j]) == 1)
-                shrub += np.count_nonzero(np.amax(self.square_labels[j]) == 2)
-                tree += np.count_nonzero(np.amax(self.square_labels[j]) == 3)
-                print(footprint)
-                print(tree)
-                exit()
+            footprint = np.count_nonzero(np.argmax(self.square_labels[i], 2) == 0)
+            grass = np.count_nonzero(np.argmax(self.square_labels[i], 2) == 1)
+            shrub = np.count_nonzero(np.argmax(self.square_labels[i], 2) == 2)
+            tree = np.count_nonzero(np.argmax(self.square_labels[i], 2) == 3)
 
             print(i, " - foot: ", round((footprint/total), 4)," - grass: ", round((grass/total), 4)," - shrub: ", round((shrub/total), 4)," - tree: ", round((tree/total), 4))
 
