@@ -61,9 +61,7 @@ class Squares(object):
     def makeClasses(self):
         square_label = np.array(self.square_labels)
         print(square_label.shape)
-        square_label.flatten()
-        square_label.flatten()
-        square_label.flatten()
+        square_label = square_label.flatten()
         sorted_squares = np.sort(square_label)
         print(sorted_squares)
         print(sorted_squares.shape)
