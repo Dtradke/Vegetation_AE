@@ -74,15 +74,7 @@ class Squares(object):
             self.square_labels[self.square_labels == -1] = 0
             self.square_labels[(self.square_labels > grass) & (self.square_labels <= shrub)] = 2
             self.square_labels[self.square_labels > shrub] = 3
-            print(self.square_labels)
-            print(self.square_labels.shape)
-            # print(np.count_nonzero(self.square_labels == 0))
-            # print(np.count_nonzero(self.square_labels == 1))
-            # print(np.count_nonzero(self.square_labels == 2))
-            # print(np.count_nonzero(self.square_labels == 3))
             self.square_labels = to_categorical(self.square_labels, 4)
-            print(self.square_labels)
-            exit()
         if bin_class:
             split_arr = np.split(sorted_squares, 2)
             grass = split_arr[0][-1]
@@ -90,6 +82,7 @@ class Squares(object):
             self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
             self.square_labels[self.square_labels == -1] = 0
             self.square_labels[self.square_labels > grass] = 2
+            self.square_labels = to_categorical(self.square_labels, 3)
 
 
     def makeValDataset(self):
