@@ -46,18 +46,12 @@ class Squares(object):
         total = self.square_labels[0].size
         print(total)
         for i, square in enumerate(self.squares):
-            footprint = np.count_nonzero(self.square_labels[i] == 0)
-            grass = np.count_nonzero(self.square_labels[i] == 1)
-            shrub = np.count_nonzero(self.square_labels[i] == 2)
-            tree = np.count_nonzero(self.square_labels[i] == 3)
-            # print(footprint)
-            # print(grass)
-            # print(shrub)
-            # print(tree)
-            # print()
-            print(self.square_labels[i])
+            footprint = np.count_nonzero(np.amax(self.square_labels[i]) == 0)
+            grass = np.count_nonzero(np.amax(self.square_labels[i]) == 1)
+            shrub = np.count_nonzero(np.amax(self.square_labels[i]) == 2)
+            tree = np.count_nonzero(np.amax(self.square_labels[i]) == 3)
 
-            # print(i, " - foot: ", round((footprint/total), 4)," - grass: ", round((grass/total), 4)," - shrub: ", round((shrub/total), 4)," - tree: ", round((tree/total), 4))
+            print(i, " - foot: ", round((footprint/total), 4)," - grass: ", round((grass/total), 4)," - shrub: ", round((shrub/total), 4)," - tree: ", round((tree/total), 4))
 
     def makeValDataset(self):
         l = int(self.trainX.shape[0] * 0.8)
