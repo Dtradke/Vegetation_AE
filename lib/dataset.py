@@ -43,7 +43,7 @@ class Squares(object):
                 self.testX, self.testy = [], []
 
     def measureBal(self):
-        total = self.square_labels[0].size
+        total = self.square_labels[0].shape[0] * self.square_labels[0].shape[1]
         print(total)
         for i, square in enumerate(self.squares):
             footprint = 0
