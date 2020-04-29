@@ -66,14 +66,15 @@ class Squares(object):
         sorted_squares = np.sort(square_label)
         sorted_squares = sorted_squares[sorted_squares != -1]
         if classify:
-            split_arr = np.split(sorted_squares, 3)
+            split_arr = np.split(sorted_squares, 4)
             grass = split_arr[0][-1]
             shrub = split_arr[1][-1]
             tree = split_arr[2][-1]
+            print("grass: 0 - ", grass, " shrub: ", grass, " - ", tree, " tree: ", tree)
             self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
             self.square_labels[self.square_labels == -1] = 0
-            self.square_labels[(self.square_labels > grass) & (self.square_labels <= shrub)] = 2
-            self.square_labels[self.square_labels > shrub] = 3
+            self.square_labels[(self.square_labels > grass) & (self.square_labels <= tree)] = 2
+            self.square_labels[self.square_labels > tree] = 3
             self.square_labels = to_categorical(self.square_labels, 4)
         if bin_class:
             split_arr = np.split(sorted_squares, 2)
