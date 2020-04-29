@@ -88,8 +88,9 @@ class RawData(object):
         return layer.layer_obj_heights
 
     def formatDataLayers(self):
-        self.normalizeAllLayers()
         self.classifyObjHeights()
+        self.normalizeAllLayers()
+
 
     def classifyObjHeights(self):
         vals = []
