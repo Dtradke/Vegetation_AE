@@ -51,8 +51,8 @@ class Squares(object):
             shrub = 0
             tree = 0
             for j, row in enumerate(square):
-                print(self.square_labels[j].shape)
-                
+                print(self.square_labels[i][j].shape)
+
                 # print(np.amax(self.square_labels[j]))
                 footprint += np.count_nonzero(np.amax(self.square_labels[j]) == 0)
                 grass += np.count_nonzero(np.amax(self.square_labels[j]) == 1)
