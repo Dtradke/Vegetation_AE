@@ -87,6 +87,17 @@ class RawData(object):
         # layer = loc.specialLayers[special_layer]
         return layer.layer_obj_heights
 
+    def formatDataLayers(self):
+        self.normalizeAllLayers()
+        self.classifyObjHeights()
+
+    def classifyObjHeights(self):
+        vals = []
+        for loc in self.locs.values():
+            vals.appent(np.squeeze(np.squeeze(loc.obj_heights)))
+            print(vals)
+            exit()
+
     def normalizeAllLayers(self):
         layer_maxs = {
                 'dem':[],
@@ -251,28 +262,31 @@ class Location(object):
             fname = cwd + '/data/{}/special_layers/obj_height.txt'.format(self.name)
         obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         obj_heights = obj_heights.astype('float32')
-        if bin_class:
-            # obj_heights[obj_heights < 10] = 0
-            # obj_heights[obj_heights >= 10] = 1
-            obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
-            obj_heights[(obj_heights < 10) & (self.specialLayers['footprints'].allVeg == 0)] = 1 #0.33
-            obj_heights[obj_heights >= 10] = 2 #1.0
-            # NOTE: added for softmax
-            obj_heights = to_categorical(obj_heights, 3)
-        elif classify:
-            obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
-            obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 1 #0.33
-            obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 2 #0.66
-            # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 3 #0.66
-            obj_heights[obj_heights >= 20] = 3 #1.0
-            # NOTE: added for softmax
-            obj_heights = to_categorical(obj_heights, 4) #3
-        else:
-            obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
-            obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 0.33 #0.25
-            obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.50
-            # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75
-            obj_heights[obj_heights >= 20] = 1.0
+        obj_heights = np.around(obj_heights, 0)
+
+
+        # if bin_class:
+        #     # obj_heights[obj_heights < 10] = 0
+        #     # obj_heights[obj_heights >= 10] = 1
+        #     obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
+        #     obj_heights[(obj_heights < 10) & (self.specialLayers['footprints'].allVeg == 0)] = 1 #0.33
+        #     obj_heights[obj_heights >= 10] = 2 #1.0
+        #     # NOTE: added for softmax
+        #     obj_heights = to_categorical(obj_heights, 3)
+        # elif classify:
+        #     obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
+        #     obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 1 #0.33
+        #     obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 2 #0.66
+        #     # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 3 #0.66
+        #     obj_heights[obj_heights >= 20] = 3 #1.0
+        #     # NOTE: added for softmax
+        #     obj_heights = to_categorical(obj_heights, 4) #3
+        # else:
+        #     obj_heights[self.specialLayers['footprints'].allVeg == 1] = 0 #0.0
+        #     obj_heights[(obj_heights < 5) & (self.specialLayers['footprints'].allVeg == 0)] = 0.33 #0.25
+        #     obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.50
+        #     # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75
+        #     obj_heights[obj_heights >= 20] = 1.0
 
         if small_obj_heights:
             obj_heights[obj_heights<0] = 0
@@ -383,29 +397,29 @@ class SpecialLayer(object):
             fname = cwd + '/data/{}/special_layers/obj_height.txt'.format(self.locName)
         obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         obj_heights = obj_heights.astype('float32')
-
+        obj_heights = np.around(obj_heights, 0)
 
         # viz.view3d(obj_heights)
         # exit()
-
-        if bin_class:
-            # obj_heights[obj_heights < 10] = 0
-            # obj_heights[obj_heights >= 10] = 1
-            obj_heights[self.footprints == 1] = 0
-            obj_heights[(obj_heights < 10) & (self.footprints == 0)] = 0.5
-            obj_heights[obj_heights >= 10] = 1
-        elif classify:
-            obj_heights[self.footprints == 1] = 0
-            obj_heights[(obj_heights < 5) & (self.footprints == 0)] = 0.33 #0.25
-            obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.5
-            # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75 #0.5
-            obj_heights[obj_heights >= 20] = 1
-        else:
-            obj_heights[self.footprints == 1] = 0
-            obj_heights[(obj_heights < 5) & (self.footprints == 0)] = 0.33 #0.25
-            obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.5
-            # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75 #0.5
-            obj_heights[obj_heights >= 20] = 1
+        #
+        # if bin_class:
+        #     # obj_heights[obj_heights < 10] = 0
+        #     # obj_heights[obj_heights >= 10] = 1
+        #     obj_heights[self.footprints == 1] = 0
+        #     obj_heights[(obj_heights < 10) & (self.footprints == 0)] = 0.5
+        #     obj_heights[obj_heights >= 10] = 1
+        # elif classify:
+        #     obj_heights[self.footprints == 1] = 0
+        #     obj_heights[(obj_heights < 5) & (self.footprints == 0)] = 0.33 #0.25
+        #     obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.5
+        #     # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75 #0.5
+        #     obj_heights[obj_heights >= 20] = 1
+        # else:
+        #     obj_heights[self.footprints == 1] = 0
+        #     obj_heights[(obj_heights < 5) & (self.footprints == 0)] = 0.33 #0.25
+        #     obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.5
+        #     # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75 #0.5
+        #     obj_heights[obj_heights >= 20] = 1
 
 
         if small_obj_heights:
