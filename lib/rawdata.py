@@ -424,7 +424,7 @@ class SpecialLayer(object):
         #     # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75 #0.5
         #     obj_heights[obj_heights >= 20] = 1
 
-        obj_heights[self.specialLayers['footprints'].allVeg == 1] = -1
+        obj_heights[self.footprints == 1] = -1
 
 
         if small_obj_heights:
