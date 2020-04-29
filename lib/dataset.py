@@ -50,11 +50,12 @@ class Squares(object):
             grass = np.count_nonzero(self.square_labels[i] == 1)
             shrub = np.count_nonzero(self.square_labels[i] == 2)
             tree = np.count_nonzero(self.square_labels[i] == 3)
-            print(footprint)
-            print(grass)
-            print(shrub)
-            print(tree)
-            print()
+            # print(footprint)
+            # print(grass)
+            # print(shrub)
+            # print(tree)
+            # print()
+            print(self.square_labels[i])
 
             # print(i, " - foot: ", round((footprint/total), 4)," - grass: ", round((grass/total), 4)," - shrub: ", round((shrub/total), 4)," - tree: ", round((tree/total), 4))
 
