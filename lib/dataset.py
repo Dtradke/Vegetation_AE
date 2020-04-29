@@ -66,7 +66,13 @@ class Squares(object):
         sorted_squares = np.sort(square_label)
         sorted_squares = sorted_squares[sorted_squares != -1]
         if classify:
-            split_arr = np.split(sorted_squares, 4)
+            for i range(sorted_squares.shape[0]):
+                try:
+                    split_arr = np.split(sorted_squares, 4)
+                    break
+                except:
+                    print("Popping for equal div of 4 from shape: ", sorted_squares.shape)
+                    sorted_squares = sorted_squares[:-1]
             grass = split_arr[0][-1]
             shrub = split_arr[1][-1]
             tree = split_arr[2][-1]
@@ -77,7 +83,13 @@ class Squares(object):
             self.square_labels[self.square_labels > tree] = 3
             self.square_labels = to_categorical(self.square_labels, 4)
         if bin_class:
-            split_arr = np.split(sorted_squares, 2)
+            for i range(sorted_squares.shape[0]):
+                try:
+                    split_arr = np.split(sorted_squares, 2)
+                    break
+                except:
+                    print("Popping for equal div of 2 from shape: ", sorted_squares.shape)
+                    sorted_squares = sorted_squares[:-1]
             grass = split_arr[0][-1]
             tree = split_arr[1][-1]
             self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
