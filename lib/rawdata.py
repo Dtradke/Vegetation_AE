@@ -289,6 +289,8 @@ class Location(object):
         #     # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75
         #     obj_heights[obj_heights >= 20] = 1.0
 
+        obj_heights[self.specialLayers['footprints'].allVeg == 1] = -1
+
         if small_obj_heights:
             obj_heights[obj_heights<0] = 0
             obj_heights[obj_heights>150] = 150
@@ -421,6 +423,8 @@ class SpecialLayer(object):
         #     obj_heights[(obj_heights >= 5) & (obj_heights < 20)] = 0.66 #0.5
         #     # obj_heights[(obj_heights >= 20) & (obj_heights < 50)] = 0.75 #0.5
         #     obj_heights[obj_heights >= 20] = 1
+
+        obj_heights[self.specialLayers['footprints'].allVeg == 1] = -1
 
 
         if small_obj_heights:

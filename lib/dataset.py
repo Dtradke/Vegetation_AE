@@ -60,8 +60,11 @@ class Squares(object):
 
     def makeClasses(self):
         square_label = np.array(self.square_labels)
+        print(square_label.shape)
         square_label.flatten()
-        sorted_squares = np.sort(square_label)
+        sorted_squares = np.sort(square_label, 3)
+        print(sorted_squares.shape)
+        sorted_squares = sorted_squares[sorted_squares != -1]
         split_arr = np.split(sorted_squares)
         print(split_arr)
         exit()
