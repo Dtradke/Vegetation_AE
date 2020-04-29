@@ -92,12 +92,12 @@ class RawData(object):
         self.normalizeAllLayers()
 
 
-    def classifyObjHeights(self):
-        vals = []
-        for loc in self.locs.values():
-            vals.appent(np.squeeze(np.squeeze(loc.obj_heights)))
-            print(vals)
-            exit()
+    # def classifyObjHeights(self):
+    #     vals = []
+    #     for loc in self.locs.values():
+    #         vals.appent(np.squeeze(np.squeeze(loc.obj_heights)))
+    #         print(vals)
+    #         exit()
 
     def normalizeAllLayers(self):
         layer_maxs = {

@@ -35,7 +35,8 @@ class Squares(object):
             if mod is None:
                 self.data = data
                 self.squares, self.square_labels = self.makeSquares()
-                self.measureBal()
+                # self.measureBal()
+                self.makeClasses()
                 if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
                 else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
                 self.makeValDataset()
@@ -56,6 +57,14 @@ class Squares(object):
             tree = np.count_nonzero(np.argmax(self.square_labels[i], 2) == 3)
 
             print(i, " - foot: ", round((footprint/total), 4)," - grass: ", round((grass/total), 4)," - shrub: ", round((shrub/total), 4)," - tree: ", round((tree/total), 4))
+
+    def makeClasses(self):
+        squares = np.array(self.square_labels)
+        flat_squares = np.flatten(squares)
+        sorted_squares = np.sort(flat_squares)
+        split_arr = np.split(sorted_squares)
+        print(split_arr)
+        exit()
 
     def makeValDataset(self):
         l = int(self.trainX.shape[0] * 0.8)
