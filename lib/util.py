@@ -32,8 +32,9 @@ except:
 #         c[invalidPixelIndices(c)] = np.nan
 #     return cv2.merge(channels)
 
-def saveExperiment(mod, masterDataSet, test_set):
+def saveExperiment(mod, masterDataSet, test_set, SPLIT):
     time_string = time.strftime("%Y%m%d-%H%M%S")
+    if SPLIT: time_string = "SPLIT_" + time_string
     if test_set:
         if bin_class: fname = 'models/' + time_string + '_UNET-test_set_BIN.h5'
         elif classify: fname = 'models/' + time_string + '_UNET-test_set_CLASS.h5'

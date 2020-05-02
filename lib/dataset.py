@@ -22,7 +22,7 @@ bin_class = False
 
 small_obj_heights = False
 
-SQUARE_DIM = 32
+SQUARE_DIM = 128
 
 
 class Squares(object):
