@@ -171,6 +171,8 @@ class Squares(object):
             if not classify and not bin_class:
                 v_split = [np.expand_dims(v, axis=2) for v in v_split]
             squares = squares + v_split
+        print(np.array(squares))
+        exit()
         return np.array(squares)
 
 
