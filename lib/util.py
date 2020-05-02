@@ -208,9 +208,7 @@ def evaluateUNET(y_preds, masterDataSet):
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0}
     total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
     worst_arr_count = 0
-    close_grass = 0
-    close_shrub = 0
-    total_grass_close, total_grass_slow = 0, 0
+    total_grass_close, total_shrub_close = 0, 0
     total_fast_grass_close, total_fast_shrub_close = 0, 0
     total_slow_grass_close, total_slow_shrub_close = 0, 0
 
@@ -237,7 +235,7 @@ def evaluateUNET(y_preds, masterDataSet):
 
         close_grass, close_shrub = getClosePreds(real_height, val, diff, masterDataSet)
         total_grass_close+=close_grass
-        total_grass_slow+=close_shrub
+        total_shrub_close+=close_shrub
         total_fast_grass_close+=fast_grass_close
         total_fast_shrub_close+=fast_shrub_close
         total_slow_grass_close+=slow_grass_close
@@ -253,9 +251,9 @@ def evaluateUNET(y_preds, masterDataSet):
         # viz.view3d(val)
         # viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, diff)
 
-    print("How many wrong preds are close: grass: ", (close_grass/(correct+incorrect)), " shrub: ", (close_shrub/(correct+incorrect)))
-    np.set_printoptions(threshold=sys.maxsize)
-    print("amt wrong: ", worst_arr_count / (64*64))
+    # print("How many wrong preds are close: grass: ", (close_grass/(correct+incorrect)), " shrub: ", (close_shrub/(correct+incorrect)))
+    # np.set_printoptions(threshold=sys.maxsize)
+    # print("amt wrong: ", worst_arr_count / (64*64))
     # print("worst arr diff: ", worst_arr)
     # print()
     # print("worst arr val: ", worst_arr_val)
