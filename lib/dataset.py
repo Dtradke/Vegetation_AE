@@ -36,13 +36,14 @@ class Squares(object):
             if mod is None:
                 self.data = data
                 self.squares, self.square_labels = self.makeSquares()
+                self.square_labels_orig = self.square_labels
                 # self.measureBal()
                 self.makeClasses()
-                if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
-                else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
+                if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_trainy = self.splitDataset()
+                else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, [], [], [], []
                 self.makeValDataset()
             else:
-                self.testX, self.testy = [], []
+                self.testX, self.testy, self.square_labels_orig = [], [], []
 
     def measureBal(self):
         total = self.square_labels[0].shape[0] * self.square_labels[0].shape[1]
@@ -112,9 +113,11 @@ class Squares(object):
         split = 0.7
         trainX = self.squares[:int(self.squares.shape[0] * split)]
         trainy = self.square_labels[:int(self.squares.shape[0] * split)]
+        orig_trainy = self.square_labels[:int(self.squares.shape[0] * split)]
         testX = self.squares[int(self.squares.shape[0] * split):]
         testy = self.square_labels[int(self.squares.shape[0] * split):]
-        return trainX, trainy, testX, testy
+        orig_testy = self.square_labels_orig[int(self.squares.shape[0] * split):]
+        return trainX, trainy, orig_trainy, testX, testy, orig_testy
 
 
 # TODO: ADD AUGMENTATION - rotation and offset

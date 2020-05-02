@@ -201,6 +201,7 @@ def evaluateUNET(y_preds, masterDataSet):
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
+        real_height = masterDataSet.square_labels_orig[i]
         pred, val = formatPreds(pred, val)
 
         total_val["footprint"]+=np.count_nonzero(val == 0)
@@ -218,6 +219,7 @@ def evaluateUNET(y_preds, masterDataSet):
         diff = np.subtract(pred, val)
         correct+=np.count_nonzero((diff == 0) & (val != 0))
         incorrect+= np.count_nonzero((diff != 0) & (val != 0))
+        wrong_heights = real_height[diff != 0]
         if np.count_nonzero((diff != 0) & (val != 0)) > worst_arr_count:
             worst_arr_count = np.count_nonzero((diff != 0) & (val != 0))
             worst_arr = diff
