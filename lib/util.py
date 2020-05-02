@@ -201,7 +201,7 @@ def evaluateUNET(y_preds, masterDataSet):
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
-        real_height = masterDataSet.square_labels_orig[i]
+        real_height = masterDataSet.orig_testy[i]
         pred, val = formatPreds(pred, val)
 
         total_val["footprint"]+=np.count_nonzero(val == 0)

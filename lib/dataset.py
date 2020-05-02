@@ -37,9 +37,11 @@ class Squares(object):
                 self.data = data
                 self.squares, self.square_labels = self.makeSquares()
                 self.square_labels_orig = self.square_labels
+                print(self.square_labels_orig.shape)
+                print(self.square_labels_orig[0])
                 # self.measureBal()
                 self.makeClasses()
-                if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_trainy = self.splitDataset()
+                if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
                 else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, [], [], [], []
                 self.makeValDataset()
             else:
@@ -113,7 +115,7 @@ class Squares(object):
         split = 0.7
         trainX = self.squares[:int(self.squares.shape[0] * split)]
         trainy = self.square_labels[:int(self.squares.shape[0] * split)]
-        orig_trainy = self.square_labels[:int(self.squares.shape[0] * split)]
+        orig_trainy = self.square_labels_orig[:int(self.squares.shape[0] * split)]
         testX = self.squares[int(self.squares.shape[0] * split):]
         testy = self.square_labels[int(self.squares.shape[0] * split):]
         orig_testy = self.square_labels_orig[int(self.squares.shape[0] * split):]
