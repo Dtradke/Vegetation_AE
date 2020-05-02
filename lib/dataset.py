@@ -38,7 +38,11 @@ class Squares(object):
                 self.squares, self.square_labels = self.makeSquares()
                 self.square_labels_orig = self.square_labels
                 # self.measureBal()
+                print(self.square_labels_orig)
+                print()
                 self.makeClasses()
+                print(self.square_labels_orig)
+                exit()
                 if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
                 else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], [], []
                 self.makeValDataset()
