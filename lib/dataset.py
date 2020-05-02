@@ -22,7 +22,7 @@ bin_class = False
 
 small_obj_heights = False
 
-SQUARE_DIM = 128
+SQUARE_DIM = 64
 
 
 class Squares(object):
@@ -76,7 +76,10 @@ class Squares(object):
             grass = split_arr[0][-1]
             shrub = split_arr[1][-1]
             tree = split_arr[2][-1]
-            print("grass: 0 - ", grass, " shrub: ", grass, " - ", tree, " tree: ", tree)
+            print("split arr: ")
+            for i in split_arr:
+                print(i[-1])
+            print("grass: 0 - ", grass, " shrub: ", grass, " - ", shrub, " tree: ", shrub)
             self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
             self.square_labels[self.square_labels == -1] = 0
             self.square_labels[(self.square_labels > grass) & (self.square_labels <= shrub)] = 2
