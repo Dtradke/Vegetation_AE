@@ -221,6 +221,7 @@ def evaluateUNET(y_preds, masterDataSet):
         if np.count_nonzero((diff != 0) & (val != 0)) > worst_arr_count:
             worst_arr_count = np.count_nonzero((diff != 0) & (val != 0))
             worst_arr = diff
+            worst_arr_pred = pred
             worst_arr_val = val
 
         # viz.view3d(val)
@@ -228,10 +229,11 @@ def evaluateUNET(y_preds, masterDataSet):
 
 
     np.set_printoptions(threshold=sys.maxsize)
-    print("amt wrong: ", worst_arr_count)
-    print("worst arr diff: ", worst_arr)
-    print()
-    print("worst arr val: ", worst_arr_val)
+    print("amt wrong: ", worst_arr_count / (64*64))
+    # print("worst arr diff: ", worst_arr)
+    # print()
+    # print("worst arr val: ", worst_arr_val)
+    # viz.viewResult(masterDataSet.testX[i][:, :, 2], worst_arr_val, worst_arr_pred, worst_arr)
 
     print("foot: ", total_val["footprint"])
     print("grass: ", total_val["grass"])
