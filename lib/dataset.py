@@ -41,8 +41,6 @@ class Squares(object):
                 if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
                 else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], [], []
                 self.makeValDataset()
-                print(self.orig_testy)
-                exit()
             else:
                 self.testX, self.testy, self.square_labels_orig = [], [], []
 
