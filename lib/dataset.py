@@ -35,8 +35,8 @@ class Squares(object):
         else:
             if mod is None:
                 self.data = data
-                self.squares, self.square_labels = self.makeSquares()
-                self.square_labels_orig = self.square_labels
+                self.squares, self.square_labels, self.square_labels_orig = self.makeSquares()
+
                 # self.measureBal()
                 print(self.square_labels_orig)
                 print()
@@ -156,7 +156,7 @@ class Squares(object):
             all_cubes_labels.append(cube_labels)
         all_cubes = np.concatenate(all_cubes, axis=0 )
         all_cubes_labels = np.concatenate(all_cubes_labels, axis=0 )
-        return shuffle(all_cubes, all_cubes_labels)
+        return shuffle(all_cubes, all_cubes_labels, all_cubes_labels)
 
     @staticmethod
     def makeLabel(label_layer):
