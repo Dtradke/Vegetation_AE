@@ -223,9 +223,9 @@ def evaluateUNET(y_preds, masterDataSet):
         incorrect+= np.count_nonzero((diff != 0) & (val != 0))
         wrong_heights = real_height[(diff != 0) & (val != 0)]
 
-        grass_diff = np.absolute(np.subtract(wrong_heights, self.grass))
+        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.grass))
         close_grass += grass_diff[grass_diff < 5].size
-        shrub_diff = np.absolute(np.subtract(wrong_heights, self.shrub))
+        shrub_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.shrub))
         close_shrub += shrub_diff[shrub_diff < 5].size
 
         if np.count_nonzero((diff != 0) & (val != 0)) > worst_arr_count:
