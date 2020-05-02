@@ -220,6 +220,8 @@ def evaluateUNET(y_preds, masterDataSet):
         correct+=np.count_nonzero((diff == 0) & (val != 0))
         incorrect+= np.count_nonzero((diff != 0) & (val != 0))
         wrong_heights = real_height[diff != 0]
+        print(wrong_heights)
+        exit()
         if np.count_nonzero((diff != 0) & (val != 0)) > worst_arr_count:
             worst_arr_count = np.count_nonzero((diff != 0) & (val != 0))
             worst_arr = diff
