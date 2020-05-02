@@ -78,7 +78,7 @@ class Squares(object):
             tree = split_arr[2][-1]
             print("split arr: ")
             for i in split_arr:
-                print(i[-1])
+                print(i[-1], " len: ", len(i))
             print("grass: 0 - ", grass, " shrub: ", grass, " - ", shrub, " tree: ", shrub)
             self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
             self.square_labels[self.square_labels == -1] = 0

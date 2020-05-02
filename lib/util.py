@@ -197,6 +197,7 @@ def evaluateUNET(y_preds, masterDataSet):
 
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0}
     total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
+    worst_arr_count = 0
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
@@ -217,9 +218,20 @@ def evaluateUNET(y_preds, masterDataSet):
         diff = np.subtract(pred, val)
         correct+=np.count_nonzero((diff == 0) & (val != 0))
         incorrect+= np.count_nonzero((diff != 0) & (val != 0))
+        if np.count_nonzero((diff != 0) & (val != 0)) > worst_arr_count:
+            worst_arr_count = np.count_nonzero((diff != 0) & (val != 0))
+            worst_arr = diff
+            worst_arr_val = val
 
         # viz.view3d(val)
         # viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, diff)
+
+
+    np.set_printoptions(threshold=sys.maxsize)
+    print("amt wrong: ", worst_arr_count)
+    print("worst arr diff: ", worst_arr)
+    print()
+    print("worst arr val: ", worst_arr_val)
 
     print("foot: ", total_val["footprint"])
     print("grass: ", total_val["grass"])
