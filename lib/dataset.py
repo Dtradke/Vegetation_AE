@@ -38,7 +38,8 @@ class Squares(object):
                 self.squares, self.square_labels = self.makeSquares()
                 self.square_labels_orig = self.square_labels
                 print(self.square_labels_orig.shape)
-                print(self.square_labels_orig[0])
+                print(self.square_labels_orig)
+                exit()
                 # self.measureBal()
                 self.makeClasses()
                 if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
@@ -171,8 +172,6 @@ class Squares(object):
             if not classify and not bin_class:
                 v_split = [np.expand_dims(v, axis=2) for v in v_split]
             squares = squares + v_split
-        print(np.array(squares))
-        exit()
         return np.array(squares)
 
 
