@@ -219,7 +219,7 @@ def evaluateUNET(y_preds, masterDataSet):
         diff = np.subtract(pred, val)
         correct+=np.count_nonzero((diff == 0) & (val != 0))
         incorrect+= np.count_nonzero((diff != 0) & (val != 0))
-        wrong_heights = real_height[diff != 0]
+        wrong_heights = real_height[(diff != 0) & (val != 0)]
         print(incorrect)
         print(wrong_heights.shape)
         exit()
