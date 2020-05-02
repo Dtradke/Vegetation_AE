@@ -269,7 +269,7 @@ def evaluateUNET(y_preds, masterDataSet):
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
-    print("Close predictions would add: grass/shrub: ", (close_grass/(correct+incorrect)), " shrub/tree: ", (close_shrub/(correct+incorrect)), " total: ", ((close_grass+close_shrub)/(correct+incorrect)))
+    print("Close predictions would add: grass/shrub: ", (total_grass_close/(correct+incorrect)), " shrub/tree: ", (total_shrub_close/(correct+incorrect)), " total: ", ((total_grass_close+total_shrub_close)/(correct+incorrect)))
     print("Neighborhoods:")
     print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
     print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
