@@ -9,8 +9,8 @@ import csv
 import sys
 from lib import viz
 
-classify = False
-bin_class = True
+classify = True
+bin_class = False
 
 try:
     import matplotlib.pyplot as plt

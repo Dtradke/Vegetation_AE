@@ -32,8 +32,8 @@ from keras.callbacks import ModelCheckpoint
 
 import random
 
-classify = False
-bin_class = True
+classify = True
+bin_class = False
 
 GPU = False
 
@@ -147,18 +147,21 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
     merge6 = concatenate([drop4_2,conv6], axis = 3)
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
+    conv6 = Dropout(0.5)(conv6)
 
     up7 = Conv2D(256, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv6))
     merge7 = concatenate([conv3_2,up7], axis = 3)
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge7)
     merge7 = concatenate([conv3_1,conv7], axis = 3)
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge7)
+    conv7 = Dropout(0.5)(conv7)
 
     up8 = Conv2D(128, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv7))
     merge8 = concatenate([conv2_1,up8], axis = 3)
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge8)
     merge8 = concatenate([conv2_2,conv8], axis = 3)
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge8)
+    conv8 = Dropout(0.5)(conv8)
 
     up9 = Conv2D(64, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv8))
     merge9 = concatenate([conv1_2,up9], axis = 3)

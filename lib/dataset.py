@@ -17,8 +17,8 @@ from sklearn.utils import shuffle
 
 AOIRadius = 11
 
-classify = False
-bin_class = True
+classify = True
+bin_class = False
 
 small_obj_heights = False
 
@@ -93,6 +93,9 @@ class Squares(object):
                 except:
                     print("Popping for equal div of 2 from shape: ", sorted_squares.shape)
                     sorted_squares = sorted_squares[:-1]
+            print("split arr: ")
+            for i in split_arr:
+                print(i[-1], " len: ", len(i))
             self.grass = split_arr[0][-1]
             self.tree = split_arr[1][-1]
             self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
