@@ -19,7 +19,7 @@ from multiprocessing import Pool
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
-SPLIT = True
+SPLIT = False
 
 def openDatasets(test_set, mod):
     data = []
