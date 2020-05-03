@@ -17,8 +17,8 @@ from sklearn.utils import shuffle
 
 AOIRadius = 11
 
-classify = True
-bin_class = False
+classify = False
+bin_class = True
 
 small_obj_heights = False
 
@@ -95,9 +95,9 @@ class Squares(object):
                     sorted_squares = sorted_squares[:-1]
             self.grass = split_arr[0][-1]
             self.tree = split_arr[1][-1]
-            self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
+            self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
             self.square_labels[self.square_labels == -1] = 0
-            self.square_labels[self.square_labels > grass] = 2
+            self.square_labels[self.square_labels > self.grass] = 2
             self.square_labels = to_categorical(self.square_labels, 3)
 
 

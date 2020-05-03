@@ -9,8 +9,8 @@ import csv
 import sys
 from lib import viz
 
-classify = True
-bin_class = False
+classify = False
+bin_class = True
 
 try:
     import matplotlib.pyplot as plt
@@ -184,11 +184,17 @@ def formatPreds(pred, val):
         return pred, val
 
 def getClosePreds(real_height, val, diff, masterDataSet):
-    wrong_heights = real_height[(diff != 0) & (val != 0)]
-    grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.grass))
-    close_grass = grass_diff[grass_diff < 5].size
-    shrub_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.shrub))
-    close_shrub = shrub_diff[shrub_diff < 5].size
+    if classify:
+        wrong_heights = real_height[(diff != 0) & (val != 0)]
+        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.grass))
+        close_grass = grass_diff[grass_diff < 5].size
+        shrub_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.shrub))
+        close_shrub = shrub_diff[shrub_diff < 5].size
+    elif bin_class:
+        wrong_heights = real_height[(diff != 0) & (val != 0)]
+        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.grass))
+        close_grass = grass_diff[grass_diff < 5].size
+        close_shrub = 0
     return close_grass, close_shrub
 
 
@@ -279,9 +285,9 @@ def evaluateUNET(y_preds, masterDataSet):
     try:
         # print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"], " tall_tree: ", correct_val_fast["tall_tree"] / total_val["tall_tree"])
         print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
-        print("Close predictions would add: grass/shrub: ", (total_fast_grass_close/(ncorrect+nincorrect)), " shrub/tree: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
     except:
         print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " below 10: ", correct_val_fast["grass"] / total_val["grass"], " above 10: ", correct_val_fast["shrub"] / total_val["shrub"])
+    print("Close predictions would add: grass/shrub: ", (total_fast_grass_close/(ncorrect+nincorrect)), " shrub/tree: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
 
     print("Neighborhoods check:")
     print("n - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
@@ -294,9 +300,9 @@ def evaluateUNET(y_preds, masterDataSet):
     try:
         # print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"], " tall_tree: ", correct_val_slow["tall_tree"] / total_val["tall_tree"])
         print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
-        print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
     except:
         print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " below 10: ", correct_val_slow["grass"] / total_val["grass"], " above 10: ", correct_val_slow["shrub"] / total_val["shrub"])
+    print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
 
     print("Finished")
     exit()
