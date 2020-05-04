@@ -92,7 +92,7 @@ def unet(masterDataSet, pretrained_weights = None):
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
     else:
         conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
+        conv10 = Conv2D(1, 1, activation = 'relu')(conv9)
 
 
     model = Model(input = inputs, output = conv10)
@@ -263,7 +263,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
     else:
         conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
+        conv10 = Conv2D(1, 1, activation = 'relu')(conv9)
 
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
