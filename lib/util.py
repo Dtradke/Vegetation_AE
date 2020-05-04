@@ -310,9 +310,16 @@ def evaluateUNET(y_preds, masterDataSet):
     exit()
 
 def evaluateRegression(y_preds, masterDataSet):
-    error = np.mean( y_preds != masterDataSet.testy )
+    # error = np.mean( y_preds != masterDataSet.testy )
+    ground = np.squeeze(masterDataSet.testy)
+    y_preds = np.squeeze(y_preds)
+
+    diff = np.absolute(np.subtract(ground, y_preds))
+    percentage = np.divide(diff, ground)
+    error = np.mean(np.nan_to_num(percentage))
     print(error)
     exit()
+
 
 
 def saveImg(fname, img):
