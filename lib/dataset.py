@@ -17,7 +17,7 @@ from sklearn.utils import shuffle
 
 AOIRadius = 11
 
-classify = True
+classify = False
 bin_class = False
 
 small_obj_heights = False
@@ -85,7 +85,7 @@ class Squares(object):
             self.square_labels[(self.square_labels > self.grass) & (self.square_labels <= self.shrub)] = 2
             self.square_labels[self.square_labels > self.shrub] = 3
             self.square_labels = to_categorical(self.square_labels, 4)
-        if bin_class:
+        elif bin_class:
             for i in range(sorted_squares.shape[0]):
                 try:
                     split_arr = np.split(sorted_squares, 2)
@@ -102,6 +102,7 @@ class Squares(object):
             self.square_labels[self.square_labels == -1] = 0
             self.square_labels[self.square_labels > self.grass] = 2
             self.square_labels = to_categorical(self.square_labels, 3)
+
 
 
     def makeValDataset(self):

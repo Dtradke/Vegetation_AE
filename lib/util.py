@@ -9,7 +9,7 @@ import csv
 import sys
 from lib import viz
 
-classify = True
+classify = False
 bin_class = False
 
 try:
@@ -201,6 +201,8 @@ def getClosePreds(real_height, val, diff, masterDataSet):
 # TODO: Look at the squares which the model performs worst on
 
 def evaluateUNET(y_preds, masterDataSet):
+    print(y_preds)
+    exit()
     # global correct_val_slow
     # global correct_val_fast
     incorrect = 0
