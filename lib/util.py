@@ -311,10 +311,23 @@ def evaluateUNET(y_preds, masterDataSet):
 
 def evaluateRegression(y_preds, masterDataSet):
     # error = np.mean( y_preds != masterDataSet.testy )
-    ground = np.squeeze(masterDataSet.testy)
-    y_preds = np.squeeze(y_preds)
+    # ground = np.squeeze(masterDataSet.testy)
+    # y_preds = np.squeeze(y_preds)
+    ground = masterDataSet.testy.flatten()
+    y_preds = y_preds.flatten()
 
     diff = np.absolute(np.subtract(ground, y_preds))
+    below10diff = diff[ground < 10]
+    between10and50 = diff[(ground >= 10) & (ground < 50)]
+    above50diff = diff[ground >= 50]
+
+    error_under10 = np.mean(below10diff)
+    error_middle = np.mean(between10and50)
+    error_high = np.mean(above50diff)
+    print("short: ", error_under10)
+    print("middle: ", error_middle)
+    print("high: ", error_high)
+
 
     # percentage = np.divide(diff, ground)
     error = np.mean(np.nan_to_num(diff))
