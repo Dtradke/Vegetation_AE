@@ -313,17 +313,12 @@ def evaluateRegression(y_preds, masterDataSet):
     # error = np.mean( y_preds != masterDataSet.testy )
     ground = np.squeeze(masterDataSet.testy)
     y_preds = np.squeeze(y_preds)
-    print("is ground nan: ", np.any(np.isnan(ground)))
-    print("is pred nan: ", np.any(np.isnan(y_preds)))
-    print("is ground inf: ", np.any(np.isinf(ground)))
-    print("is pred inf: ", np.any(np.isinf(y_preds)))
 
     diff = np.absolute(np.subtract(ground, y_preds))
-    print("is diff nan: ", np.any(np.isnan(diff)))
-    print("is diff inf: ", np.any(np.isinf(diff)))
-    percentage = np.divide(diff, ground)
-    error = np.mean(np.nan_to_num(percentage))
-    print(error)
+
+    # percentage = np.divide(diff, ground)
+    error = np.mean(np.nan_to_num(diff))
+    print("Error in feet: ", error)
     exit()
 
 
