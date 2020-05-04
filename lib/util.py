@@ -201,7 +201,8 @@ def getClosePreds(real_height, val, diff, masterDataSet):
 # TODO: Look at the squares which the model performs worst on
 
 def evaluateUNET(y_preds, masterDataSet):
-    print(y_preds)
+    print(y_preds.shape)
+    print(masterDataSet.testy.shape)
     exit()
     # global correct_val_slow
     # global correct_val_fast
