@@ -73,8 +73,8 @@ class Squares(object):
                 except:
                     print("Popping for equal div of 4 from shape: ", sorted_squares.shape)
                     sorted_squares = sorted_squares[:-1]
-            self.grass = 6 #split_arr[0][-1] #10 (83.8%)
-            self.shrub = 30 #split_arr[1][-1] #50 (83.8%)
+            self.grass = 10 #split_arr[0][-1] #10 (83.8%)
+            self.shrub = 50 #split_arr[1][-1] #50 (83.8%)
             self.tree = split_arr[2][-1]
             print("split arr: ")
             for i in split_arr:
