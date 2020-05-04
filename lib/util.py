@@ -201,9 +201,8 @@ def getClosePreds(real_height, val, diff, masterDataSet):
 # TODO: Look at the squares which the model performs worst on
 
 def evaluateUNET(y_preds, masterDataSet):
-    print(y_preds.shape)
-    print(masterDataSet.testy.shape)
-    exit()
+    if not classify and not bin_class:
+        evaluateRegression(y_preds, masterDataSet)
     # global correct_val_slow
     # global correct_val_fast
     incorrect = 0
@@ -308,6 +307,11 @@ def evaluateUNET(y_preds, masterDataSet):
     print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
 
     print("Finished")
+    exit()
+
+def evaluateRegression(y_preds, masterDataSet):
+    error = np.mean( y_preds != masterDataSet.testy )
+    print(error)
     exit()
 
 
