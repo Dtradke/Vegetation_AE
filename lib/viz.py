@@ -22,12 +22,18 @@ bin_class = False
 small_obj_heights = False
 
 def view3d(layer):
+    print(layer)
+    print()
+    print()
+    if layer.shape[0] >= layer.shape[1]: cut = layer.shape[1]
+    else: cut = layer.shape[0]
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    x = np.arange(0,layer.shape[0],1)
-    y = np.arange(0,layer.shape[1],1)
+    x = np.arange(0,cut,1)
+    y = np.arange(0,cut,1)
     X,Y = np.meshgrid(x,y)
-    Z = layer
+    Z = layer[:cut,:cut]
+    print(Z)
     dem3d=ax.plot_surface(X,Y, Z,cmap='afmhot', linewidth=0)
     ax.set_title('RESULT')
     ax.set_zlabel('Vegetation Height (ft)')

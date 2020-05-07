@@ -123,6 +123,18 @@ class Squares(object):
         return trainX, trainy, orig_trainy, testX, testy, orig_testy
 
 
+
+# ORDER:
+# dem
+# slope
+# aspect
+# ndvi
+# band_4
+# band_3
+# band_2
+# band_1
+# footprints
+# grvi
     def makeSquares(self):
         all_cubes = []
         all_cubes_labels = []
@@ -147,12 +159,7 @@ class Squares(object):
                         v_split.pop()
                     layer_squares = layer_squares + v_split
                 layers_arr.append(np.array(layer_squares))
-            for j, val in enumerate(layers_arr):
-                print(j, " : ", val[0])
-            print()
             cubes = np.stack(layers_arr, axis=3)
-            print(cubes[0])
-            exit()
             cube_labels = self.makeLabel(loc.layer_obj_heights)
             print(cubes.shape, " labels: ", cube_labels.shape)
             all_cubes.append(cubes)

@@ -249,6 +249,9 @@ class Location(object):
                 'grvi': grvi
                 }
 
+        for val in layers.keys():
+            layers[val] = layers[val][2:-2,2:-2]
+
         for name, layer in layers.items():
             pass
         return layers
