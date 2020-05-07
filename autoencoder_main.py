@@ -61,7 +61,7 @@ def getModelAndTrain(masterDataSet, mod, test_set):
 
 def modPredict(mod, masterDataSet):
     if SPLIT:
-        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:4], masterDataSet.testX[:,:,:,4:]
+        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:3], masterDataSet.testX[:,:,:,3:]
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
