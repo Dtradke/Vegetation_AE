@@ -177,9 +177,9 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
 
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
-    sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-    model.compile(optimizer = sgd, loss = 'mse', metrics = ['accuracy'])
-    # model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #binary_crossentropy
+    # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+    # model.compile(optimizer = sgd, loss = 'mse', metrics = ['accuracy'])
+    model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #binary_crossentropy
 
     # model.summary()
 
