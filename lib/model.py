@@ -32,7 +32,7 @@ from keras.callbacks import ModelCheckpoint
 
 import random
 
-classify = False
+classify = True
 bin_class = False
 
 GPU = False

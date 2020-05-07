@@ -9,7 +9,7 @@ import csv
 import sys
 from lib import viz
 
-classify = False
+classify = True
 bin_class = False
 
 try:

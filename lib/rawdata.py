@@ -12,7 +12,7 @@ from lib import viz
 
 PIXEL_SIZE = 1
 
-classify = False
+classify = True
 bin_class = False
 
 small_obj_heights = False
