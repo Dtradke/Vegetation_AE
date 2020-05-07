@@ -40,8 +40,8 @@ def openDatasets(test_set, mod):
 def getModelAndTrain(masterDataSet, mod, test_set):
     if mod is None:
         if SPLIT:
-            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:4], masterDataSet.trainX[:,:,:,4:]
-            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:4], masterDataSet.valX[:,:,:,4:]
+            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
+            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
             mod = model.unet_split(X_split_1, X_split_2)
             inputs = [X_split_1, X_split_2]

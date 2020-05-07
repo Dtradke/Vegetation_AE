@@ -110,7 +110,9 @@ class Squares(object):
             print("Making squares for: ", loc.name)
             layers_arr = []
             cube = []
-            for layer in loc.layers.values():
+            for l in loc.layers.keys():
+                layer = loc.layers[l]
+                # print(l)
                 split_indices = [SQUARE_DIM*d for d in range(1,(layer.shape[1]//SQUARE_DIM)+1)]
                 h_split = np.hsplit(layer, np.array(split_indices))
                 last = h_split[-1]
