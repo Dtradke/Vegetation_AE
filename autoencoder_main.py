@@ -39,8 +39,8 @@ def openDatasets(test_set, mod):
 def getModelAndTrain(masterDataSet, mod, test_set):
     if mod is None:
         if SPLIT:
-            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:4], masterDataSet.trainX[:,:,:,4:]
-            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:4], masterDataSet.valX[:,:,:,4:]
+            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:7], masterDataSet.trainX[:,:,:,7:]
+            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:7], masterDataSet.valX[:,:,:,7:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
             mod = model.unet_split(X_split_1, X_split_2)
             inputs = [X_split_1, X_split_2]
@@ -61,7 +61,7 @@ def getModelAndTrain(masterDataSet, mod, test_set):
 
 def modPredict(mod, masterDataSet):
     if SPLIT:
-        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:4], masterDataSet.testX[:,:,:,4:]
+        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:7], masterDataSet.testX[:,:,:,7:]
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
