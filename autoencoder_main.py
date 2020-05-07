@@ -19,9 +19,7 @@ from multiprocessing import Pool
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
-SPLIT = False
-
-
+SPLIT = True
 
 def openDatasets(test_set, mod):
     data = []
@@ -35,6 +33,7 @@ def openDatasets(test_set, mod):
         testSiteDataset = dataset.Squares(new_data, test_set, mod=None)
         masterDataSet.testX = testSiteDataset.squares
         masterDataSet.testy = testSiteDataset.square_labels
+        masterDataSet.square_labels_orig = testSiteDataset.square_labels_orig
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set):
@@ -48,12 +47,13 @@ def getModelAndTrain(masterDataSet, mod, test_set):
             vals = [val_split_1, val_split_2]
 
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
-            mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es, mc])
+            # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
+            es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
-            mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=30, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy))
-            # util.saveExperiment(mod, masterDataSet, test_set)
+            mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
+        # util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
         if SPLIT: mod = model.unet_split(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
         else: mod = model.unet(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')

@@ -9,7 +9,7 @@ import csv
 import sys
 from lib import viz
 
-classify = True
+classify = False
 bin_class = False
 
 try:
@@ -32,8 +32,9 @@ except:
 #         c[invalidPixelIndices(c)] = np.nan
 #     return cv2.merge(channels)
 
-def saveExperiment(mod, masterDataSet, test_set):
+def saveExperiment(mod, masterDataSet, test_set, SPLIT):
     time_string = time.strftime("%Y%m%d-%H%M%S")
+    if SPLIT: time_string = "SPLIT_" + time_string
     if test_set:
         if bin_class: fname = 'models/' + time_string + '_UNET-test_set_BIN.h5'
         elif classify: fname = 'models/' + time_string + '_UNET-test_set_CLASS.h5'
@@ -75,9 +76,8 @@ def loadDatasets():
 correct_val_slow = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree":0}
 correct_val_fast = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree":0}
 
-def checkNeighborhood(pred, val):
+def checkNeighborhood(pred, val, real_height, masterDataSet):
     global correct_val_fast
-
     # [1:-1,1:-1] cuts hor, vert
     val_y = np.squeeze(val)
     cur_pred = np.squeeze(pred)
@@ -123,13 +123,15 @@ def checkNeighborhood(pred, val):
     correct_val_fast["tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 3))
     # correct_val_fast["tall_tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 4))
 
+    grass_close, shrub_close = getClosePreds(real_height, val, answers_counter, masterDataSet)
+
     correct = np.count_nonzero((answers_counter == 0) & (val_y != 0))
     incorrect = np.count_nonzero((answers_counter != 0) & (val_y != 0))
 
-    return correct, incorrect
+    return correct, incorrect, grass_close, shrub_close
 
 
-def slowCheckNeighborhood(pred, val):
+def slowCheckNeighborhood(pred, val, real_height, masterDataSet):
     global correct_val_slow
 
     val = np.squeeze(val)
@@ -153,9 +155,11 @@ def slowCheckNeighborhood(pred, val):
     correct_val_slow["tree"]+=np.count_nonzero((answers == 0) & (val == 3))
     # correct_val_slow["tall_tree"]+=np.count_nonzero((answers == 0) & (val == 4))
 
+    grass_close, shrub_close = getClosePreds(real_height, val, answers, masterDataSet)
+
     correct = np.count_nonzero((answers == 0) & (val != 0))
     incorrect = np.count_nonzero((answers != 0) & (val != 0))
-    return correct, incorrect
+    return correct, incorrect, grass_close, shrub_close
 
 def formatPreds(pred, val):
 
@@ -179,11 +183,26 @@ def formatPreds(pred, val):
         val[val == 0] = 0
         return pred, val
 
+def getClosePreds(real_height, val, diff, masterDataSet):
+    if classify:
+        wrong_heights = real_height[(diff != 0) & (val != 0)]
+        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.grass))
+        close_grass = grass_diff[grass_diff < 5].size
+        shrub_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.shrub))
+        close_shrub = shrub_diff[shrub_diff < 5].size
+    elif bin_class:
+        wrong_heights = real_height[(diff != 0) & (val != 0)]
+        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.grass))
+        close_grass = grass_diff[grass_diff < 5].size
+        close_shrub = 0
+    return close_grass, close_shrub
 
 
 # TODO: Look at the squares which the model performs worst on
 
 def evaluateUNET(y_preds, masterDataSet):
+    if not classify and not bin_class:
+        evaluateRegression(y_preds, masterDataSet)
     # global correct_val_slow
     # global correct_val_fast
     incorrect = 0
@@ -196,9 +215,14 @@ def evaluateUNET(y_preds, masterDataSet):
 
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0}
     total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
+    worst_arr_count = 0
+    total_grass_close, total_shrub_close = 0, 0
+    total_fast_grass_close, total_fast_shrub_close = 0, 0
+    total_slow_grass_close, total_slow_shrub_close = 0, 0
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
+        real_height = masterDataSet.orig_testy[i]
         pred, val = formatPreds(pred, val)
 
         total_val["footprint"]+=np.count_nonzero(val == 0)
@@ -207,8 +231,8 @@ def evaluateUNET(y_preds, masterDataSet):
         total_val["tree"]+=np.count_nonzero(val == 3)
         # total_val["tall_tree"]+=np.count_nonzero(val == 4)
 
-        sq_correct, sq_incorrect = checkNeighborhood(pred, val)
-        ck_correct, ck_incorrect = slowCheckNeighborhood(pred, val)
+        sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet)
+        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close = slowCheckNeighborhood(pred, val, real_height, masterDataSet)
         ncorrect+=sq_correct
         nincorrect+=sq_incorrect
         ck_correct_total+=ck_correct
@@ -217,8 +241,31 @@ def evaluateUNET(y_preds, masterDataSet):
         correct+=np.count_nonzero((diff == 0) & (val != 0))
         incorrect+= np.count_nonzero((diff != 0) & (val != 0))
 
+        close_grass, close_shrub = getClosePreds(real_height, val, diff, masterDataSet)
+        total_grass_close+=close_grass
+        total_shrub_close+=close_shrub
+        total_fast_grass_close+=fast_grass_close
+        total_fast_shrub_close+=fast_shrub_close
+        total_slow_grass_close+=slow_grass_close
+        total_slow_shrub_close+=slow_shrub_close
+
+
+        if np.count_nonzero((diff != 0) & (val != 0)) > worst_arr_count:
+            worst_arr_count = np.count_nonzero((diff != 0) & (val != 0))
+            worst_arr = diff
+            worst_arr_pred = pred
+            worst_arr_val = val
+
         # viz.view3d(val)
         # viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, diff)
+
+    # print("How many wrong preds are close: grass: ", (close_grass/(correct+incorrect)), " shrub: ", (close_shrub/(correct+incorrect)))
+    # np.set_printoptions(threshold=sys.maxsize)
+    # print("amt wrong: ", worst_arr_count / (64*64))
+    # print("worst arr diff: ", worst_arr)
+    # print()
+    # print("worst arr val: ", worst_arr_val)
+    # viz.viewResult(masterDataSet.testX[i][:, :, 2], worst_arr_val, worst_arr_pred, worst_arr)
 
     print("foot: ", total_val["footprint"])
     print("grass: ", total_val["grass"])
@@ -228,6 +275,7 @@ def evaluateUNET(y_preds, masterDataSet):
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
+    print("Close predictions would add: grass/shrub: ", (total_grass_close/(correct+incorrect)), " shrub/tree: ", (total_shrub_close/(correct+incorrect)), " total: ", ((total_grass_close+total_shrub_close)/(correct+incorrect)))
     print("Neighborhoods:")
     print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
     print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
@@ -241,6 +289,7 @@ def evaluateUNET(y_preds, masterDataSet):
         print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
     except:
         print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " below 10: ", correct_val_fast["grass"] / total_val["grass"], " above 10: ", correct_val_fast["shrub"] / total_val["shrub"])
+    print("Close predictions would add: grass/shrub: ", (total_fast_grass_close/(ncorrect+nincorrect)), " shrub/tree: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
 
     print("Neighborhoods check:")
     print("n - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
@@ -255,9 +304,36 @@ def evaluateUNET(y_preds, masterDataSet):
         print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
     except:
         print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " below 10: ", correct_val_slow["grass"] / total_val["grass"], " above 10: ", correct_val_slow["shrub"] / total_val["shrub"])
+    print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
 
-
+    print("Finished")
     exit()
+
+def evaluateRegression(y_preds, masterDataSet):
+    # error = np.mean( y_preds != masterDataSet.testy )
+    # ground = np.squeeze(masterDataSet.testy)
+    # y_preds = np.squeeze(y_preds)
+    ground = masterDataSet.testy.flatten()
+    y_preds = y_preds.flatten()
+
+    diff = np.absolute(np.subtract(ground, y_preds))
+    below10diff = diff[ground < 10]
+    between10and50 = diff[(ground >= 10) & (ground < 50)]
+    above50diff = diff[ground >= 50]
+
+    error_under10 = np.mean(below10diff)
+    error_middle = np.mean(between10and50)
+    error_high = np.mean(above50diff)
+    print("short: ", error_under10)
+    print("middle: ", error_middle)
+    print("high: ", error_high)
+
+
+    # percentage = np.divide(diff, ground)
+    error = np.mean(np.nan_to_num(diff))
+    print("Error in feet: ", error)
+    exit()
+
 
 
 def saveImg(fname, img):

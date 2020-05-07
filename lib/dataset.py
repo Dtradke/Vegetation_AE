@@ -17,7 +17,7 @@ from sklearn.utils import shuffle
 
 AOIRadius = 11
 
-classify = True
+classify = False
 bin_class = False
 
 small_obj_heights = False
@@ -35,14 +35,14 @@ class Squares(object):
         else:
             if mod is None:
                 self.data = data
-                self.squares, self.square_labels = self.makeSquares()
+                self.squares, self.square_labels, self.square_labels_orig = self.makeSquares()
                 # self.measureBal()
                 self.makeClasses()
-                if test_set: self.trainX, self.trainy, self.testX, self.testy = self.splitDataset()
-                else: self.trainX, self.trainy, self.testX, self.testy = self.squares, self.square_labels, [], []
+                if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
+                else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], [], []
                 self.makeValDataset()
             else:
-                self.testX, self.testy = [], []
+                self.testX, self.testy, self.square_labels_orig = [], [], []
 
     def measureBal(self):
         total = self.square_labels[0].shape[0] * self.square_labels[0].shape[1]
@@ -66,24 +66,43 @@ class Squares(object):
         sorted_squares = np.sort(square_label)
         sorted_squares = sorted_squares[sorted_squares != -1]
         if classify:
-            split_arr = np.split(sorted_squares, 4)
-            grass = split_arr[0][-1]
-            shrub = split_arr[1][-1]
-            tree = split_arr[2][-1]
-            print("grass: 0 - ", grass, " shrub: ", grass, " - ", tree, " tree: ", tree)
-            self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
+            for i in range(sorted_squares.shape[0]):
+                try:
+                    split_arr = np.split(sorted_squares, 3)
+                    break
+                except:
+                    print("Popping for equal div of 4 from shape: ", sorted_squares.shape)
+                    sorted_squares = sorted_squares[:-1]
+            self.grass = 10 #split_arr[0][-1] #10 (83.8%)
+            self.shrub = 50 #split_arr[1][-1] #50 (83.8%)
+            self.tree = split_arr[2][-1]
+            print("split arr: ")
+            for i in split_arr:
+                print(i[-1], " len: ", len(i))
+            print("grass: 0 - ", self.grass, " shrub: ", self.grass, " - ", self.shrub, " tree: ", self.shrub)
+            self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
             self.square_labels[self.square_labels == -1] = 0
-            self.square_labels[(self.square_labels > grass) & (self.square_labels <= tree)] = 2
-            self.square_labels[self.square_labels > tree] = 3
+            self.square_labels[(self.square_labels > self.grass) & (self.square_labels <= self.shrub)] = 2
+            self.square_labels[self.square_labels > self.shrub] = 3
             self.square_labels = to_categorical(self.square_labels, 4)
-        if bin_class:
-            split_arr = np.split(sorted_squares, 2)
-            grass = split_arr[0][-1]
-            tree = split_arr[1][-1]
-            self.square_labels[(self.square_labels >= 0) & (self.square_labels <= grass)] = 1
+        elif bin_class:
+            for i in range(sorted_squares.shape[0]):
+                try:
+                    split_arr = np.split(sorted_squares, 2)
+                    break
+                except:
+                    print("Popping for equal div of 2 from shape: ", sorted_squares.shape)
+                    sorted_squares = sorted_squares[:-1]
+            print("split arr: ")
+            for i in split_arr:
+                print(i[-1], " len: ", len(i))
+            self.grass = split_arr[0][-1]
+            self.tree = split_arr[1][-1]
+            self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
             self.square_labels[self.square_labels == -1] = 0
-            self.square_labels[self.square_labels > grass] = 2
+            self.square_labels[self.square_labels > self.grass] = 2
             self.square_labels = to_categorical(self.square_labels, 3)
+
 
 
     def makeValDataset(self):
@@ -97,9 +116,11 @@ class Squares(object):
         split = 0.7
         trainX = self.squares[:int(self.squares.shape[0] * split)]
         trainy = self.square_labels[:int(self.squares.shape[0] * split)]
+        orig_trainy = self.square_labels_orig[:int(self.squares.shape[0] * split)]
         testX = self.squares[int(self.squares.shape[0] * split):]
         testy = self.square_labels[int(self.squares.shape[0] * split):]
-        return trainX, trainy, testX, testy
+        orig_testy = self.square_labels_orig[int(self.squares.shape[0] * split):]
+        return trainX, trainy, orig_trainy, testX, testy, orig_testy
 
 
 # TODO: ADD AUGMENTATION - rotation and offset
@@ -134,7 +155,7 @@ class Squares(object):
             all_cubes_labels.append(cube_labels)
         all_cubes = np.concatenate(all_cubes, axis=0 )
         all_cubes_labels = np.concatenate(all_cubes_labels, axis=0 )
-        return shuffle(all_cubes, all_cubes_labels)
+        return shuffle(all_cubes, all_cubes_labels, all_cubes_labels)
 
     @staticmethod
     def makeLabel(label_layer):

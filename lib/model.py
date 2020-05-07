@@ -32,7 +32,7 @@ from keras.callbacks import ModelCheckpoint
 
 import random
 
-classify = True
+classify = False
 bin_class = False
 
 GPU = False
@@ -92,7 +92,7 @@ def unet(masterDataSet, pretrained_weights = None):
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
     else:
         conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
+        conv10 = Conv2D(1, 1, activation = 'relu')(conv9)
 
 
     model = Model(input = inputs, output = conv10)
@@ -173,13 +173,13 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
     else:
         conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
+        conv10 = Conv2D(1, 1, activation = 'relu')(conv9)
 
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
-    # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-    # model.compile(optimizer = sgd, loss = 'binary_crossentropy', metrics = ['accuracy'])
-    model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #binary_crossentropy
+    sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+    model.compile(optimizer = sgd, loss = 'mse', metrics = ['accuracy'])
+    # model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #binary_crossentropy
 
     # model.summary()
 
@@ -211,9 +211,10 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     dropout_layer_0, dropout_layer_1 = keras.layers.Lambda(lambda tensor: tf.split(tensor, 2, axis=1))(dropout_layer)
     dropout_layer_0 = keras.layers.Lambda(lambda tensor: tf.squeeze(tensor, 1))(dropout_layer_0)
     dropout_layer_1 = keras.layers.Lambda(lambda tensor: tf.squeeze(tensor, 1))(dropout_layer_1)
-    conc_4 = concatenate([dropout_layer_0, dropout_layer_1, up6])
+    conc_4 = concatenate([dropout_layer_0, up6])
     #more decoding layers
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_4)
+    conv6 = concatenate([dropout_layer_1, conv6])
     conv6 = Conv2D(512, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv6)
 
     up7 = Conv2D(256, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv6))
@@ -223,10 +224,11 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     dropout_layer_0, dropout_layer_1 = keras.layers.Lambda(lambda tensor: tf.split(tensor, 2, axis=1))(dropout_layer)
     dropout_layer_0 = keras.layers.Lambda(lambda tensor: tf.squeeze(tensor, 1))(dropout_layer_0)
     dropout_layer_1 = keras.layers.Lambda(lambda tensor: tf.squeeze(tensor, 1))(dropout_layer_1)
-    conc_3 = concatenate([dropout_layer_0, dropout_layer_1, up7])
+    conc_3 = concatenate([dropout_layer_1, up7])
     #more decoding layers
     conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_3)
-    conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv7)
+    conc_3 = concatenate([dropout_layer_0, conv7])
+    conv7 = Conv2D(256, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_3)
 
     up8 = Conv2D(128, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv7))
     conc_2 = concatenate([conv2_1, conv2_1], axis=3)
@@ -235,10 +237,11 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     dropout_layer_0, dropout_layer_1 = keras.layers.Lambda(lambda tensor: tf.split(tensor, 2, axis=1))(dropout_layer)
     dropout_layer_0 = keras.layers.Lambda(lambda tensor: tf.squeeze(tensor, 1))(dropout_layer_0)
     dropout_layer_1 = keras.layers.Lambda(lambda tensor: tf.squeeze(tensor, 1))(dropout_layer_1)
-    conc_2 = concatenate([dropout_layer_0, dropout_layer_1, up8])
+    conc_2 = concatenate([dropout_layer_0, up8])
     #more decoding layers
     conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_2)
-    conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv8)
+    conc_2 = concatenate([dropout_layer_1, conv8])
+    conv8 = Conv2D(128, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_2)
 
     up9 = Conv2D(64, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv8))
     conc_1 = concatenate([conv1_1, conv1_2], axis=3)
@@ -247,9 +250,10 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     dropout_layer_0, dropout_layer_1 = keras.layers.Lambda(lambda tensor: tf.split(tensor, 2, axis=1))(dropout_layer)
     dropout_layer_0 = keras.layers.Lambda(lambda tensor: tf.squeeze(tensor, 1))(dropout_layer_0)
     dropout_layer_1 = keras.layers.Lambda(lambda tensor: tf.squeeze(tensor, 1))(dropout_layer_1)
-    conc_1 = concatenate([dropout_layer_0, dropout_layer_1, up9])
+    conc_1 = concatenate([dropout_layer_1, up9])
     #more decoding layers
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conc_1)
+    conc_1 = concatenate([dropout_layer_0, conv9])
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     if classify:
         conv9 = Conv2D(8, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
@@ -259,7 +263,7 @@ def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
     else:
         conv9 = Conv2D(2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
+        conv10 = Conv2D(1, 1, activation = 'relu')(conv9)
 
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
