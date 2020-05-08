@@ -179,7 +179,7 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
 
     # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
-    model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
+    model.compile(optimizer = Adam(lr = 1e-4), loss = 'sparse_categorical_crossentropy', metrics = ['accuracy']) #mse
 
     # model.summary()
 
