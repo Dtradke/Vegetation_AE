@@ -73,18 +73,26 @@ class Squares(object):
                 except:
                     print("Popping for equal div of 4 from shape: ", sorted_squares.shape)
                     sorted_squares = sorted_squares[:-1]
-            self.grass = 10 #split_arr[0][-1] #10 (83.8%)
-            self.shrub = 50 #split_arr[1][-1] #50 (83.8%)
-            self.tree = split_arr[2][-1]
+            self.grass = 2 #split_arr[0][-1] #10 (83.8%)
+            self.shrub = 6 #split_arr[1][-1] #50 (83.8%)
+            self.tree = 50 #split_arr[2][-1]
+            self.tall_tree = 80
             print("split arr: ")
             for i in split_arr:
                 print(i[-1], " len: ", len(i))
             print("grass: 0 - ", self.grass, " shrub: ", self.grass, " - ", self.shrub, " tree: ", self.shrub)
+            # self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
+            # self.square_labels[self.square_labels == -1] = 0
+            # self.square_labels[(self.square_labels > self.grass) & (self.square_labels <= self.shrub)] = 2
+            # self.square_labels[self.square_labels > self.shrub] = 3
+            # self.square_labels = to_categorical(self.square_labels, 4)
             self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
             self.square_labels[self.square_labels == -1] = 0
             self.square_labels[(self.square_labels > self.grass) & (self.square_labels <= self.shrub)] = 2
-            self.square_labels[self.square_labels > self.shrub] = 3
-            self.square_labels = to_categorical(self.square_labels, 4)
+            self.square_labels[(self.square_labels > self.shrub) & (self.square_labels <= self.tree)] = 3
+            self.square_labels[(self.square_labels > self.tree) & (self.square_labels <= self.tall_tree)] = 4
+            self.square_labels[self.square_labels > self.tall_tree] = 5
+            self.square_labels = to_categorical(self.square_labels, 6)
         elif bin_class:
             for i in range(sorted_squares.shape[0]):
                 try:
