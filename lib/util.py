@@ -155,7 +155,7 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet):
     correct_val_slow["shrub"]+=np.count_nonzero((answers == 0) & (val == 2))
     correct_val_slow["tree"]+=np.count_nonzero((answers == 0) & (val == 3))
     correct_val_slow["tall_tree"]+=np.count_nonzero((answers == 0) & (val == 4))
-    correct_val_slow["tall_tree"]+=np.count_nonzero((answers == 0) & (val == 5))
+    correct_val_slow["tallest"]+=np.count_nonzero((answers == 0) & (val == 5))
 
     grass_close, shrub_close = getClosePreds(real_height, val, answers, masterDataSet)
 
@@ -304,6 +304,7 @@ def evaluateYNET(y_preds, masterDataSet):
     print("shrub: ", correct_val_slow["shrub"])
     print("tree: ", correct_val_slow["tree"])
     print("tall tree: ", correct_val_slow["tall_tree"])
+    print("tallest: ", correct_val_slow["tallest"])
     try:
         print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"], " tall_tree: ", correct_val_slow["tall_tree"] / total_val["tall_tree"], " tallest: ", correct_val_slow["tallest"] / total_val["tallest"])
         # print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
@@ -318,12 +319,12 @@ def evaluateYNET(y_preds, masterDataSet):
     masterDataSet.cor_tall_tree += correct_val_slow["tall_tree"]
     masterDataSet.cor_tallest += correct_val_slow["tallest"]
 
-    masterDataSet.tot_foot += correct_val_slow["footprint"]
-    masterDataSet.tot_grass += correct_val_slow["grass"]
-    masterDataSet.tot_shrub += correct_val_slow["shrub"]
-    masterDataSet.tot_tree += correct_val_slow["tree"]
-    masterDataSet.tot_tall_tree += correct_val_slow["tall_tree"]
-    masterDataSet.tot_tallest += correct_val_slow["tallest"]
+    masterDataSet.tot_foot += total_val["footprint"]
+    masterDataSet.tot_grass += total_val["grass"]
+    masterDataSet.tot_shrub += total_val["shrub"]
+    masterDataSet.tot_tree += total_val["tree"]
+    masterDataSet.tot_tall_tree += total_val["tall_tree"]
+    masterDataSet.tot_tallest += total_val["tallest"]
 
 
 def evaluateRegression(y_preds, masterDataSet):
