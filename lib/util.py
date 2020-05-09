@@ -292,7 +292,7 @@ def evaluateYNET(y_preds, masterDataSet):
     print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
 
     for i in correct_val_fast.keys():
-        print("correct ", i, ": ", correct_val_fast[i], " PERC: ", (correct_val_fast[i]/total_val[i])
+        print("correct ", i, ": ", correct_val_fast[i], " PERC: ", (correct_val_fast[i]/total_val[i]))
 
 
     # try:
@@ -307,7 +307,7 @@ def evaluateYNET(y_preds, masterDataSet):
     print("n - Incorrect: ", ck_incorrect_total / (ck_correct_total+ck_incorrect_total))
 
     for i in correct_val_slow.keys():
-        print("correct ", i, ": ", correct_val_slow[i], " PERC: ", (correct_val_slow[i]/total_val[i])
+        print("correct ", i, ": ", correct_val_slow[i], " PERC: ", (correct_val_slow[i]/total_val[i]))
     # try:
     #     print("foot: ", correct_val_slow[0] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"], " tall_tree: ", correct_val_slow["tall_tree"] / total_val["tall_tree"], " tallest: ", correct_val_slow["tallest"] / total_val["tallest"])
     #     # print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
