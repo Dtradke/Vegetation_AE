@@ -49,7 +49,7 @@ class Squares(object):
                 self.testX, self.testy, self.square_labels_orig = [], [], []
 
     def setKeys(self, keys):
-        for i in keys:
+        for i in range(keys):
             self.correct[i] = 0
             self.total[i] = 0
 
