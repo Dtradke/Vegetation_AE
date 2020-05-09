@@ -55,14 +55,16 @@ class Squares(object):
         new_orig_testy = self.orig_trainy[:size_test]
         new_trainX = np.concatenate((self.trainX[size_test:], self.testX), axis=0)
         new_trainy = np.concatenate((self.trainy[size_test:], self.testy), axis=0)
-        new_orig_triany = np.concatenate((self.orig_trainy[size_test:], self.orig_testy), axis=0)
+        new_orig_trainy = np.concatenate((self.orig_trainy[size_test:], self.orig_testy), axis=0)
+
+        print(new_trainX.shape)
+        print(new_trainy.shape)
+        print(new_orig_trainy.shape)
         print(new_testX.shape)
         print(new_testy.shape)
         print(new_orig_testy.shape)
-        print(new_trainX.shape)
-        print(new_trainy.shape)
-        print(new_orig_triany.shape)
-        self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = new_trainX, new_trainy, new_orig_triany, new_testX, new_testy, new_orig_testy
+        print(self.trainX[0])
+        self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = new_trainX, new_trainy, new_orig_trainy, new_testX, new_testy, new_orig_testy
         print()
         print(self.trainX.shape)
         print(self.trainy.shape)
@@ -70,6 +72,7 @@ class Squares(object):
         print(self.testX.shape)
         print(self.testy.shape)
         print(self.orig_testy.shape)
+        print(self.trainX[0])
 
     def measureBal(self):
         total = self.square_labels[0].shape[0] * self.square_labels[0].shape[1]
@@ -133,8 +136,6 @@ class Squares(object):
             self.square_labels[self.square_labels == -1] = 0
             print("max: ", np.amax(self.square_labels))
             print("length of self split: ", len(self.split))
-            # categories = len(self.split) + 1
-            # print("Categories: ", categories)
             self.square_labels = to_categorical(self.square_labels, (len(self.split) + 1))
         elif bin_class:
             for i in range(sorted_squares.shape[0]):
@@ -160,8 +161,11 @@ class Squares(object):
         l = int(self.trainX.shape[0] * 0.8)
         self.valX = self.trainX[-l:]
         self.valy = self.trainy[-l:]
+        self.orig_testy = self.orig_trainy[-l:]
         self.trainX = self.trainX[:l]
         self.trainy = self.trainy[:l]
+        self.orig_trainy = self.orig_trainy[:l]
+
 
     def splitDataset(self):
         split = 0.7

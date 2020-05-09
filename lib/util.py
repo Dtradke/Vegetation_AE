@@ -164,6 +164,12 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet):
     return correct, incorrect, grass_close, shrub_close
 
 def formatPreds(pred, val):
+    global correct_val_fast
+    global correct_val_slow
+
+    for i in range(val.shape[2]):
+        correct_val_fast[i] = 0
+        correct_val_slow[i] = 0
 
     #NOTE: added for softmax (commented above)
     if classify or bin_class:
@@ -215,8 +221,12 @@ def evaluateYNET(y_preds, masterDataSet):
     ck_correct_total = 0
     ck_incorrect_total = 0
 
-    total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0, "tallest": 0}
+    # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0, "tallest": 0}
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
+    for i in range(y_preds.shape[3]):
+        total_val[i] = 0
+    print(total_val)
+    exit()
     worst_arr_count = 0
     total_grass_close, total_shrub_close = 0, 0
     total_fast_grass_close, total_fast_shrub_close = 0, 0
