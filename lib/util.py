@@ -73,8 +73,8 @@ def loadDatasets():
 
 
 # Global dicts for results
-correct_val_slow = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree":0, "tallest":0}
-correct_val_fast = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree":0, "tallest":0}
+# correct_val_slow = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree":0, "tallest":0}
+# correct_val_fast = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree":0, "tallest":0}
 
 def checkNeighborhood(pred, val, real_height, masterDataSet):
     global correct_val_fast
@@ -164,12 +164,7 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet):
     return correct, incorrect, grass_close, shrub_close
 
 def formatPreds(pred, val):
-    global correct_val_fast
-    global correct_val_slow
 
-    for i in range(val.shape[2]):
-        correct_val_fast[i] = 0
-        correct_val_slow[i] = 0
 
     #NOTE: added for softmax (commented above)
     if classify or bin_class:
@@ -209,6 +204,8 @@ def getClosePreds(real_height, val, diff, masterDataSet):
 # TODO: Look at the squares which the model performs worst on
 
 def evaluateYNET(y_preds, masterDataSet):
+    global correct_val_fast
+    global correct_val_slow
     if not classify and not bin_class:
         evaluateRegression(y_preds, masterDataSet)
     # global correct_val_slow
@@ -223,8 +220,11 @@ def evaluateYNET(y_preds, masterDataSet):
 
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0, "tallest": 0}
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
+    total_val = {}
     for i in range(y_preds.shape[3]):
         total_val[i] = 0
+        correct_val_fast[i] = 0
+        correct_val_slow[i] = 0
     print(total_val)
     exit()
     worst_arr_count = 0
