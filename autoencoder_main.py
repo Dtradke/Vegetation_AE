@@ -75,13 +75,16 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
     else:
         masterDataSet = openDatasets(test_set, mod)
     test_len = (masterDataSet.trainX.shape[0] // masterDataSet.testX.shape[0])+1
-    if (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0]) != 0: test_len+=1
+    if (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0]) != 0:
+        remainder = (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0])
+        test_len+=1
     print("Length of tests: ", test_len)
     for i in range(test_len):
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
         if test_set: mod=None
         mod = getModelAndTrain(masterDataSet, mod, test_set)
         modPredict(mod, masterDataSet)
+        if remainder != 0 and i == (test_len - 1): masterDataSet.rotateDatasets(remainder)
         masterDataSet.rotateDatasets()
     viz.displayKCrossVal(masterDataSet)
 

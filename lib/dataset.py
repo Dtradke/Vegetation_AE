@@ -53,8 +53,8 @@ class Squares(object):
             self.correct[i] = 0
             self.total[i] = 0
 
-    def rotateDatasets(self):
-        size_test = self.testX.shape[0]
+    def rotateDatasets(self, size_test=None):
+        if size_test is None: size_test = self.testX.shape[0]
         new_testX = self.trainX[:size_test]
         new_testy = self.trainy[:size_test]
         new_orig_testy = self.orig_trainy[:size_test]
