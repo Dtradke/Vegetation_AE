@@ -72,11 +72,8 @@ def loadDatasets():
     return datasets
 
 
-# Global dicts for results
-# correct_val_slow = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree":0, "tallest":0}
-# correct_val_fast = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree":0, "tallest":0}
 
-def checkNeighborhood(pred, val, real_height, masterDataSet):
+def checkNeighborhood(pred, val, real_height, masterDataSet, keys):
     global correct_val_fast
     # [1:-1,1:-1] cuts hor, vert
     val_y = np.squeeze(val)
@@ -117,12 +114,9 @@ def checkNeighborhood(pred, val, real_height, masterDataSet):
                 if entry == 0:
                     answers_counter[i][j] = 0
 
-    correct_val_fast["footprint"]+=np.count_nonzero((answers_counter == 0) & (val_y == 0))
-    correct_val_fast["grass"]+=np.count_nonzero((answers_counter == 0) & (val_y == 1))
-    correct_val_fast["shrub"]+=np.count_nonzero((answers_counter == 0) & (val_y == 2))
-    correct_val_fast["tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 3))
-    correct_val_fast["tall_tree"]+=np.count_nonzero((answers_counter == 0) & (val_y == 4))
-    correct_val_fast["tallest"]+=np.count_nonzero((answers_counter == 0) & (val_y == 5))
+
+    for i in range(keys):
+        correct_val_fast[i]+=np.count_nonzero((answers_counter == 0) & (val_y == i))
 
     grass_close, shrub_close = getClosePreds(real_height, val, answers_counter, masterDataSet)
 
@@ -132,7 +126,7 @@ def checkNeighborhood(pred, val, real_height, masterDataSet):
     return correct, incorrect, grass_close, shrub_close
 
 
-def slowCheckNeighborhood(pred, val, real_height, masterDataSet):
+def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     global correct_val_slow
 
     val = np.squeeze(val)
@@ -150,12 +144,8 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet):
                     except:
                         pass
 
-    correct_val_slow["footprint"]+=np.count_nonzero((answers == 0) & (val == 0))
-    correct_val_slow["grass"]+=np.count_nonzero((answers == 0) & (val == 1))
-    correct_val_slow["shrub"]+=np.count_nonzero((answers == 0) & (val == 2))
-    correct_val_slow["tree"]+=np.count_nonzero((answers == 0) & (val == 3))
-    correct_val_slow["tall_tree"]+=np.count_nonzero((answers == 0) & (val == 4))
-    correct_val_slow["tallest"]+=np.count_nonzero((answers == 0) & (val == 5))
+    for i in range(keys):
+        correct_val_slow[i]+=np.count_nonzero((answers == 0) & (val == i))
 
     grass_close, shrub_close = getClosePreds(real_height, val, answers, masterDataSet)
 
@@ -222,12 +212,13 @@ def evaluateYNET(y_preds, masterDataSet):
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0, "tallest": 0}
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
     total_val = {}
-    for i in range(y_preds.shape[3]):
+    keys = y_preds.shape[3]
+    for i in range(keys):
         total_val[i] = 0
         correct_val_fast[i] = 0
         correct_val_slow[i] = 0
 
-    if len(masterDataSet.correct.keys()) == 0: masterDataSet.setKeys(y_preds.shape[3])
+    if len(masterDataSet.correct.keys()) == 0: masterDataSet.setKeys(keys)
     worst_arr_count = 0
     total_grass_close, total_shrub_close = 0, 0
     total_fast_grass_close, total_fast_shrub_close = 0, 0
@@ -245,8 +236,8 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[4]+=np.count_nonzero(val == 4)
         total_val[5]+=np.count_nonzero(val == 5)
 
-        sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet)
-        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close = slowCheckNeighborhood(pred, val, real_height, masterDataSet)
+        sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)
+        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close = slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys)
         ncorrect+=sq_correct
         nincorrect+=sq_incorrect
         ck_correct_total+=ck_correct
