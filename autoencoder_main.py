@@ -79,6 +79,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
     print("Length of tests: ", test_len)
     for i in range(test_len):
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
+        if test_set: mod=None
         mod = getModelAndTrain(masterDataSet, mod, test_set)
         modPredict(mod, masterDataSet)
         masterDataSet.rotateDatasets()
