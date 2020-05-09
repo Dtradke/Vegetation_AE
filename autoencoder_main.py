@@ -85,7 +85,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         mod = getModelAndTrain(masterDataSet, mod, test_set)
         modPredict(mod, masterDataSet)
         if remainder != 0 and i == (test_len - 1): masterDataSet.rotateDatasets(remainder)
-        masterDataSet.rotateDatasets()
+        else: masterDataSet.rotateDatasets()
     viz.displayKCrossVal(masterDataSet)
 
 
