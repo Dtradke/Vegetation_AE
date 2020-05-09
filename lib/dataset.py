@@ -48,7 +48,7 @@ class Squares(object):
             else:
                 self.testX, self.testy, self.square_labels_orig = [], [], []
 
-    def setKeys(keys):
+    def setKeys(self, keys):
         for i in keys:
             self.correct[i] = 0
             self.total[i] = 0
