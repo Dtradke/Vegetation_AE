@@ -66,6 +66,7 @@ def getTotal(dataset):
     return (dataset.tot_grass + dataset.tot_shrub + dataset.tot_tree + dataset.tot_tall_tree + dataset.tot_tallest)
 
 def displayKCrossVal(dataset):
+    print("TOTALS:")
     print("foot: ", dataset.tot_foot)
     print("grass: ", dataset.tot_grass)
     print("shrub: ", dataset.tot_shrub)
@@ -73,16 +74,18 @@ def displayKCrossVal(dataset):
     print("tall tree: ", dataset.tot_tall_tree)
     print("tallest: ", dataset.tot_tallest)
 
-    correct = getCorrect(dataset)
-    total = getTotal(dataset)
-    print("Correct: ",  correct / total)
-    print("Incorrect: ", (total - correct) / total)
+    print("CORRECT:")
     print("foot: ", dataset.cor_foot)
     print("grass: ", dataset.cor_grass)
     print("shrub: ", dataset.cor_shrub)
     print("tree: ", dataset.cor_tree)
     print("tall tree: ", dataset.cor_tall_tree)
     print("tallest: ", dataset.cor_tallest)
+    correct = getCorrect(dataset)
+    total = getTotal(dataset)
+    print("SUMMARY:")
+    print("Correct: ",  correct / total)
+    print("Incorrect: ", (total - correct) / total)
     try:
         print("foot: ", dataset.cor_foot / dataset.tot_foot, " grass: ", dataset.cor_grass / dataset.tot_grass, " shrub: ", dataset.cor_shrub / dataset.tot_shrub, " tree: ", dataset.cor_tree / dataset.tot_tree, " tall_tree: ", dataset.cor_tall_tree / dataset.tot_tall_tree, " tallest: ", dataset.cor_tallest / dataset.tot_tallest)
     except:
