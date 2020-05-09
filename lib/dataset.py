@@ -31,8 +31,9 @@ class Squares(object):
     def __init__(self, data, test_set=False, mod=None, datasets=None):
         print("mod: ", mod)
         self.split = [0]
-        self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
-        self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
+        self.correct, self.total = {}, {}
+        # self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
+        # self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
         if datasets is not None:
             self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
         else:
@@ -47,6 +48,10 @@ class Squares(object):
             else:
                 self.testX, self.testy, self.square_labels_orig = [], [], []
 
+    def setKeys(keys):
+        for i in keys:
+            self.correct[i] = 0
+            self.total[i] = 0
 
     def rotateDatasets(self):
         size_test = self.testX.shape[0]

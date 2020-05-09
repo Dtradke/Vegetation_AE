@@ -226,8 +226,8 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[i] = 0
         correct_val_fast[i] = 0
         correct_val_slow[i] = 0
-    print(total_val)
-    exit()
+
+    if len(masterDataSet.correct.keys()) == 0: masterDataSet.setKeys(y_preds.shape[3])
     worst_arr_count = 0
     total_grass_close, total_shrub_close = 0, 0
     total_fast_grass_close, total_fast_shrub_close = 0, 0
@@ -315,19 +315,10 @@ def evaluateYNET(y_preds, masterDataSet):
     #     print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " below 10: ", correct_val_slow["grass"] / total_val["grass"], " above 10: ", correct_val_slow["shrub"] / total_val["shrub"])
     print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
 
-    masterDataSet.cor_foot += correct_val_slow["footprint"]
-    masterDataSet.cor_grass += correct_val_slow["grass"]
-    masterDataSet.cor_shrub += correct_val_slow["shrub"]
-    masterDataSet.cor_tree += correct_val_slow["tree"]
-    masterDataSet.cor_tall_tree += correct_val_slow["tall_tree"]
-    masterDataSet.cor_tallest += correct_val_slow["tallest"]
+    for i in correct_val_slow.keys():
+        masterDataSet.correct[i] += correct_val_slow[i]
+        masterDataSet.total[i] += total_val[i]
 
-    masterDataSet.tot_foot += total_val["footprint"]
-    masterDataSet.tot_grass += total_val["grass"]
-    masterDataSet.tot_shrub += total_val["shrub"]
-    masterDataSet.tot_tree += total_val["tree"]
-    masterDataSet.tot_tall_tree += total_val["tall_tree"]
-    masterDataSet.tot_tallest += total_val["tallest"]
 
 
 def evaluateRegression(y_preds, masterDataSet):
