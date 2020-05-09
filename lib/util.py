@@ -202,7 +202,7 @@ def getClosePreds(real_height, val, diff, masterDataSet):
 
 # TODO: Look at the squares which the model performs worst on
 
-def evaluateUNET(y_preds, masterDataSet):
+def evaluateYNET(y_preds, masterDataSet):
     if not classify and not bin_class:
         evaluateRegression(y_preds, masterDataSet)
     # global correct_val_slow
@@ -311,8 +311,20 @@ def evaluateUNET(y_preds, masterDataSet):
         print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " below 10: ", correct_val_slow["grass"] / total_val["grass"], " above 10: ", correct_val_slow["shrub"] / total_val["shrub"])
     print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
 
-    print("Finished")
-    exit()
+    self.cor_foot += correct_val_slow["footprint"]
+    self.cor_grass += correct_val_slow["grass"]
+    self.cor_shrub += correct_val_slow["shrub"]
+    self.cor_tree += correct_val_slow["tree"]
+    self.cor_tall_tree += correct_val_slow["tall_tree"]
+    self.cor_tallest += correct_val_slow["tallest"]
+
+    self.tot_foot += correct_val_slow["footprint"]
+    self.tot_grass += correct_val_slow["grass"]
+    self.tot_shrub += correct_val_slow["shrub"]
+    self.tot_tree += correct_val_slow["tree"]
+    self.tot_tall_tree += correct_val_slow["tall_tree"]
+    self.tot_tallest += correct_val_slow["tallest"]
+
 
 def evaluateRegression(y_preds, masterDataSet):
     # error = np.mean( y_preds != masterDataSet.testy )

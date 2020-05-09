@@ -48,7 +48,7 @@ def getModelAndTrain(masterDataSet, mod, test_set):
 
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=50, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
@@ -65,7 +65,7 @@ def modPredict(mod, masterDataSet):
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
-    util.evaluateUNET(y_preds, masterDataSet)
+    util.evaluateYNET(y_preds, masterDataSet)
 
 def openAndTrain(test_set=True, mod=None, load_datasets=False):
     start_time = time.time()
@@ -74,8 +74,14 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         masterDataSet = dataset.Squares(datasets=datasets)
     else:
         masterDataSet = openDatasets(test_set, mod)
-    mod = getModelAndTrain(masterDataSet, mod, test_set)
-    modPredict(mod, masterDataSet)
+    test_len = (masterDataSet.trainX // masterDataSet.testX.shape[0])
+    print("Length of tests: ", test_len)
+    for i in range(test_len):
+        print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
+        mod = getModelAndTrain(masterDataSet, mod, test_set)
+        modPredict(mod, masterDataSet)
+        masterDataSet.rotateDatasets()
+    viz.displayKCrossVal(masterDataSet)
 
 
 if __name__ == "__main__":

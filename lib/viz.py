@@ -59,6 +59,37 @@ def viewResult(layer, val, pred, diff):
 
     plt.show()
 
+def getCorrect(dataset):
+    return (dataset.cor_grass + dataset.cor_shrub + dataset.cor_tree + dataset.cor_tall_tree + dataset.cor_tallest)
+
+def getTotal(dataset):
+    return (dataset.tot_grass + dataset.tot_shrub + dataset.tot_tree + dataset.tot_tall_tree + dataset.tot_tallest)
+
+def displayKCrossVal(dataset):
+    print("foot: ", dataset.tot_foot)
+    print("grass: ", dataset.tot_grass)
+    print("shrub: ", dataset.tot_shrub)
+    print("tree: ", dataset.tot_tree)
+    print("tall tree: ", dataset.tot_tall_tree)
+    print("tallest: ", dataset.tot_tallest)
+
+    correct = getCorrect(dataset)
+    total = getTotal(dataset)
+    print("Correct: ",  correct / total)
+    print("Incorrect: ", (total - correct) / total)
+    print("foot: ", dataset.cor_foot)
+    print("grass: ", dataset.cor_grass)
+    print("shrub: ", dataset.cor_shrub)
+    print("tree: ", dataset.cor_tree)
+    print("tall tree: ", dataset.cor_tall_tree)
+    print("tallest: ", dataset.cor_tallest)
+    try:
+        print("foot: ", dataset.cor_foot / dataset.tot_foot, " grass: ", dataset.cor_grass / dataset.tot_grass, " shrub: ", dataset.cor_shrub / dataset.tot_shrub, " tree: ", dataset.cor_tree / dataset.tot_tree, " tall_tree: ", dataset.cor_tall_tree / dataset.tot_tall_tree, " tallest: ", dataset.cor_tallest / dataset.tot_tallest)
+    except:
+        print('FAIL')
+    print("Finished")
+    exit()
+
 def norm_predictions(preds):
     max_pred = 0
     min_pred = 1000
