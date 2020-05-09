@@ -132,9 +132,9 @@ class Squares(object):
                     self.square_labels[self.square_labels > val] = i+1
             self.square_labels[self.square_labels == -1] = 0
             print("length of self split: ", len(self.split))
-            print(self.square_labels)
-            exit()
-            self.square_labels = to_categorical(self.square_labels, (len(self.split)+1))
+            categories = len(self.split) + 1
+            print("Categories: ", categories)
+            self.square_labels = to_categorical(self.square_labels, categories)
         elif bin_class:
             for i in range(sorted_squares.shape[0]):
                 try:
