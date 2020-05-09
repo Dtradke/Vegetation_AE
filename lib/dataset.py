@@ -129,12 +129,13 @@ class Squares(object):
                     self.square_labels[(self.square_labels >= val) & (self.square_labels < self.split[i+1])] = i+1
                 except:
                     print("greater than ", val)
-                    self.square_labels[self.square_labels > val] = i+1
+                    self.square_labels[self.square_labels >= val] = i+1
             self.square_labels[self.square_labels == -1] = 0
+            print("max: ", np.amax(self.square_labels))
             print("length of self split: ", len(self.split))
-            categories = len(self.split) + 1
-            print("Categories: ", categories)
-            self.square_labels = to_categorical(self.square_labels, 6)
+            # categories = len(self.split) + 1
+            # print("Categories: ", categories)
+            self.square_labels = to_categorical(self.square_labels, (len(self.split) + 1))
         elif bin_class:
             for i in range(sorted_squares.shape[0]):
                 try:
