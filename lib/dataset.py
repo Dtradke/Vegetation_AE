@@ -30,6 +30,7 @@ class Squares(object):
 
     def __init__(self, data, test_set=False, mod=None, datasets=None):
         print("mod: ", mod)
+        self.split = [0]
         self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
         self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
         if datasets is not None:
@@ -55,8 +56,20 @@ class Squares(object):
         new_trainX = np.concatenate((self.trainX[size_test:], self.testX), axis=0)
         new_trainy = np.concatenate((self.trainy[size_test:], self.testy), axis=0)
         new_orig_triany = np.concatenate((self.orig_trainy[size_test:], self.orig_testy), axis=0)
+        print(new_testX.shape)
+        print(new_testy.shape)
+        print(new_orig_testy.shape)
+        print(new_trainX.shape)
+        print(new_trainy.shape)
+        print(new_orig_triany.shape)
         self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = new_trainX, new_trainy, new_orig_triany, new_testX, new_testy, new_orig_testy
-
+        print()
+        print(self.trainX.shape)
+        print(self.trainy.shape)
+        print(self.orig_trainy.shape)
+        print(self.testX.shape)
+        print(self.testy.shape)
+        print(self.orig_testy.shape)
 
     def measureBal(self):
         total = self.square_labels[0].shape[0] * self.square_labels[0].shape[1]
@@ -87,26 +100,35 @@ class Squares(object):
                 except:
                     print("Popping for equal div of 4 from shape: ", sorted_squares.shape)
                     sorted_squares = sorted_squares[:-1]
-            self.grass = 2 #split_arr[0][-1] #10 (83.8%)
-            self.shrub = 6 #split_arr[1][-1] #50 (83.8%)
-            self.tree = 50 #split_arr[2][-1]
-            self.tall_tree = 80
+            self.split.append(2)#split_arr[0][-1] #10 (83.8%)
+            self.split.append(6) #split_arr[1][-1] #50 (83.8%)
+            self.split.append(50) #split_arr[2][-1]
+            self.split.append(80)
             print("split arr: ")
             for i in split_arr:
                 print(i[-1], " len: ", len(i))
-            print("grass: 0 - ", self.grass, " shrub: ", self.grass, " - ", self.shrub, " tree: ", self.shrub)
+            for i in self.split:
+                print("Split at: ", i)
             # self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
             # self.square_labels[self.square_labels == -1] = 0
             # self.square_labels[(self.square_labels > self.grass) & (self.square_labels <= self.shrub)] = 2
             # self.square_labels[self.square_labels > self.shrub] = 3
             # self.square_labels = to_categorical(self.square_labels, 4)
-            self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
+            # -----
+            # self.square_labels[(self.square_labels >= 0) & (self.square_labels <= self.grass)] = 1
+            # self.square_labels[self.square_labels == -1] = 0
+            # self.square_labels[(self.square_labels > self.grass) & (self.square_labels <= self.shrub)] = 2
+            # self.square_labels[(self.square_labels > self.shrub) & (self.square_labels <= self.tree)] = 3
+            # self.square_labels[(self.square_labels > self.tree) & (self.square_labels <= self.tall_tree)] = 4
+            # self.square_labels[self.square_labels > self.tall_tree] = 5
+            # self.square_labels = to_categorical(self.square_labels, 6)
+            for i, val in enumerate(self.split):
+                try:
+                    self.square_labels[(self.square_labels >= val) & (self.square_labels < self.split[i+1])] = i+1
+                except:
+                    self.square_labels[self.square_labels > val] = i+1
             self.square_labels[self.square_labels == -1] = 0
-            self.square_labels[(self.square_labels > self.grass) & (self.square_labels <= self.shrub)] = 2
-            self.square_labels[(self.square_labels > self.shrub) & (self.square_labels <= self.tree)] = 3
-            self.square_labels[(self.square_labels > self.tree) & (self.square_labels <= self.tall_tree)] = 4
-            self.square_labels[self.square_labels > self.tall_tree] = 5
-            self.square_labels = to_categorical(self.square_labels, 6)
+            self.square_labels = to_categorical(self.square_labels, (len(self.split)+1))
         elif bin_class:
             for i in range(sorted_squares.shape[0]):
                 try:

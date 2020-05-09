@@ -188,13 +188,13 @@ def formatPreds(pred, val):
 def getClosePreds(real_height, val, diff, masterDataSet):
     if classify:
         wrong_heights = real_height[(diff != 0) & (val != 0)]
-        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.grass))
+        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.split[1]))
         close_grass = grass_diff[grass_diff < 5].size
-        shrub_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.shrub))
+        shrub_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.split[2]))
         close_shrub = shrub_diff[shrub_diff < 5].size
     elif bin_class:
         wrong_heights = real_height[(diff != 0) & (val != 0)]
-        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.grass))
+        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.split[1]))
         close_grass = grass_diff[grass_diff < 5].size
         close_shrub = 0
     return close_grass, close_shrub
