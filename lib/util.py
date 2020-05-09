@@ -279,8 +279,8 @@ def evaluateYNET(y_preds, masterDataSet):
     print("Incorrect: ", incorrect / (correct+incorrect))
     print("Close predictions would add: grass/shrub: ", (total_grass_close/(correct+incorrect)), " shrub/tree: ", (total_shrub_close/(correct+incorrect)), " total: ", ((total_grass_close+total_shrub_close)/(correct+incorrect)))
     print("Neighborhoods:")
-    print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
-    print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
+    print("fast - Correct: ", ncorrect / (ncorrect+nincorrect))
+    print("fast - Incorrect: ", nincorrect / (ncorrect+nincorrect))
 
     for i in correct_val_fast.keys():
         print("correct ", i, ": ", correct_val_fast[i], " PERC: ", (correct_val_fast[i]/total_val[i]))
@@ -294,8 +294,8 @@ def evaluateYNET(y_preds, masterDataSet):
     print("Close predictions would add: grass/shrub: ", (total_fast_grass_close/(ncorrect+nincorrect)), " shrub/tree: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
 
     print("Neighborhoods check:")
-    print("n - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
-    print("n - Incorrect: ", ck_incorrect_total / (ck_correct_total+ck_incorrect_total))
+    print("slow - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
+    print("slow - Incorrect: ", ck_incorrect_total / (ck_correct_total+ck_incorrect_total))
 
     for i in correct_val_slow.keys():
         print("correct ", i, ": ", correct_val_slow[i], " PERC: ", (correct_val_slow[i]/total_val[i]))

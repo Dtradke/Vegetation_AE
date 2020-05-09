@@ -61,23 +61,8 @@ class Squares(object):
         new_trainX = np.concatenate((self.trainX[size_test:], self.testX), axis=0)
         new_trainy = np.concatenate((self.trainy[size_test:], self.testy), axis=0)
         new_orig_trainy = np.concatenate((self.orig_trainy[size_test:], self.orig_testy), axis=0)
-
-        print(new_trainX.shape)
-        print(new_trainy.shape)
-        print(new_orig_trainy.shape)
-        print(new_testX.shape)
-        print(new_testy.shape)
-        print(new_orig_testy.shape)
-        print(self.trainX[0][0][0])
         self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = new_trainX, new_trainy, new_orig_trainy, new_testX, new_testy, new_orig_testy
-        print()
-        print(self.trainX.shape)
-        print(self.trainy.shape)
-        print(self.orig_trainy.shape)
-        print(self.testX.shape)
-        print(self.testy.shape)
-        print(self.orig_testy.shape)
-        print(self.trainX[0][0][0])
+
 
     def measureBal(self):
         total = self.square_labels[0].shape[0] * self.square_labels[0].shape[1]
