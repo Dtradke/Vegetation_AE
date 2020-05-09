@@ -202,7 +202,8 @@ def getClosePreds(real_height, val, diff, masterDataSet):
 
 
 # TODO: Look at the squares which the model performs worst on
-
+correct_val_fast = {}
+correct_val_slow = {}
 def evaluateYNET(y_preds, masterDataSet):
     global correct_val_fast
     global correct_val_slow
@@ -237,12 +238,12 @@ def evaluateYNET(y_preds, masterDataSet):
         real_height = masterDataSet.orig_testy[i]
         pred, val = formatPreds(pred, val)
 
-        total_val["footprint"]+=np.count_nonzero(val == 0)
-        total_val["grass"]+=np.count_nonzero(val == 1)
-        total_val["shrub"]+=np.count_nonzero(val == 2)
-        total_val["tree"]+=np.count_nonzero(val == 3)
-        total_val["tall_tree"]+=np.count_nonzero(val == 4)
-        total_val["tallest"]+=np.count_nonzero(val == 5)
+        total_val[0]+=np.count_nonzero(val == 0)
+        total_val[1]+=np.count_nonzero(val == 1)
+        total_val[2]+=np.count_nonzero(val == 2)
+        total_val[3]+=np.count_nonzero(val == 3)
+        total_val[4]+=np.count_nonzero(val == 4)
+        total_val[5]+=np.count_nonzero(val == 5)
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet)
         ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close = slowCheckNeighborhood(pred, val, real_height, masterDataSet)
@@ -280,12 +281,8 @@ def evaluateYNET(y_preds, masterDataSet):
     # print("worst arr val: ", worst_arr_val)
     # viz.viewResult(masterDataSet.testX[i][:, :, 2], worst_arr_val, worst_arr_pred, worst_arr)
 
-    print("foot: ", total_val["footprint"])
-    print("grass: ", total_val["grass"])
-    print("shrub: ", total_val["shrub"])
-    print("tree: ", total_val["tree"])
-    print("tall tree: ", total_val["tall_tree"])
-    print("tallest: ", total_val["tallest"])
+    for i in total_val.keys():
+        print("total ", i, ": ", total_val[i])
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
@@ -293,33 +290,29 @@ def evaluateYNET(y_preds, masterDataSet):
     print("Neighborhoods:")
     print("n - Correct: ", ncorrect / (ncorrect+nincorrect))
     print("n - Incorrect: ", nincorrect / (ncorrect+nincorrect))
-    print("foot: ", correct_val_fast["footprint"])
-    print("grass: ", correct_val_fast["grass"])
-    print("shrub: ", correct_val_fast["shrub"])
-    print("tree: ", correct_val_fast["tree"])
-    print("tall tree: ", correct_val_fast["tall_tree"])
-    print("tallest: ", correct_val_fast["tallest"])
-    try:
-        print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"], " tall_tree: ", correct_val_fast["tall_tree"] / total_val["tall_tree"], " tallest: ", correct_val_fast["tallest"] / total_val["tallest"])
-        # print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
-    except:
-        print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " below 10: ", correct_val_fast["grass"] / total_val["grass"], " above 10: ", correct_val_fast["shrub"] / total_val["shrub"])
+
+    for i in correct_val_fast.keys():
+        print("correct ", i, ": ", correct_val_fast[i], " PERC: ", (correct_val_fast[i]/total_val[i])
+
+
+    # try:
+    #     print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"], " tall_tree: ", correct_val_fast["tall_tree"] / total_val["tall_tree"], " tallest: ", correct_val_fast["tallest"] / total_val["tallest"])
+    #     # print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
+    # except:
+    #     print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " below 10: ", correct_val_fast["grass"] / total_val["grass"], " above 10: ", correct_val_fast["shrub"] / total_val["shrub"])
     print("Close predictions would add: grass/shrub: ", (total_fast_grass_close/(ncorrect+nincorrect)), " shrub/tree: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
 
     print("Neighborhoods check:")
     print("n - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
     print("n - Incorrect: ", ck_incorrect_total / (ck_correct_total+ck_incorrect_total))
-    print("foot: ", correct_val_slow["footprint"])
-    print("grass: ", correct_val_slow["grass"])
-    print("shrub: ", correct_val_slow["shrub"])
-    print("tree: ", correct_val_slow["tree"])
-    print("tall tree: ", correct_val_slow["tall_tree"])
-    print("tallest: ", correct_val_slow["tallest"])
-    try:
-        print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"], " tall_tree: ", correct_val_slow["tall_tree"] / total_val["tall_tree"], " tallest: ", correct_val_slow["tallest"] / total_val["tallest"])
-        # print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
-    except:
-        print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " below 10: ", correct_val_slow["grass"] / total_val["grass"], " above 10: ", correct_val_slow["shrub"] / total_val["shrub"])
+
+    for i in correct_val_slow.keys():
+        print("correct ", i, ": ", correct_val_slow[i], " PERC: ", (correct_val_slow[i]/total_val[i])
+    # try:
+    #     print("foot: ", correct_val_slow[0] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"], " tall_tree: ", correct_val_slow["tall_tree"] / total_val["tall_tree"], " tallest: ", correct_val_slow["tallest"] / total_val["tallest"])
+    #     # print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " grass: ", correct_val_slow["grass"] / total_val["grass"], " shrub: ", correct_val_slow["shrub"] / total_val["shrub"], " tree: ", correct_val_slow["tree"] / total_val["tree"])
+    # except:
+    #     print("foot: ", correct_val_slow["footprint"] / total_val["footprint"], " below 10: ", correct_val_slow["grass"] / total_val["grass"], " above 10: ", correct_val_slow["shrub"] / total_val["shrub"])
     print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
 
     masterDataSet.cor_foot += correct_val_slow["footprint"]
