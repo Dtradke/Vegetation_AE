@@ -123,11 +123,13 @@ class Squares(object):
             # self.square_labels[self.square_labels > self.tall_tree] = 5
             # self.square_labels = to_categorical(self.square_labels, 6)
             for i, val in enumerate(self.split):
+                print(val)
                 try:
                     self.square_labels[(self.square_labels >= val) & (self.square_labels < self.split[i+1])] = i+1
                 except:
                     self.square_labels[self.square_labels > val] = i+1
             self.square_labels[self.square_labels == -1] = 0
+            print("length of self split: ", len(self.split))
             self.square_labels = to_categorical(self.square_labels, (len(self.split)+1))
         elif bin_class:
             for i in range(sorted_squares.shape[0]):
