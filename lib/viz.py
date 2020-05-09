@@ -70,7 +70,7 @@ def displayKCrossVal(dataset):
     correct = 0
     for i in dataset.correct.keys():
         correct+=dataset.correct[i]
-        print("key ", i, ": ", dataset.correct[i], " PERC: ", (dataset.correct[i]/dataset.total[i]))
+        print("key ", i, ": ", dataset.correct[i], " PERC: ", round(((dataset.correct[i]/dataset.total[i])*100), 4))
 
     print("SUMMARY:")
     print("Correct: ",  correct / total)
