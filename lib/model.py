@@ -181,7 +181,7 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
     model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
 
-    # model.summary()
+    model.summary()
 
     if(pretrained_weights):
     	model.load_weights(pretrained_weights)
