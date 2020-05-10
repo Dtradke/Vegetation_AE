@@ -26,6 +26,9 @@ from keras.layers import BatchNormalization
 from keras.optimizers import SGD, RMSprop
 from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D
 from keras.optimizers import SGD
+from keras.utils.training_utils import multi_gpu_model
+import matplotlib
+matplotlib.use("Agg")
 
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
@@ -177,16 +180,18 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
 
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
+    par_model = multi_gpu_model(model, gpus=2)
+
     # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
-    model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
+    par_model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
 
     # model.summary()
 
     if(pretrained_weights):
     	model.load_weights(pretrained_weights)
 
-    return model
+    return par_model
 
 
 
