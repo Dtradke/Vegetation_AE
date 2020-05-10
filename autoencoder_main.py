@@ -86,7 +86,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         if test_set: mod=None
         mod = getModelAndTrain(masterDataSet, mod, test_set)
         modPredict(mod, masterDataSet)
-        if remainder != 0 and i == (test_len - 1):
+        if remainder != 0 and i == (test_len - 2):
             print("remainder and next test: ", remainder)
             masterDataSet.rotateDatasets(size_test=remainder)
         else:
