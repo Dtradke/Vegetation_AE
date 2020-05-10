@@ -179,9 +179,9 @@ def formatPreds(pred, val):
 def getClosePreds(real_height, val, diff, masterDataSet):
     if classify:
         wrong_heights = real_height[(diff != 0) & (val != 0)]
-        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.split[1]))
+        grass_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.split[-2]))
         close_grass = grass_diff[grass_diff < 5].size
-        shrub_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.split[2]))
+        shrub_diff = np.absolute(np.subtract(wrong_heights, masterDataSet.split[-1]))
         close_shrub = shrub_diff[shrub_diff < 5].size
     elif bin_class:
         wrong_heights = real_height[(diff != 0) & (val != 0)]
@@ -277,7 +277,7 @@ def evaluateYNET(y_preds, masterDataSet):
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
-    print("Close predictions would add: grass/shrub: ", (total_grass_close/(correct+incorrect)), " shrub/tree: ", (total_shrub_close/(correct+incorrect)), " total: ", ((total_grass_close+total_shrub_close)/(correct+incorrect)))
+    print("Close predictions would add: -2: ", (total_grass_close/(correct+incorrect)), " -1: ", (total_shrub_close/(correct+incorrect)), " total: ", ((total_grass_close+total_shrub_close)/(correct+incorrect)))
     print("Neighborhoods:")
     print("fast - Correct: ", ncorrect / (ncorrect+nincorrect))
     print("fast - Incorrect: ", nincorrect / (ncorrect+nincorrect))
@@ -291,7 +291,7 @@ def evaluateYNET(y_preds, masterDataSet):
     #     # print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " grass: ", correct_val_fast["grass"] / total_val["grass"], " shrub: ", correct_val_fast["shrub"] / total_val["shrub"], " tree: ", correct_val_fast["tree"] / total_val["tree"])
     # except:
     #     print("foot: ", correct_val_fast["footprint"] / total_val["footprint"], " below 10: ", correct_val_fast["grass"] / total_val["grass"], " above 10: ", correct_val_fast["shrub"] / total_val["shrub"])
-    print("Close predictions would add: grass/shrub: ", (total_fast_grass_close/(ncorrect+nincorrect)), " shrub/tree: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
+    print("Close predictions would add: -2: ", (total_fast_grass_close/(ncorrect+nincorrect)), " -1: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
 
     print("Neighborhoods check:")
     print("slow - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
