@@ -39,10 +39,12 @@ class RawData(object):
 #training
                 print("four locations")
                 locs = {}
-                cores = 4
-                chunksize = 1
-                with Pool(processes=cores) as pool:
-                    location_list_return = pool.map(loadLocations, locNames, chunksize)
+                # cores = 4
+                # chunksize = 1
+                # with Pool(processes=cores) as pool:
+                #     location_list_return = pool.map(loadLocations, locNames, chunksize)
+                location_list_return = []
+                location_list_return.append(loadLocations(locNames[0]))
 
                 for i in location_list_return:
                     locs[list(i.keys())[0]] = i[list(i.keys())[0]]
