@@ -36,7 +36,7 @@ def openDatasets(test_set, mod):
         masterDataSet.square_labels_orig = testSiteDataset.square_labels_orig
     return masterDataSet
 
-def getModelAndTrain(masterDataSet, mod, test_set):
+def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
     if mod is None:
         if SPLIT:
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
@@ -53,7 +53,7 @@ def getModelAndTrain(masterDataSet, mod, test_set):
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
-        # util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
+        if not load_datasets: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
         if SPLIT: mod = model.unet_split(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
         else: mod = model.unet(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
@@ -80,12 +80,18 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         test_len+=1
     print("remainder: ", remainder)
     print("Length of tests: ", test_len)
+
+
     for i in range(test_len):
         print(i)
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
         if test_set: mod=None
-        mod = getModelAndTrain(masterDataSet, mod, test_set)
+        mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets)
         modPredict(mod, masterDataSet)
+
+        NOTE: NOT K-CROSS VALIDATION
+        break
+
         if remainder != 0 and i == (test_len - 2):
             print("remainder and next test: ", remainder)
             masterDataSet.rotateDatasets(size_test=remainder)

@@ -34,16 +34,17 @@ except:
 
 def saveExperiment(mod, masterDataSet, test_set, SPLIT):
     time_string = time.strftime("%Y%m%d-%H%M%S")
-    if SPLIT: time_string = "SPLIT_" + time_string
+    if SPLIT: time_string = "YNET_" + time_string
+    else: time_string = "UNET_" + time_string
     if test_set:
-        if bin_class: fname = 'models/' + time_string + '_UNET-test_set_BIN.h5'
-        elif classify: fname = 'models/' + time_string + '_UNET-test_set_CLASS.h5'
-        else: fname = 'models/' + time_string + '_UNET-test_set_NORM.h5'
+        if bin_class: fname = 'models/' + time_string + '_test_set_BIN.h5'
+        elif classify: fname = 'models/' + time_string + '_test_set_CLASS.h5'
+        else: fname = 'models/' + time_string + '_test_set_NORM.h5'
         saveDatasets(masterDataSet, fname)
     else:
-        if bin_class: fname = 'models/' + time_string + '_UNET-test_site_BIN.h5'
-        elif classify: fname = 'models/' + time_string + '_UNET-test_site_CLASS.h5'
-        else: fname = 'models/' + time_string + '_UNET-test_site_NORM.h5'
+        if bin_class: fname = 'models/' + time_string + '_test_site_BIN.h5'
+        elif classify: fname = 'models/' + time_string + '_test_site_CLASS.h5'
+        else: fname = 'models/' + time_string + '_test_site_NORM.h5'
     print("Saving: ", fname)
     mod.save_weights(fname)
 
@@ -55,8 +56,8 @@ def saveDatasets(masterDataSet, fname):
     fname = fname[7:-3]
     np.save('output/datasets/' + fname + 'trainX' + mode + '.npy', masterDataSet.trainX)
     np.save('output/datasets/' + fname + 'trainy' + mode + '.npy', masterDataSet.trainy)
-    np.save('output/datasets/' + fname + 'testX' + mode + '.npy', masterDataSet.valX)
-    np.save('output/datasets/' + fname + 'testy' + mode + '.npy', masterDataSet.valy)
+    np.save('output/datasets/' + fname + 'valX' + mode + '.npy', masterDataSet.valX)
+    np.save('output/datasets/' + fname + 'valy' + mode + '.npy', masterDataSet.valy)
     np.save('output/datasets/' + fname + 'testX' + mode + '.npy', masterDataSet.testX)
     np.save('output/datasets/' + fname + 'testy' + mode + '.npy', masterDataSet.testy)
 
