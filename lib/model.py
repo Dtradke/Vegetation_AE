@@ -48,6 +48,10 @@ except:
     import preprocess
 
 def unet(masterDataSet, pretrained_weights = None):
+    if(pretrained_weights):
+        model.load_model(pretrained_weights)
+        return model
+        
     input_size = masterDataSet.testX[0].shape
 
     inputs = Input(input_size)
@@ -107,8 +111,8 @@ def unet(masterDataSet, pretrained_weights = None):
     # NOTE: think about mse loss because of softmax
     # model.summary()
 
-    if(pretrained_weights):
-    	model.load_weights(pretrained_weights)
+    # if(pretrained_weights):
+    # 	model.load_weights(pretrained_weights)
 
     return model
 
