@@ -29,6 +29,7 @@ from keras.optimizers import SGD
 
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
+from keras.models import load_model
 
 from numpy.random import seed
 seed(42)# keras seed fixing
@@ -49,9 +50,9 @@ except:
 
 def unet(masterDataSet, pretrained_weights = None):
     if(pretrained_weights):
-        model.load_model(pretrained_weights)
+        model = load_model(pretrained_weights)
         return model
-        
+
     input_size = masterDataSet.testX[0].shape
 
     inputs = Input(input_size)
