@@ -21,8 +21,8 @@ manual_variable_initialization(True)
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
-SPLIT = False
-pretrain = True
+SPLIT = True
+pretrain = False
 
 def openDatasets(test_set, mod):
     data = []
