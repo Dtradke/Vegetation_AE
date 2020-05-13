@@ -45,24 +45,22 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
             val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
-            # mod = model.unet_split(X_split_1, X_split_2)
             inputs = [X_split_1, X_split_2]
             vals = [val_split_1, val_split_2]
-
             if pretrain:
                 pretrain_mod = model.unet_split(X_split_1, X_split_2, pretrain=True)
                 mod = model.pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod)
 
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=100, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
         if not load_datasets: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
-        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights='models/' + sys.argv[2])
+        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=sys.argv[-1])
         else: mod = model.unet(masterDataSet, pretrained_weights='models/' + sys.argv[2])
     return mod
 

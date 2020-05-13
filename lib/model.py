@@ -139,7 +139,8 @@ def encoder(inputs):
 
 def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
     if(pretrained_weights):
-        model = load_model(pretrained_weights)
+        fname = 'models/' + pretrained_weights + ".h5"
+        model = load_model(fname)
         return model
 
     input_size_1 = X_split_1[0].shape
@@ -195,7 +196,6 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
 
-
     # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
     model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
@@ -207,15 +207,13 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
     return model
 
 def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
-    pretrain_mod.fit(inputs, masterDataSet.trainX, batch_size=32, epochs=1, verbose=1, validation_data=(vals, masterDataSet.valX))
+    pretrain_mod.fit(inputs, masterDataSet.trainX, batch_size=32, epochs=30, verbose=1, validation_data=(vals, masterDataSet.valX))
     # for layer in pretrain_mod.layers[:-2]:
     #     layer.trainable = False
 
-    # mod.layers[:-2] = pretrain_mod.layers[:-2]
     pretrain_mod.layers.pop()
     pretrain_mod.layers.pop()
-    # pretrain_mod.output = [pretrain_mod.layers[-2].output]
-    conv9 = pretrain_mod.layers[-2].output #model.get_layer("conv9").output
+    conv9 = pretrain_mod.layers[-2].output
     conv9 = Conv2D(12, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     conv10 = Conv2D(6, 1, activation = 'softmax')(conv9)
     mod = Model(pretrain_mod.input, conv10)

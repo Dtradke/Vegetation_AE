@@ -37,9 +37,6 @@ def saveExperiment(mod, masterDataSet, test_set, SPLIT):
 
 def saveDatasets(masterDataSet, fname):
     print("Saving datasets")
-    # if bin_class: mode = '_BIN'
-    # elif classify: mode = '_CLASS'
-    # else: mode = '_NORM'
     fname = fname[7:-3]
     np.save('output/datasets/' + fname + 'trainX.npy', masterDataSet.trainX)
     np.save('output/datasets/' + fname + 'trainy.npy', masterDataSet.trainy)
@@ -50,13 +47,10 @@ def saveDatasets(masterDataSet, fname):
 
 def loadDatasets():
     print("Loading Datasets")
-    files = ['inX.npy', 'iny.npy', 'alX.npy', 'aly.npy', 'stX.npy', 'sty.npy']
-    count = 0
+    files = ['trainX.npy', 'trainy.npy', 'valX.npy', 'valy.npy', 'testX.npy', 'testy.npy']
     datasets = []
-    for fname in sys.argv:
-        if fname[-7:] in files:
-            datasets.append(np.load('output/datasets/' + fname))
-            count+=0
+    for suffix in files:
+        datasets.append(np.load('output/datasets/' + sys.argv[-1] + suffix))
     return datasets
 
 def KCross(masterDataSet):
@@ -99,7 +93,6 @@ def checkNeighborhood(pred, val, real_height, masterDataSet, keys):
                 cur_pred = np.concatenate((vert_pad, cur_pred), axis=1) # add left
             full_pred.append(np.subtract(val_y, cur_pred))
 
-    import sys
     np.set_printoptions(threshold=sys.maxsize)
     # print(full_pred[0])
     # exit()
