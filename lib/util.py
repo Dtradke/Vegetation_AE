@@ -53,13 +53,18 @@ def loadDatasets():
     count = 0
     datasets = []
     for fname in sys.argv:
-        print(fname[-7:])
         if fname[-7:] in files:
-            print("loading")
             datasets.append(np.load('output/datasets/' + fname))
             count+=0
-    print(len(datasets))
     return datasets
+
+def KCross(masterDataSet):
+    test_len = (masterDataSet.trainX.shape[0] // masterDataSet.testX.shape[0])+1
+    if (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0]) != 0:
+        remainder = (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0])
+        test_len+=1
+    print("remainder: ", remainder)
+    print("Length of tests: ", test_len)
 
 
 

@@ -75,22 +75,18 @@ def modPredict(mod, masterDataSet):
 def openAndTrain(test_set=True, mod=None, load_datasets=False):
     start_time = time.time()
     if load_datasets:
-        datasets = util.loadDatasets()
+        datasets = util.loadDatasetsAndMod()
         masterDataSet = dataset.Squares(datasets=datasets)
     else:
         masterDataSet = openDatasets(test_set, mod)
-    test_len = (masterDataSet.trainX.shape[0] // masterDataSet.testX.shape[0])+1
-    if (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0]) != 0:
-        remainder = (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0])
-        test_len+=1
-    print("remainder: ", remainder)
-    print("Length of tests: ", test_len)
+
+    util.KCross(masterDataSet)
 
 
     for i in range(test_len):
         print(i)
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
-        if test_set: mod=None
+        if test_set and not load_datasets: mod=None
         mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets)
         modPredict(mod, masterDataSet)
 
