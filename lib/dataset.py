@@ -28,7 +28,7 @@ SQUARE_DIM = 64
 class Squares(object):
     '''Makes a dataset of squares for the autoencoders'''
 
-    def __init__(self, data, test_set=False, mod=None, datasets=None):
+    def __init__(self, data=None, test_set=False, mod=None, datasets=None):
         print("mod: ", mod)
         self.split = [0]
         self.correct, self.total = {}, {}
