@@ -63,7 +63,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
         if not load_datasets: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
         if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights='models/' + sys.argv[2])
-        else: mod = model.unet(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
+        else: mod = model.unet(masterDataSet, pretrained_weights='models/' + sys.argv[2])
     return mod
 
 def modPredict(mod, masterDataSet):
