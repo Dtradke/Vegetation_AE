@@ -22,7 +22,7 @@ from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
 SPLIT = True
-pretrain = False
+pretrain = True
 
 def openDatasets(test_set, mod):
     data = []
