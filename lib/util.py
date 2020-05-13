@@ -40,12 +40,12 @@ def saveDatasets(masterDataSet, fname):
     # elif classify: mode = '_CLASS'
     # else: mode = '_NORM'
     fname = fname[7:-3]
-    np.save('output/datasets/' + fname + 'trainX' + mode + '.npy', masterDataSet.trainX)
-    np.save('output/datasets/' + fname + 'trainy' + mode + '.npy', masterDataSet.trainy)
-    np.save('output/datasets/' + fname + 'valX' + mode + '.npy', masterDataSet.valX)
-    np.save('output/datasets/' + fname + 'valy' + mode + '.npy', masterDataSet.valy)
-    np.save('output/datasets/' + fname + 'testX' + mode + '.npy', masterDataSet.testX)
-    np.save('output/datasets/' + fname + 'testy' + mode + '.npy', masterDataSet.testy)
+    np.save('output/datasets/' + fname + 'trainX.npy', masterDataSet.trainX)
+    np.save('output/datasets/' + fname + 'trainy.npy', masterDataSet.trainy)
+    np.save('output/datasets/' + fname + 'valX.npy', masterDataSet.valX)
+    np.save('output/datasets/' + fname + 'valy.npy', masterDataSet.valy)
+    np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.testX)
+    np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
 
 def loadDatasets():
     print("Loading Datasets")
