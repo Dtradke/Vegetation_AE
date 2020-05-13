@@ -198,7 +198,8 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
 
     # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
-    model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
+    if pretrain:
+        model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
 
     # model.summary()
 
@@ -212,6 +213,7 @@ def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
     #     layer.trainable = False
 
     mod.layers[:-2] = pretrain_mod.layers[:-2]
+    mod.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
     return mod
 
 def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
