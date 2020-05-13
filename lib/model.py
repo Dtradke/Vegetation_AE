@@ -219,7 +219,7 @@ def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
     conv9 = Conv2D(12, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     conv10 = Conv2D(6, 1, activation = 'softmax')(conv9)
     mod = Model(pretrain_mod.input, conv10)
-
+    mod.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
     return mod
 
 def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
