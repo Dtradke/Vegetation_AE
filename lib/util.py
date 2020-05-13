@@ -53,9 +53,12 @@ def loadDatasets():
     count = 0
     datasets = []
     for fname in sys.argv:
+        print(fname[-7:])
         if fname[-7:] == files[count]:
             datasets.append(np.load('output/datasets/' + fname))
             count+=0
+    print(datasets)
+    exit()
     return datasets
 
 
