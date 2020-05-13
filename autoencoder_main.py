@@ -15,6 +15,8 @@ from lib import preprocess
 from lib import util
 from lib import model
 from multiprocessing import Pool
+from keras.backend import manual_variable_initialization
+manual_variable_initialization(True)
 
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
