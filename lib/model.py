@@ -214,11 +214,11 @@ def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
     # mod.layers[:-2] = pretrain_mod.layers[:-2]
     pretrain_mod.layers.pop()
     pretrain_mod.layers.pop()
-    pretrain_mod.output = [pretrain_mod.layers[-2].output]
-    conv9 = model.get_layer("conv9").output
+    # pretrain_mod.output = [pretrain_mod.layers[-2].output]
+    conv9 = pretrain_mod.layers[-2].output #model.get_layer("conv9").output
     conv9 = Conv2D(12, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
     conv10 = Conv2D(6, 1, activation = 'softmax')(conv9)
-    mod = Model(model.input, conv10)
+    mod = Model(pretrain_mod.input, conv10)
 
     return mod
 
