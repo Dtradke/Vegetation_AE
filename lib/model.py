@@ -134,9 +134,9 @@ def encoder(inputs):
 
 def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
     if(pretrained_weights):
-    	model.load_model(pretrained_weights)
+        model.load_model(pretrained_weights)
         return model
-        
+
     input_size_1 = X_split_1[0].shape
     input_size_2 = X_split_2[0].shape
 
