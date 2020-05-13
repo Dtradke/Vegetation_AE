@@ -26,7 +26,7 @@ class RawData(object):
 
     def __init__(self, locs):
         self.locs = locs
-        for i in self.locs.values:
+        for i in self.locs.values():
             print(i)
 
     @staticmethod
