@@ -114,7 +114,7 @@ def checkNeighborhood(pred, val, real_height, masterDataSet, keys):
     for i in range(keys):
         correct_val_fast[i]+=np.count_nonzero((answers_counter == 0) & (val_y == i))
 
-    grass_close, shrub_close = getClosePreds(real_height, val, answers_counter, masterDataSet)
+    grass_close, shrub_close = 0,0 #getClosePreds(real_height, val, answers_counter, masterDataSet)
 
     correct = np.count_nonzero((answers_counter == 0) & (val_y != 0))
     incorrect = np.count_nonzero((answers_counter != 0) & (val_y != 0))
@@ -143,7 +143,7 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     for i in range(keys):
         correct_val_slow[i]+=np.count_nonzero((answers == 0) & (val == i))
 
-    grass_close, shrub_close = getClosePreds(real_height, val, answers, masterDataSet)
+    grass_close, shrub_close = 0,0#getClosePreds(real_height, val, answers, masterDataSet)
 
     correct = np.count_nonzero((answers == 0) & (val != 0))
     incorrect = np.count_nonzero((answers != 0) & (val != 0))
@@ -222,7 +222,8 @@ def evaluateYNET(y_preds, masterDataSet):
 
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
-        real_height = masterDataSet.orig_testy[i]
+        try: real_height = masterDataSet.orig_testy[i]
+        except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
 
         total_val[0]+=np.count_nonzero(val == 0)
@@ -242,7 +243,7 @@ def evaluateYNET(y_preds, masterDataSet):
         correct+=np.count_nonzero((diff == 0) & (val != 0))
         incorrect+= np.count_nonzero((diff != 0) & (val != 0))
 
-        close_grass, close_shrub = getClosePreds(real_height, val, diff, masterDataSet)
+        close_grass, close_shrub = 0,0#getClosePreds(real_height, val, diff, masterDataSet)
         total_grass_close+=close_grass
         total_shrub_close+=close_shrub
         total_fast_grass_close+=fast_grass_close
@@ -273,23 +274,23 @@ def evaluateYNET(y_preds, masterDataSet):
 
     print("Correct: ", correct / (correct+incorrect))
     print("Incorrect: ", incorrect / (correct+incorrect))
-    print("Close predictions would add: -2: ", (total_grass_close/(correct+incorrect)), " -1: ", (total_shrub_close/(correct+incorrect)), " total: ", ((total_grass_close+total_shrub_close)/(correct+incorrect)))
-    print("Neighborhoods:")
+    # print("Close predictions would add: -2: ", (total_grass_close/(correct+incorrect)), " -1: ", (total_shrub_close/(correct+incorrect)), " total: ", ((total_grass_close+total_shrub_close)/(correct+incorrect)))
+    print("Neighborhoods fast:")
     print("fast - Correct: ", ncorrect / (ncorrect+nincorrect))
     print("fast - Incorrect: ", nincorrect / (ncorrect+nincorrect))
 
     for i in correct_val_fast.keys():
         print("correct ", i, ": ", correct_val_fast[i], " PERC: ", (correct_val_fast[i]/total_val[i]))
 
-    print("Close predictions would add: -2: ", (total_fast_grass_close/(ncorrect+nincorrect)), " -1: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
+    # print("Close predictions would add: -2: ", (total_fast_grass_close/(ncorrect+nincorrect)), " -1: ", (total_fast_shrub_close/(ncorrect+nincorrect)), " total: ", ((total_fast_grass_close+total_fast_shrub_close)/(correct+incorrect)))
 
-    print("Neighborhoods check:")
+    print("Neighborhoods slow:")
     print("slow - Correct: ", ck_correct_total / (ck_correct_total+ck_incorrect_total))
     print("slow - Incorrect: ", ck_incorrect_total / (ck_correct_total+ck_incorrect_total))
 
     for i in correct_val_slow.keys():
         print("correct ", i, ": ", correct_val_slow[i], " PERC: ", (correct_val_slow[i]/total_val[i]))
-    print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
+    # print("Close predictions would add: grass/shrub: ", (total_slow_grass_close/(ck_correct_total+ck_incorrect_total)), " shrub/tree: ", (total_slow_shrub_close/(ck_correct_total+ck_incorrect_total)), " total: ", ((total_slow_grass_close+total_slow_shrub_close)/(ck_correct_total+ck_incorrect_total)))
 
     for i in correct_val_slow.keys():
         masterDataSet.correct[i] += correct_val_slow[i]
