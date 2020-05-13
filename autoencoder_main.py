@@ -65,6 +65,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
     return mod
 
 def modPredict(mod, masterDataSet):
+    print("Predicting...")
     if SPLIT:
         X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:3], masterDataSet.testX[:,:,:,3:]
         y_preds = mod.predict([X_split_1, X_split_2])
@@ -80,7 +81,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
     else:
         masterDataSet = openDatasets(test_set, mod)
 
-    util.KCross(masterDataSet)
+    test_len = util.KCross(masterDataSet)
 
 
     for i in range(test_len):

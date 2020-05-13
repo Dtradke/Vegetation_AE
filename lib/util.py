@@ -65,6 +65,7 @@ def KCross(masterDataSet):
         test_len+=1
     print("remainder: ", remainder)
     print("Length of tests: ", test_len)
+    return test_len
 
 
 
