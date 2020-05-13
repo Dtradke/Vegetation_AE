@@ -128,7 +128,7 @@ def encoder(inputs):
     return conv1, conv2, conv3, drop4, conv5
 
 
-def unet_split(X_split_1, X_split_2, pretrained_weights = None):
+def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
     input_size_1 = X_split_1[0].shape
     input_size_2 = X_split_2[0].shape
 
@@ -166,8 +166,12 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
     merge9 = concatenate([conv1_1,conv9], axis = 3)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
     if classify:
-        conv9 = Conv2D(12, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        conv10 = Conv2D(6, 1, activation = 'softmax')(conv9)
+        if pretrain:
+            conv9 = Conv2D(20, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+            conv10 = Conv2D(10, 1, activation = 'linear')(conv9)
+        else:
+            conv9 = Conv2D(12, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+            conv10 = Conv2D(6, 1, activation = 'softmax')(conv9)
     elif bin_class:
         conv9 = Conv2D(6, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
         conv10 = Conv2D(3, 1, activation = 'softmax')(conv9)
@@ -181,14 +185,26 @@ def unet_split(X_split_1, X_split_2, pretrained_weights = None):
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
     model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
 
-    # model.summary()
+    model.summary()
 
     if(pretrained_weights):
     	model.load_weights(pretrained_weights)
 
     return model
 
+def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
+    pretrain_mod.fit(inputs, masterDataSet.trainX, batch_size=32, epochs=1, verbose=1, validation_data=(vals, masterDataSet.valX))
+    # output_layer = mod.layers[-1]
+    # before_output = mod.layers[-2]
+    # remove the output layer
+    # [mod.pop() for i in range(2)]
 
+    for layer in pretrain_mod.layers[:-2]:
+        layer.trainable = False
+
+    pretrain_mod.layers[-2] = mod.layers[-2]
+    pretrain_mod.layers[-1] = mod.layers[-1]
+    return pretrain_mod
 
 def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
     input_size_1 = X_split_1[0].shape

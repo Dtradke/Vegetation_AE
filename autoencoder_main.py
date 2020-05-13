@@ -20,6 +20,7 @@ from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
 SPLIT = True
+pretrain = True
 
 def openDatasets(test_set, mod):
     data = []
@@ -46,9 +47,13 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
             inputs = [X_split_1, X_split_2]
             vals = [val_split_1, val_split_2]
 
+            if pretrain:
+                pretrain_mod = model.unet_split(X_split_1, X_split_2, pretrain=True)
+                mod = model.pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod)
+
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
@@ -89,7 +94,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets)
         modPredict(mod, masterDataSet)
 
-        NOTE: NOT K-CROSS VALIDATION
+        # NOTE: NOT K-CROSS VALIDATION
         break
 
         if remainder != 0 and i == (test_len - 2):
