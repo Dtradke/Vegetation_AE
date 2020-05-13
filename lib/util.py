@@ -36,9 +36,9 @@ def saveExperiment(mod, masterDataSet, test_set, SPLIT):
 
 def saveDatasets(masterDataSet, fname):
     print("Saving datasets")
-    if bin_class: mode = '_BIN'
-    elif classify: mode = '_CLASS'
-    else: mode = '_NORM'
+    # if bin_class: mode = '_BIN'
+    # elif classify: mode = '_CLASS'
+    # else: mode = '_NORM'
     fname = fname[7:-3]
     np.save('output/datasets/' + fname + 'trainX' + mode + '.npy', masterDataSet.trainX)
     np.save('output/datasets/' + fname + 'trainy' + mode + '.npy', masterDataSet.trainy)
@@ -53,12 +53,9 @@ def loadDatasets():
     count = 0
     datasets = []
     for fname in sys.argv:
-        print(fname[-7:])
         if fname[-7:] == files[count]:
             datasets.append(np.load('output/datasets/' + fname))
             count+=0
-    print(datasets)
-    exit()
     return datasets
 
 
