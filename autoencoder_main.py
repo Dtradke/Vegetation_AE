@@ -60,7 +60,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
         if not load_datasets: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
-        if SPLIT: mod = model.unet_split(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
+        if SPLIT: mod = model.unet_split(masterDataSet, pretrained_weights='models/' + sys.argv[2])
         else: mod = model.unet(masterDataSet, pretrained_weights='models/20200421-015819_UNET-test_site.h5')
     return mod
 
@@ -91,7 +91,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         print(i)
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
         if test_set: mod=None
-        mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets)
+        if not load_datasets: mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets)
         modPredict(mod, masterDataSet)
 
         # NOTE: NOT K-CROSS VALIDATION
@@ -108,7 +108,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
 if __name__ == "__main__":
     if 'test_set' in sys.argv:
         print("========= TEST SET =========")
-        if len(sys.argv) > 3: openAndTrain(True, load_datasets=True)
+        if len(sys.argv) > 3: openAndTrain(True, mod=sys.argv[2], load_datasets=True)
         else: openAndTrain(True)
     else:
         print("========= TEST SITE =========")
