@@ -32,8 +32,7 @@ def saveExperiment(mod, masterDataSet, test_set, SPLIT):
         elif classify: fname = 'models/' + time_string + '_test_site_CLASS.h5'
         else: fname = 'models/' + time_string + '_test_site_NORM.h5'
     print("Saving: ", fname)
-    # mod.save_weights(fname)
-    mod.save(fname)
+    mod.save_weights(fname)
 
 def saveDatasets(masterDataSet, fname):
     print("Saving datasets")

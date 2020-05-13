@@ -30,6 +30,10 @@ from keras.optimizers import SGD
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
+from numpy.random import seed
+seed(42)# keras seed fixing
+tf.random.set_seed(42)# tensorflow seed fixing
+
 import random
 
 classify = True
@@ -129,10 +133,6 @@ def encoder(inputs):
 
 
 def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
-    if(pretrained_weights):
-    	# model.load_weights(pretrained_weights)
-        return load_model(pretrained_weights)
-        
     input_size_1 = X_split_1[0].shape
     input_size_2 = X_split_2[0].shape
 
@@ -185,6 +185,8 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
 
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
+    if(pretrained_weights):
+    	model.load_weights(pretrained_weights)
 
     # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
