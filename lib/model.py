@@ -177,7 +177,7 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
     merge9 = concatenate([conv1_2,up9], axis = 3)
     conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
     merge9 = concatenate([conv1_1,conv9], axis = 3)
-    conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
+    conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal', name="conv9")(merge9)
     if classify:
         if pretrain:
             conv9 = Conv2D(20, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
@@ -198,8 +198,7 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
 
     # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
-    if pretrain:
-        model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
+    model.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
 
     # model.summary()
 
@@ -212,8 +211,15 @@ def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
     # for layer in pretrain_mod.layers[:-2]:
     #     layer.trainable = False
 
-    mod.layers[:-2] = pretrain_mod.layers[:-2]
-    mod.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
+    # mod.layers[:-2] = pretrain_mod.layers[:-2]
+    pretrain_mod.layers.pop()
+    pretrain_mod.layers.pop()
+    pretrain_mod.output = [pretrain_mod.layers[-2].output]
+    conv9 = model.get_layer("conv9").output
+    conv9 = Conv2D(12, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
+    conv10 = Conv2D(6, 1, activation = 'softmax')(conv9)
+    mod = Model(model.input, conv10)
+
     return mod
 
 def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
