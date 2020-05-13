@@ -26,6 +26,8 @@ class RawData(object):
 
     def __init__(self, locs):
         self.locs = locs
+        for i in self.locs.values:
+            print(i)
 
     @staticmethod
     def load(locNames='all', special_layers='all', new_data=None):
@@ -37,12 +39,15 @@ class RawData(object):
         if special_layers == 'all':
             if new_data is None:
 #training
-                print("four locations")
+                print("Loading All")
                 locs = {}
-                # cores = 4
-                # chunksize = 1
-                # with Pool(processes=cores) as pool:
-                #     location_list_return = pool.map(loadLocations, locNames, chunksize)
+                cores = 4
+                chunksize = 1
+                print(locNames)
+                exit()
+                with Pool(processes=cores) as pool:
+                    location_list_return = pool.map(loadLocations, locNames, chunksize)
+
                 location_list_return = []
                 location_list_return.append(loadLocations(locNames[0]))
 
