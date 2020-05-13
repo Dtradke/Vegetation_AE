@@ -43,13 +43,13 @@ class RawData(object):
                 locs = {}
                 cores = 4
                 chunksize = 1
+
+                locNames.remove('East_Bay') #too large for multiprocessing
                 print(locNames)
-                exit()
                 with Pool(processes=cores) as pool:
                     location_list_return = pool.map(loadLocations, locNames, chunksize)
 
-                location_list_return = []
-                location_list_return.append(loadLocations(locNames[0]))
+                location_list_return.append(loadLocations('East_Bay'))
 
                 for i in location_list_return:
                     locs[list(i.keys())[0]] = i[list(i.keys())[0]]
