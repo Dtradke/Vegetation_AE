@@ -83,6 +83,14 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
 
     test_len = util.KCross(masterDataSet)
 
+    print(masterDataSet.trainX.shape)
+    print(masterDataSet.trainy.shape)
+    print(masterDataSet.valX.shape)
+    print(masterDataSet.valy.shape)
+    print(masterDataSet.testX.shape)
+    print(masterDataSet.testy.shape)
+
+    print(masterDataSet.trainX[0][0])
 
     for i in range(test_len):
         print(i)
