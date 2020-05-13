@@ -221,6 +221,7 @@ class Location(object):
         ndvi = np.loadtxt(directory + 'ndvi.txt', delimiter=',')#util.openImg(folder+'ndvi.tif')
         aspect = np.loadtxt(directory + 'aspect.txt', delimiter=',')#util.openImg(folder+'aspect.tif')
         footprints = self.loadVeg(self.name)
+        print("Layers loaded for ", self.name)
 
         aspect[aspect>359] = 359
         aspect[aspect<0] = 0
@@ -335,6 +336,7 @@ class SpecialLayer(object):
         self.allVeg = allVeg if allVeg is not None else self.loadAllVeg() # 1 means not vegetation
         self.footprints = footprints     if footprints   is not None else self.loadFootprints()
         self.obj_heights = obj_heights              if obj_heights is not None else self.loadObjHeights()
+        print("Special layers loaded for ", self.locName)
         if degrees > 0:
             print("before rotation: ", self.allVeg.shape)
             for i in range(degrees//90):
