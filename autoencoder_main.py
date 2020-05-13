@@ -91,7 +91,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         print(i)
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
         if test_set: mod=None
-        if not load_datasets: mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets)
+        mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets)
         modPredict(mod, masterDataSet)
 
         # NOTE: NOT K-CROSS VALIDATION
