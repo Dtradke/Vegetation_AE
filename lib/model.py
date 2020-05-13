@@ -129,6 +129,10 @@ def encoder(inputs):
 
 
 def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
+    if(pretrained_weights):
+    	# model.load_weights(pretrained_weights)
+        return load_model(pretrained_weights)
+        
     input_size_1 = X_split_1[0].shape
     input_size_2 = X_split_2[0].shape
 
@@ -181,8 +185,6 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
 
     model = Model(input = [inputs_1, inputs_2], output = conv10)
 
-    if(pretrained_weights):
-    	model.load_weights(pretrained_weights)
 
     # sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
     # model.compile(optimizer = sgd, loss = 'categorical_crossentropy', metrics = ['accuracy'])
@@ -196,8 +198,8 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
 
 def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
     pretrain_mod.fit(inputs, masterDataSet.trainX, batch_size=32, epochs=1, verbose=1, validation_data=(vals, masterDataSet.valX))
-    for layer in pretrain_mod.layers[:-2]:
-        layer.trainable = False
+    # for layer in pretrain_mod.layers[:-2]:
+    #     layer.trainable = False
 
     mod.layers[:-2] = pretrain_mod.layers[:-2]
     return mod
