@@ -89,15 +89,18 @@ class Squares(object):
         if classify:
             for i in range(sorted_squares.shape[0]):
                 try:
-                    split_arr = np.split(sorted_squares, 3)
+                    split_arr = np.split(sorted_squares, 5)
                     break
                 except:
                     print("Popping for equal div of 4 from shape: ", sorted_squares.shape)
                     sorted_squares = sorted_squares[:-1]
-            self.split.append(2)#split_arr[0][-1] #10 (83.8%)
-            self.split.append(6) #split_arr[1][-1] #50 (83.8%)
-            self.split.append(50) #split_arr[2][-1]
-            self.split.append(80)
+
+            for i in range(len(split_arr) - 1):
+                self.split.append(split_arr[i])
+            # self.split.append(2)#split_arr[0][-1] #10 (83.8%)
+            # self.split.append(6) #split_arr[1][-1] #50 (83.8%)
+            # self.split.append(50) #split_arr[2][-1]
+            # self.split.append(80)
             print("split arr: ")
             for i in split_arr:
                 print(i[-1], " len: ", len(i))
