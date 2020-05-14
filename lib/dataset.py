@@ -113,7 +113,7 @@ class Squares(object):
                     sorted_squares = sorted_squares[:-1]
 
             for i in range(len(split_arr) - 1):
-                self.split.append(split_arr[i])
+                self.split.append(split_arr[i][-1])
             # self.split.append(2)#split_arr[0][-1] #10 (83.8%)
             # self.split.append(6) #split_arr[1][-1] #50 (83.8%)
             # self.split.append(50) #split_arr[2][-1]
