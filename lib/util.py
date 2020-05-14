@@ -45,12 +45,14 @@ def saveDatasets(masterDataSet, fname):
     np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.testX)
     np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
 
-def loadDatasets():
+def loadDatasets(mod):
     print("Loading Datasets")
     files = ['trainX.npy', 'trainy.npy', 'valX.npy', 'valy.npy', 'testX.npy', 'testy.npy']
     datasets = []
+    if mod is None: position = -2
+    else: postition = -1
     for suffix in files:
-        datasets.append(np.load('output/datasets/' + sys.argv[-1] + suffix))
+        datasets.append(np.load('output/datasets/' + sys.argv[position] + suffix))
     return datasets
 
 def KCross(masterDataSet):
