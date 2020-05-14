@@ -40,6 +40,7 @@ class Squares(object):
             if mod is None:
                 self.data = data
                 self.squares, self.square_labels, self.square_labels_orig = self.makeSquares()
+                util.saveRawSquares(self.squares, self.square_labels, self.square_labels_orig)
                 # self.measureBal()
                 self.makeClasses()
                 if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()

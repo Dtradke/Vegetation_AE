@@ -35,6 +35,16 @@ def saveExperiment(mod, masterDataSet, test_set, SPLIT):
     # mod.save_weights(fname)
     mod.save(fname)
 
+def saveRawSquares(squares, square_labels, square_labels_orig):
+    print("Saving raw squares")
+    time_string = time.strftime("%Y%m%d-%H%M%S")
+    if SPLIT: fname = "YNET_" + time_string
+    else: fname = "UNET_" + time_string
+
+    np.save('output/raw_squares/' + fname + 'squares.npy', masterDataSet.trainX)
+    np.save('output/raw_squares/' + fname + 'labels.npy', masterDataSet.trainy)
+    np.save('output/raw_squares/' + fname + 'labels_orig.npy', masterDataSet.valX)
+
 def saveDatasets(masterDataSet, fname):
     print("Saving datasets")
     fname = fname[7:-3]
