@@ -51,6 +51,8 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
                 pretrain_mod = model.unet_split(X_split_1, X_split_2, pretrain=True)
                 mod = model.pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod)
 
+# TODO: do transfer learning with small datasets after unsupervised pretraining... see how small the dataset can be
+
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
             mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=100, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
@@ -76,7 +78,8 @@ def modPredict(mod, masterDataSet):
 def openAndTrain(test_set=True, mod=None, load_datasets=False):
     start_time = time.time()
     if load_datasets:
-        datasets = util.loadDatasets(mod)
+        try: datasets = util.loadDatasets(mod)
+        except: datasets = util.loadSquareDatasets(mod)
         masterDataSet = dataset.Squares(datasets=datasets)
     else:
         masterDataSet = openDatasets(test_set, mod)
