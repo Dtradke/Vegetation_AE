@@ -207,7 +207,7 @@ def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
     return model
 
 def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
-    pretrain_mod.fit(inputs, masterDataSet.trainX, batch_size=32, epochs=30, verbose=1, validation_data=(vals, masterDataSet.valX))
+    pretrain_mod.fit(inputs, masterDataSet.trainX, batch_size=32, epochs=10, verbose=1, validation_data=(vals, masterDataSet.valX))
     # for layer in pretrain_mod.layers[:-2]:
     #     layer.trainable = False
 
