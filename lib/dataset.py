@@ -64,8 +64,7 @@ class Squares(object):
     def saveRawSquares(self):
         print("Saving raw squares")
         time_string = time.strftime("%Y%m%d-%H%M%S")
-        if SPLIT: fname = "YNET_" + time_string
-        else: fname = "UNET_" + time_string
+        fname = "YNET_" + time_string
 
         np.save('output/raw_squares/' + fname + 'squares.npy', self.squares)
         np.save('output/raw_squares/' + fname + 'labels.npy', self.square_labels)
