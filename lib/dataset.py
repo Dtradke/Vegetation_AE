@@ -6,7 +6,6 @@ import time
 from time import localtime, strftime
 from multiprocessing import Pool
 from keras.utils import to_categorical
-import util
 
 
 import numpy as np
