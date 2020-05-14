@@ -80,7 +80,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
     if load_datasets:
         try: datasets = util.loadDatasets(mod)
         except: datasets = util.loadSquareDatasets(mod)
-        masterDataSet = dataset.Squares(datasets=datasets)
+        masterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
     else:
         masterDataSet = openDatasets(test_set, mod)
 
