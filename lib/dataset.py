@@ -30,7 +30,8 @@ class Squares(object):
 
     def __init__(self, data=None, test_set=False, mod=None, datasets=None):
         print("mod: ", mod)
-        self.split = [0]
+        self.split_beg = []
+        self.split_end = []
         self.correct, self.total = {}, {}
         # self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
         # self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
@@ -112,35 +113,31 @@ class Squares(object):
                     print("Popping for equal div of 4 from shape: ", sorted_squares.shape)
                     sorted_squares = sorted_squares[:-1]
 
-            [print(i) for i in split_arr]
-            for i in range(len(split_arr) - 1):
-                self.split.append(split_arr[i][-1])
+            previous_end = -1
+            for i in = split_arr:
+                if i[0] <= previous_end: self.split_beg.append(previous_end)
+                else: self.split_beg.append(i[0])
+                if self.split_beg[-1] != i[-1]: self.split_end.append(i[-1])
+                else: self.split_end.append(i[-1]+1)
+                previous_end = self.split_end[-1]
+
             # self.split.append(2)#split_arr[0][-1] #10 (83.8%)
             # self.split.append(6) #split_arr[1][-1] #50 (83.8%)
             # self.split.append(50) #split_arr[2][-1]
             # self.split.append(80)
-            print(self.split)
-            print("split arr: ")
-            for i in split_arr:
-                print(i[-1], " len: ", len(i))
-            for i in self.split:
-                print("Split at: ", i)
 
-            for i, val in enumerate(self.split):
-                print(val)
-                try:
-                    print("greater than ", val, " and less than ", self.split[i+1])
-                    self.square_labels[(self.square_labels >= val) & (self.square_labels < self.split[i+1])] = i+1
-                    print("count: ", np.count_nonzero(self.square_labels == (i+1)))
-                except:
-                    print("greater than ", val)
-                    self.square_labels[self.square_labels >= val] = i+1
-                    print("count: ", np.count_nonzero(self.square_labels == (i+1)))
+            for i in range(len(self.split_beg)):
+                print(self.split_beg[i], " to ", self.split_end[i], " len: ", np.count_nonzero((sorted_squares >= self.split_beg[i]) & (sorted_squares < self.split_end[i])))
+
+            for i, val in enumerate(self.split_beg):
+                print("greater than ", val, " and less than ", self.split_end[i], " labeled: ", i+1)
+                self.square_labels[(self.square_labels >= val) & (self.square_labels < self.split_end[i])] = i+1
+                print("count: ", np.count_nonzero(self.square_labels == (i+1)))
+
             self.square_labels[self.square_labels == -1] = 0
             print("count foot: ", np.count_nonzero(self.square_labels == 0))
             print("max: ", np.amax(self.square_labels))
-            print("length of self split: ", len(self.split))
-            self.square_labels = to_categorical(self.square_labels, (len(self.split) + 1))
+            self.square_labels = to_categorical(self.square_labels, (len(self.split_beg) + 1))
         elif bin_class:
             for i in range(sorted_squares.shape[0]):
                 try:
