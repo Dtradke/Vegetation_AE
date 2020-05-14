@@ -132,14 +132,16 @@ class Squares(object):
 
             for i, val in enumerate(self.split_beg):
                 print("greater than ", val, " and less than ", self.split_end[i], " labeled: ", i+1)
-                self.square_labels[(self.square_labels >= val) & (self.square_labels < self.split_end[i])] = i+1
-                print("count: ", np.count_nonzero(self.square_labels == (i+1)))
-                print("count: ", np.count_nonzero(self.square_labels[(self.square_labels >= val) & (self.square_labels < self.split_end[i])]))
+                self.square_labels[(self.square_labels >= val) & (self.square_labels < self.split_end[i])] = i+0.5
+                print("count: ", np.count_nonzero(self.square_labels == (i+0.5)))
 
+            self.square_labels+=0.5
             print("foot")
             self.square_labels[self.square_labels == -1] = 0
             print("count: ", np.count_nonzero(self.square_labels == 0))
             print("max: ", np.amax(self.square_labels))
+            for i in range(5):
+                print(np.count_nonzero(self.square_labels == i))
             self.square_labels = to_categorical(self.square_labels, (len(self.split_beg) + 1))
         elif bin_class:
             for i in range(sorted_squares.shape[0]):
