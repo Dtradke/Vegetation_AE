@@ -137,7 +137,7 @@ class Squares(object):
 
             self.square_labels+=0.5
             print("foot")
-            self.square_labels[self.square_labels == -1] = 0
+            self.square_labels[self.square_labels < 0] = 0
             print("count: ", np.count_nonzero(self.square_labels == 0))
             print("max: ", np.amax(self.square_labels))
             for i in range(5):
