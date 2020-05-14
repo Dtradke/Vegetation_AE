@@ -35,15 +35,7 @@ def saveExperiment(mod, masterDataSet, test_set, SPLIT):
     # mod.save_weights(fname)
     mod.save(fname)
 
-def saveRawSquares(squares, square_labels, square_labels_orig):
-    print("Saving raw squares")
-    time_string = time.strftime("%Y%m%d-%H%M%S")
-    if SPLIT: fname = "YNET_" + time_string
-    else: fname = "UNET_" + time_string
 
-    np.save('output/raw_squares/' + fname + 'squares.npy', masterDataSet.trainX)
-    np.save('output/raw_squares/' + fname + 'labels.npy', masterDataSet.trainy)
-    np.save('output/raw_squares/' + fname + 'labels_orig.npy', masterDataSet.valX)
 
 def saveDatasets(masterDataSet, fname):
     print("Saving datasets")
@@ -63,6 +55,16 @@ def loadDatasets(mod):
     else: postition = -1
     for suffix in files:
         datasets.append(np.load('output/datasets/' + sys.argv[position] + suffix))
+    return datasets
+
+def loadSquareDatasets(mod):
+    print("Loading Datasets")
+    files = ['squares.npy', 'labels.npy', 'labels_orig.npy']
+    datasets = []
+    if mod is None: position = -2
+    else: postition = -1
+    for suffix in files:
+        datasets.append(np.load('output/raw_squares/' + sys.argv[position] + suffix))
     return datasets
 
 def KCross(masterDataSet):

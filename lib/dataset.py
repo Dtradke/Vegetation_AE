@@ -6,6 +6,7 @@ import time
 from time import localtime, strftime
 from multiprocessing import Pool
 from keras.utils import to_categorical
+import util
 
 
 import numpy as np
@@ -35,12 +36,19 @@ class Squares(object):
         # self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
         # self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
         if datasets is not None:
-            self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
+            if len(datasets) == 6:
+                self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
+            else:
+                self.squares, self.square_labels, self.square_labels_orig = datasets
+                self.makeClasses()
+                if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
+                else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], [], []
+                self.makeValDataset()
         else:
             if mod is None:
                 self.data = data
                 self.squares, self.square_labels, self.square_labels_orig = self.makeSquares()
-                util.saveRawSquares(self.squares, self.square_labels, self.square_labels_orig)
+                self.saveRawSquares()
                 # self.measureBal()
                 self.makeClasses()
                 if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
@@ -53,6 +61,16 @@ class Squares(object):
         for i in range(keys):
             self.correct[i] = 0
             self.total[i] = 0
+
+    def saveRawSquares(self):
+        print("Saving raw squares")
+        time_string = time.strftime("%Y%m%d-%H%M%S")
+        if SPLIT: fname = "YNET_" + time_string
+        else: fname = "UNET_" + time_string
+
+        np.save('output/raw_squares/' + fname + 'squares.npy', self.squares)
+        np.save('output/raw_squares/' + fname + 'labels.npy', self.square_labels)
+        np.save('output/raw_squares/' + fname + 'labels_orig.npy', self.square_labels_orig)
 
     def rotateDatasets(self, size_test=None):
         print("size test: ", size_test)
