@@ -114,7 +114,7 @@ class Squares(object):
                     sorted_squares = sorted_squares[:-1]
 
             previous_end = -1
-            for i in = split_arr:
+            for i in split_arr:
                 if i[0] <= previous_end: self.split_beg.append(previous_end)
                 else: self.split_beg.append(i[0])
                 if self.split_beg[-1] != i[-1]: self.split_end.append(i[-1])
