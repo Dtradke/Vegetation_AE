@@ -91,13 +91,14 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
     total_val = {}
     for i in range(5):
         total_val[i] = 0
-    for val in masterDataSet.testy:
-        pred, val = util.formatPreds(val, val)
+    for vall in masterDataSet.testy:
+        pred, val = util.formatPreds(vall, vall)
         total_val[0]+=np.count_nonzero(val == 0)
         total_val[1]+=np.count_nonzero(val == 1)
         total_val[2]+=np.count_nonzero(val == 2)
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
+    print(vall)
     print(pred)
     [print(total_val[i]) for i in total_val.keys()]
     exit()
