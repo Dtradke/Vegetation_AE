@@ -39,7 +39,7 @@ class RawData(object):
         if special_layers == 'all':
             if new_data is None:
 #training
-                print("Loading All")
+                print("Loading all new datasets")
                 locs = {}
                 cores = 4
                 chunksize = 1

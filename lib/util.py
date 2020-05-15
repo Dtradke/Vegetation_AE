@@ -52,7 +52,7 @@ def loadDatasets(mod):
     files = ['trainX.npy', 'trainy.npy', 'valX.npy', 'valy.npy', 'testX.npy', 'testy.npy']
     datasets = []
     if mod is None: position = -2
-    else: postition = -1
+    else: position = -1
     for suffix in files:
         datasets.append(np.load('output/datasets/' + sys.argv[position] + suffix))
     return datasets
