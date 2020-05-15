@@ -62,7 +62,7 @@ def loadSquareDatasets(mod):
     files = ['squares.npy', 'labels.npy', 'labels_orig.npy']
     datasets = []
     if mod is None: position = -2
-    else: postition = -1
+    else: position = -1
     for suffix in files:
         datasets.append(np.load('output/raw_squares/' + sys.argv[position] + suffix))
     return datasets
