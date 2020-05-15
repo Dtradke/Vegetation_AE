@@ -88,6 +88,15 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
     else:
         masterDataSet = openDatasets(test_set, mod)
 
+    [total_val[i] = 0 for i in range(5)]
+    for val in masterDataSet.testy:
+        total_val[0]+=np.count_nonzero(val == 0)
+        total_val[1]+=np.count_nonzero(val == 1)
+        total_val[2]+=np.count_nonzero(val == 2)
+        total_val[3]+=np.count_nonzero(val == 3)
+        total_val[4]+=np.count_nonzero(val == 4)
+    exit()
+
     test_len = util.KCross(masterDataSet)
 
     for i in range(test_len):
