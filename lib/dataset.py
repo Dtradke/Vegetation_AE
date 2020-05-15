@@ -174,6 +174,7 @@ class Squares(object):
 
 
     def splitDataset(self):
+        self.squares, self.square_labels, self.square_labels_orig = shuffle(self.squares, self.square_labels, self.square_labels_orig)
         split = 0.7
         trainX = self.squares[:int(self.squares.shape[0] * split)]
         trainy = self.square_labels[:int(self.squares.shape[0] * split)]
