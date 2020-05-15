@@ -239,7 +239,7 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[2]+=np.count_nonzero(val == 2)
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
-        total_val[5]+=np.count_nonzero(val == 5)
+        # total_val[5]+=np.count_nonzero(val == 5)
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)
         ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close = slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys)
