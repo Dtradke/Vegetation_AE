@@ -39,7 +39,7 @@ def openDatasets(test_set, mod):
         masterDataSet.square_labels_orig = testSiteDataset.square_labels_orig
     return masterDataSet
 
-def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
+def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
     if mod is None:
         if SPLIT:
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
@@ -60,7 +60,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False):
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
-        if not load_datasets: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
+        if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
         if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=sys.argv[-1])
         else: mod = model.unet(masterDataSet, pretrained_weights='models/' + sys.argv[2])
@@ -75,7 +75,7 @@ def modPredict(mod, masterDataSet):
         y_preds = mod.predict(masterDataSet.testX)
     util.evaluateYNET(y_preds, masterDataSet)
 
-def openAndTrain(test_set=True, mod=None, load_datasets=False):
+def openAndTrain(test_set=True, mod=None, load_datasets=False, save_mod=False):
     start_time = time.time()
     if load_datasets:
         try:
@@ -108,7 +108,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         print(i)
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
         if test_set and not load_datasets: mod=None
-        mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets)
+        mod = getModelAndTrain(masterDataSet, mod, test_set, load_datasets, save_mod)
         # print(mod.get_weights())
         modPredict(mod, masterDataSet)
 
@@ -129,14 +129,14 @@ if __name__ == "__main__":
         if len(sys.argv) > 2:
             if sys.argv[-1] == 'train': #python3 autoencoder.py test_set [model string] train
                 print("loading datasets but training new model")
-                openAndTrain(True, load_datasets=True)
+                openAndTrain(True, load_datasets=True, save_mod=True)
             else: #python3 autoencoder.py test_set [model string]
                 print("Loading datasets and model")
                 openAndTrain(True, mod=sys.argv[2], load_datasets=True)
         else: #python3 autoencoder.py test_set
             print("Loading new datasets and training new model")
-            openAndTrain(True)
+            openAndTrain(True, save_mod=True)
     else: #python3 autoencoder.py
         print("========= TEST SITE =========")
         if 'mod' in sys.argv: openAndTrain(False, mod='mod')
-        else: openAndTrain(False)
+        else: openAndTrain(False, save_mod=True)
