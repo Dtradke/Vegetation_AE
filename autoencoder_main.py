@@ -98,7 +98,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
     print(masterDataSet.testy[0][0])
-    [print(total_val[i]) for i in total_val.keys():]
+    [print(total_val[i]) for i in total_val.keys()]
     exit()
 
     test_len = util.KCross(masterDataSet)
