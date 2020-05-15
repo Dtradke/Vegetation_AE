@@ -112,7 +112,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
 if __name__ == "__main__":
     if 'test_set' in sys.argv:
         print("========= TEST SET =========")
-        if len(sys.argv) > 3:
+        if len(sys.argv) > 2:
             if sys.argv[-1] == 'train': #python3 autoencoder.py test_set [model string] train
                 print("loading datasets but training new model")
                 openAndTrain(True, load_datasets=True)
