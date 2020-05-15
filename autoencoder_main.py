@@ -92,7 +92,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
     for i in range(5):
         total_val[i] = 0
     for val in masterDataSet.testy:
-        pred, val = formatPreds(val, val)
+        pred, val = util.formatPreds(val, val)
         total_val[0]+=np.count_nonzero(val == 0)
         total_val[1]+=np.count_nonzero(val == 1)
         total_val[2]+=np.count_nonzero(val == 2)
