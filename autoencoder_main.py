@@ -89,7 +89,8 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False):
         masterDataSet = openDatasets(test_set, mod)
 
     total_val = {}
-    [total_val[i] = 0 for i in range(5)]
+    for i in range(5):
+        total_val[i] = 0
     for val in masterDataSet.testy:
         total_val[0]+=np.count_nonzero(val == 0)
         total_val[1]+=np.count_nonzero(val == 1)
