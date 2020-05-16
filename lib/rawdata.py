@@ -30,7 +30,7 @@ class RawData(object):
 
         for i in self.locs.values():
             print("loc: ", i)
-            
+
         self.names = data_type.join(self.locs.values.name)
         print("RawData names: ", self.names)
 
@@ -50,8 +50,10 @@ class RawData(object):
                 cores = 4
                 chunksize = 1
 
-                locNames.remove('East_Bay') #too large for multiprocessing
+                if 'East_Bay' in locNames:
+                    locNames.remove('East_Bay') #too large for multiprocessing
                 print("LocName: ", locNames)
+                
                 with Pool(processes=cores) as pool:
                     location_list_return = pool.map(loadLocations, locNames, chunksize)
 
