@@ -67,6 +67,7 @@ def loadSquareDatasets(load_datasets):
 
 def KCross(masterDataSet):
     test_len = (masterDataSet.trainX.shape[0] // masterDataSet.testX.shape[0])+1
+    remainder = 0
     if (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0]) != 0:
         remainder = (masterDataSet.trainX.shape[0] % masterDataSet.testX.shape[0])
         test_len+=1
