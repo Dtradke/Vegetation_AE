@@ -40,9 +40,9 @@ def openDatasets(test_set, mod):
         masterDataSet = dataset.Squares(new_data, test_set, mod=mod)
         masterDataSet.teststring = new_data.names
 
-    print("STRINGS")
-    print(masterDataSet.trainstring)
-    print(masterDataSet.teststring)
+    print(">>>STRINGS")
+    print(">", masterDataSet.trainstring)
+    print(">", masterDataSet.teststring)
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
