@@ -32,6 +32,8 @@ class Squares(object):
         print("mod: ", mod)
         self.split_beg = []
         self.split_end = []
+        self.trainstring = ''
+        self.teststring = ''
         self.correct, self.total = {}, {}
         # self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
         # self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
@@ -67,9 +69,10 @@ class Squares(object):
 
     def saveRawSquares(self):
         print("Saving raw squares")
-        time_string = time.strftime("%Y%m%d-%H%M%S")
-        fname = "YNET_" + time_string
-
+        # time_string = time.strftime("%Y%m%d-%H%M%S")
+        inc = self.data.names
+        fname = "YNET_" + inc
+        print("File Name: ", fname)
         np.save('output/raw_squares/' + fname + 'squares.npy', self.squares)
         np.save('output/raw_squares/' + fname + 'labels.npy', self.square_labels)
         np.save('output/raw_squares/' + fname + 'labels_orig.npy', self.square_labels_orig)

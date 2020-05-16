@@ -14,7 +14,6 @@ PIXEL_SIZE = 1
 
 classify = True
 bin_class = False
-data_type = ''
 
 small_obj_heights = False
 AUGMENT = False
@@ -28,7 +27,7 @@ class RawData(object):
     def __init__(self, locs):
         self.locs = locs
 
-        name_arr = [data_type]
+        name_arr = []
         for i in self.locs.values():
             print("loc: ", i)
             name_arr.append(i.name)
@@ -40,11 +39,6 @@ class RawData(object):
 
     @staticmethod
     def load(locNames='all', special_layers='all', new_data=None):
-        global data_type
-        if new_data is None:
-            data_type = "TrainingON"
-        else:
-            data_type = "TestON"
         print("in rawdata load")
         if locNames == 'all':
             locNames = listdir_nohidden('data/')

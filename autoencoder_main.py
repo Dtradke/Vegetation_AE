@@ -25,16 +25,24 @@ SPLIT = True
 pretrain = True
 
 def openDatasets(test_set, mod):
-    data = []
+    data = None
     if mod is None:
         data = rawdata.RawData.load(locNames='all', special_layers='all')
         # data.formatDataLayers()
         data.normalizeAllLayers()
-    if test_set: masterDataSet = dataset.Squares(data, test_set, mod)
+    if test_set:
+        masterDataSet = dataset.Squares(data, test_set, mod)
+        if data is not None:
+            masterDataSet.trainstring = data.names
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
         masterDataSet = dataset.Squares(new_data, test_set, mod=mod)
+        masterDataSet.teststring = new_data.names
+
+    print("STRINGS")
+    print(masterDataSet.trainstring)
+    print(masterDataSet.teststring)
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
@@ -53,7 +61,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
 
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
