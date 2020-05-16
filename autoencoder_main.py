@@ -113,7 +113,7 @@ def openAndTrain(test_set=True, mod=None, load_training_set=None, load_datasets=
         masterDataSet = openDatasets(test_set, mod, load_training_set)
         if load_training_set:
             print("Loading preprocessed datasets for training set")
-            datasets = util.loadDatasets(load_datasets)
+            datasets = util.loadDatasets(load_training_set)
             tempMasterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
             masterDataSet.trainX = tempMasterDataSet.trainX
             masterDataSet.trainy = tempMasterDataSet.trainy
