@@ -28,10 +28,12 @@ class RawData(object):
     def __init__(self, locs):
         self.locs = locs
 
+        name_arr = []
         for i in self.locs.values():
             print("loc: ", i)
+            name_arr.append(i.name)
 
-        self.names = data_type.join(self.locs.values.name)
+        self.names = data_type.join(name_arr)
         print("RawData names: ", self.names)
 
     @staticmethod
