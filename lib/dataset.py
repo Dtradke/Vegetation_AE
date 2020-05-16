@@ -35,34 +35,37 @@ class Squares(object):
         self.correct, self.total = {}, {}
         # self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
         # self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
-        if not grab_site:
-            if not test_set and mod is not None:
-                self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
+        if data is None:
+            self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
         else:
-            if datasets is not None:
-                if len(datasets) == 6:
-                    self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
-                else:
-                    self.squares, self.square_labels, self.square_labels_orig = datasets
-                    self.makeClasses()
-                    if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
-                    else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], []
-                    self.makeValDataset()
+            if not grab_site:
+                if not test_set and mod is not None:
+                    self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
             else:
-                # if mod is None:
-                self.data = data
-                self.squares, self.square_labels, self.square_labels_orig = self.makeSquares()
-                self.saveRawSquares()
-                # self.measureBal()
-                self.makeClasses()
-                if test_set:
-                    self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
-                    self.makeValDataset()
+                if datasets is not None:
+                    if len(datasets) == 6:
+                        self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
+                    else:
+                        self.squares, self.square_labels, self.square_labels_orig = datasets
+                        self.makeClasses()
+                        if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
+                        else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], []
+                        self.makeValDataset()
                 else:
-                    self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.squares, self.square_labels, self.square_labels_orig, self.squares, self.square_labels, self.square_labels_orig
-                    if mod is None: self.makeValDataset()
-                # else:
-                #     self.testX, self.testy, self.square_labels_orig = [], [], []
+                    # if mod is None:
+                    self.data = data
+                    self.squares, self.square_labels, self.square_labels_orig = self.makeSquares()
+                    self.saveRawSquares()
+                    # self.measureBal()
+                    self.makeClasses()
+                    if test_set:
+                        self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
+                        self.makeValDataset()
+                    else:
+                        self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.squares, self.square_labels, self.square_labels_orig, self.squares, self.square_labels, self.square_labels_orig
+                        if mod is None: self.makeValDataset()
+                    # else:
+                    #     self.testX, self.testy, self.square_labels_orig = [], [], []
 
     def setKeys(self, keys):
         for i in range(keys):

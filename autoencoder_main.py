@@ -32,6 +32,8 @@ def openDatasets(test_set, mod, load_training_set):
             # data.formatDataLayers()
             data.normalizeAllLayers()
         masterDataSet = dataset.Squares(data, test_set, mod)
+    else:
+        masterDataSet = dataset.Squares(initialize)
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
