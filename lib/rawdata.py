@@ -34,7 +34,6 @@ class RawData(object):
 
         start = ''
         self.names = start.join(name_arr)
-        print(data_type)
         print("RawData names: ", self.names)
 
     @staticmethod
