@@ -31,7 +31,7 @@ def openDatasets(test_set, mod):
         # data.formatDataLayers()
         data.normalizeAllLayers()
     masterDataSet = dataset.Squares(data, test_set, mod)
-    else: #its the test site
+    if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
         testDataSet = dataset.Squares(new_data, test_set, mod=mod)
