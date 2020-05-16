@@ -120,6 +120,8 @@ def openAndTrain(test_set=True, mod=None, load_training_set=None, load_datasets=
             masterDataSet.trainX = tempMasterDataSet.trainX
             masterDataSet.trainy = tempMasterDataSet.trainy
             masterDataSet.orig_trainy = tempMasterDataSet.orig_trainy
+            masterDataSet.valX = tempMasterDataSet.valX
+            masterDataSet.valy = tempMasterDataSet.valy
 
     heightsCheck(masterDataSet)
     test_len = util.KCross(masterDataSet)

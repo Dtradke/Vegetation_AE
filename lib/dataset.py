@@ -164,6 +164,8 @@ class Squares(object):
         self.split_end[-1] = 251
 
     def makeValDataset(self):
+        ''' Makes validation datasets whenever training '''
+        print("Making validation datasets")
         l = int(self.trainX.shape[0] * 0.8)
         self.valX = self.trainX[-l:]
         self.valy = self.trainy[-l:]
