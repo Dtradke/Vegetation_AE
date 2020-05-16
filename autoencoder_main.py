@@ -24,28 +24,17 @@ from keras.callbacks import ModelCheckpoint
 SPLIT = True
 pretrain = True
 
-def openDatasets(test_set, mod, load_training_set):
+def openDatasets(test_set, mod):
     data = []
-    if not load_training_set:
-        if mod is None:
-            data = rawdata.RawData.load(locNames='all', special_layers='all')
-            # data.formatDataLayers()
-            data.normalizeAllLayers()
-        masterDataSet = dataset.Squares(data, test_set, mod)
-    else:
-        masterDataSet = dataset.Squares()
+    if mod is None:
+        data = rawdata.RawData.load(locNames='all', special_layers='all')
+        # data.formatDataLayers()
+        data.normalizeAllLayers()
+    if test_set: masterDataSet = dataset.Squares(data, test_set, mod)
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
-        grab_site = True
-        testDataSet = dataset.Squares(new_data, test_set, mod=mod, grab_site=grab_site)
-        if mod is not None:
-            masterDataSet.trainX = testDataSet.testX
-            masterDataSet.trainy = testDataSet.testy
-            masterDataSet.orig_trainy = testDataSet.orig_testy
-        masterDataSet.testX = testDataSet.testX
-        masterDataSet.testy = testDataSet.testy
-        masterDataSet.orig_testy = testDataSet.orig_testy
+        masterDataSet = dataset.Squares(new_data, test_set, mod=mod)
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
@@ -98,30 +87,19 @@ def heightsCheck(masterDataSet):
         total_val[4]+=np.count_nonzero(val == 5)
     [print(total_val[i]) for i in total_val.keys()]
 
-def loadDatasetFromMem(test_set, load_datasets):
-    try:
-        print("Loading preprocessed datasets")
-        datasets = util.loadDatasets(load_datasets)
-    except:
-        print("Loading Squares")
-        datasets = util.loadSquareDatasets(load_datasets)
-    return dataset.Squares(test_set=test_set, datasets=datasets)
-
-def openAndTrain(test_set=True, mod=None, load_training_set=None, load_datasets=None, save_mod=False):
+def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
     start_time = time.time()
     if load_datasets is not None:
-        masterDataSet = loadDatasetFromMem(test_set, load_datasets)
+        try:
+            print("Loading preprocessed datasets")
+            datasets = util.loadDatasets(load_datasets)
+        except:
+            print("Loading Squares")
+            datasets = util.loadSquareDatasets(load_datasets)
+        masterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
     else:
         print("Making new Datasets")
-        masterDataSet = openDatasets(test_set, mod, load_training_set)
-        if load_training_set:
-            print("Loading preprocessed datasets for training set")
-            tempMasterDataSet = loadDatasetFromMem(test_set, load_training_set)
-            masterDataSet.trainX = tempMasterDataSet.trainX
-            masterDataSet.trainy = tempMasterDataSet.trainy
-            masterDataSet.orig_trainy = tempMasterDataSet.orig_trainy
-            masterDataSet.valX = tempMasterDataSet.valX
-            masterDataSet.valy = tempMasterDataSet.valy
+        masterDataSet = openDatasets(test_set, mod)
 
     heightsCheck(masterDataSet)
     test_len = util.KCross(masterDataSet)
@@ -162,12 +140,5 @@ if __name__ == "__main__":
             openAndTrain(True, save_mod=True)
     else: #python3 autoencoder.py
         print("========= TEST SITE =========")
-        if len(sys.argv) == 2:
-            print("Loading past model")
-            openAndTrain(False, mod=sys.argv[-1])
-        elif len(sys.argv) == 3 and 'train' in sys.argv:
-            print("Training new model with old dataset")
-            openAndTrain(False, load_training_set=sys.argv[-2])
-        else:
-            print("Loading everything and training new datasets")
-            openAndTrain(False, save_mod=True)
+        if len(sys.argv) == 2: openAndTrain(False, mod=sys.argv[-1])
+        else: openAndTrain(False, save_mod=True)

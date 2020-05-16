@@ -26,8 +26,11 @@ class RawData(object):
 
     def __init__(self, locs):
         self.locs = locs
+
         for i in self.locs.values():
             print(i)
+        start = ''
+        self.names = start.join(self.locs.values.name)
 
     @staticmethod
     def load(locNames='all', special_layers='all', new_data=None):
@@ -389,7 +392,6 @@ class SpecialLayer(object):
 
 
         obj_heights[self.footprints == 1] = -1
-
         return obj_heights
 
 
