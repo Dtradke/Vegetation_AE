@@ -24,13 +24,14 @@ from keras.callbacks import ModelCheckpoint
 SPLIT = True
 pretrain = True
 
-def openDatasets(test_set, mod):
+def openDatasets(test_set, mod, load_training_set):
     data = []
-    if mod is None:
-        data = rawdata.RawData.load(locNames='all', special_layers='all')
-        # data.formatDataLayers()
-        data.normalizeAllLayers()
-    masterDataSet = dataset.Squares(data, test_set, mod)
+    if not load_training_set:
+        if mod is None:
+            data = rawdata.RawData.load(locNames='all', special_layers='all')
+            # data.formatDataLayers()
+            data.normalizeAllLayers()
+        masterDataSet = dataset.Squares(data, test_set, mod)
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
@@ -95,7 +96,7 @@ def heightsCheck(masterDataSet):
         total_val[4]+=np.count_nonzero(val == 5)
     [print(total_val[i]) for i in total_val.keys()]
 
-def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
+def openAndTrain(test_set=True, mod=None, load_training_set=None, load_datasets=None, save_mod=False):
     start_time = time.time()
     if load_datasets is not None:
         try:
@@ -107,7 +108,14 @@ def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
         masterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
     else:
         print("Making new Datasets")
-        masterDataSet = openDatasets(test_set, mod)
+        masterDataSet = openDatasets(test_set, mod, load_training_set)
+        if load_training_set:
+            print("Loading preprocessed datasets for training set")
+            datasets = util.loadDatasets(load_datasets)
+            tempMasterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
+            masterDataSet.trainX = tempMasterDataSet.trainX
+            masterDataSet.trainy = tempMasterDataSet.trainy
+            masterDataSet.orig_trainy = tempMasterDataSet.orig_trainy
 
     heightsCheck(masterDataSet)
     test_len = util.KCross(masterDataSet)
@@ -148,5 +156,12 @@ if __name__ == "__main__":
             openAndTrain(True, save_mod=True)
     else: #python3 autoencoder.py
         print("========= TEST SITE =========")
-        if len(sys.argv) == 2: openAndTrain(False, mod=sys.argv[-1])
-        else: openAndTrain(False, save_mod=True)
+        if len(sys.argv) == 2:
+            print("Loading past model")
+            openAndTrain(False, mod=sys.argv[-1])
+        elif len(sys.argv) == 3 and 'train' in sys.argv:
+            print("Training new model with old dataset")
+            openAndTrain(False, load_training_set=sys.argv[-2])
+        else:
+            print("Loading everything and training new datasets")
+            openAndTrain(False, save_mod=True)
