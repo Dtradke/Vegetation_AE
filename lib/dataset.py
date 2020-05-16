@@ -35,11 +35,13 @@ class Squares(object):
         self.correct, self.total = {}, {}
         self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
 
-        if not grab_site:
+        if not grab_site and datasets is None:
+            print("Not grab site")
             if not test_set and mod is not None:
                 self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
         else:
             if datasets is not None:
+                print("Datasets is not None")
                 if len(datasets) == 6:
                     self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
                 else:
