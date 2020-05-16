@@ -41,12 +41,12 @@ def saveDatasets(masterDataSet, fname):
     ''' saves formatted datasets to directory '''
     fname = fname[7:-3]
     print("Saving datasets: ", fname)
-    np.save('output/datasets/' + fname + masterDataSet.data.names + 'trainX.npy', masterDataSet.trainX)
-    np.save('output/datasets/' + fname + masterDataSet.data.names + 'trainy.npy', masterDataSet.trainy)
-    np.save('output/datasets/' + fname + masterDataSet.data.names + 'valX.npy', masterDataSet.valX)
-    np.save('output/datasets/' + fname + masterDataSet.data.names + 'valy.npy', masterDataSet.valy)
-    np.save('output/datasets/' + fname + masterDataSet.data.names + 'testX.npy', masterDataSet.testX)
-    np.save('output/datasets/' + fname + masterDataSet.data.names + 'testy.npy', masterDataSet.testy)
+    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'trainX.npy', masterDataSet.trainX)
+    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'trainy.npy', masterDataSet.trainy)
+    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'valX.npy', masterDataSet.valX)
+    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'valy.npy', masterDataSet.valy)
+    np.save('output/datasets/' + fname + masterDataSet.teststring + 'testX.npy', masterDataSet.testX)
+    np.save('output/datasets/' + fname + masterDataSet.teststring + 'testy.npy', masterDataSet.testy)
 
 def loadDatasets(load_datasets):
     ''' Loads formatted datasets from directory '''
