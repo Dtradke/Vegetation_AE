@@ -35,11 +35,10 @@ def saveExperiment(mod, masterDataSet, test_set, SPLIT):
     # mod.save_weights(fname)
     mod.save(fname)
 
-
-
 def saveDatasets(masterDataSet, fname):
-    print("Saving datasets")
+    ''' saves formatted datasets to directory '''
     fname = fname[7:-3]
+    print("Saving datasets: ", fname)
     np.save('output/datasets/' + fname + 'trainX.npy', masterDataSet.trainX)
     np.save('output/datasets/' + fname + 'trainy.npy', masterDataSet.trainy)
     np.save('output/datasets/' + fname + 'valX.npy', masterDataSet.valX)
@@ -48,16 +47,17 @@ def saveDatasets(masterDataSet, fname):
     np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
 
 def loadDatasets(load_datasets):
-    print("Loading Datasets")
+    ''' Loads formatted datasets from directory '''
+    print("Loading Datasets: ", load_datasets)
     files = ['trainX.npy', 'trainy.npy', 'valX.npy', 'valy.npy', 'testX.npy', 'testy.npy']
     datasets = []
-
     for suffix in files:
         datasets.append(np.load('output/datasets/' + load_datasets + suffix))
     return datasets
 
 def loadSquareDatasets(load_datasets):
-    print("Loading Datasets")
+    ''' Loads preprocessed squares '''
+    print("Loading Dataset Squares: ", load_datasets)
     files = ['squares.npy', 'labels.npy', 'labels_orig.npy']
     datasets = []
 
@@ -238,7 +238,7 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[2]+=np.count_nonzero(val == 2)
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
-        # total_val[5]+=np.count_nonzero(val == 5)
+        total_val[5]+=np.count_nonzero(val == 5)
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)
         ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close = slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys)

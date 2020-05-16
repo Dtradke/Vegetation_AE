@@ -30,11 +30,14 @@ def openDatasets(test_set, mod):
         data = rawdata.RawData.load(locNames='all', special_layers='all')
         # data.formatDataLayers()
         data.normalizeAllLayers()
-    if test_set: masterDataSet = dataset.Squares(data, test_set, mod)
-    if not test_set: #its the test site
+    masterDataSet = dataset.Squares(data, test_set, mod)
+    else: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
-        masterDataSet = dataset.Squares(new_data, test_set, mod=mod)
+        testDataSet = dataset.Squares(new_data, test_set, mod=mod)
+        masterDataSet.testX = testDataSet.testX
+        masterDataSet.testy = testDataSet.testy
+        masterDataSet.orig_testy = testDataSet.orig_testy
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
@@ -84,6 +87,7 @@ def heightsCheck(masterDataSet):
         total_val[2]+=np.count_nonzero(val == 2)
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
+        total_val[4]+=np.count_nonzero(val == 5)
     [print(total_val[i]) for i in total_val.keys()]
 
 def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
@@ -97,6 +101,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
             datasets = util.loadSquareDatasets(load_datasets)
         masterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
     else:
+        print("Making new Datasets")
         masterDataSet = openDatasets(test_set, mod)
 
     heightsCheck(masterDataSet)
