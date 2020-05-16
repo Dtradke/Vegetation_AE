@@ -98,7 +98,7 @@ def heightsCheck(masterDataSet):
         total_val[4]+=np.count_nonzero(val == 5)
     [print(total_val[i]) for i in total_val.keys()]
 
-def loadDatasetFromMem(load_datasets):
+def loadDatasetFromMem(test_set, load_datasets):
     try:
         print("Loading preprocessed datasets")
         datasets = util.loadDatasets(load_datasets)
@@ -110,13 +110,13 @@ def loadDatasetFromMem(load_datasets):
 def openAndTrain(test_set=True, mod=None, load_training_set=None, load_datasets=None, save_mod=False):
     start_time = time.time()
     if load_datasets is not None:
-        masterDataSet = loadDatasetFromMem(load_datasets)
+        masterDataSet = loadDatasetFromMem(test_set, load_datasets)
     else:
         print("Making new Datasets")
         masterDataSet = openDatasets(test_set, mod, load_training_set)
         if load_training_set:
             print("Loading preprocessed datasets for training set")
-            tempMasterDataSet = loadDatasetFromMem(load_training_set)
+            tempMasterDataSet = loadDatasetFromMem(test_set, load_training_set)
             masterDataSet.trainX = tempMasterDataSet.trainX
             masterDataSet.trainy = tempMasterDataSet.trainy
             masterDataSet.orig_trainy = tempMasterDataSet.orig_trainy
