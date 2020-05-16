@@ -30,10 +30,10 @@ def openDatasets(test_set, mod):
         data = rawdata.RawData.load(locNames='all', special_layers='all')
         # data.formatDataLayers()
         data.normalizeAllLayers()
-    if test_set:
         masterDataSet = dataset.Squares(data, test_set, mod)
-        if data is not None:
-            masterDataSet.trainstring = data.names
+        masterDataSet.trainstring = data.names
+    else:
+        masterDataSet = dataset.Squares()
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
