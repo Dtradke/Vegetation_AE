@@ -58,7 +58,7 @@ class RawData(object):
 
                 with Pool(processes=cores) as pool:
                     location_list_return = pool.map(loadLocations, locNames, chunksize)
-                if ebtrain: location_list_return.append(loadLocations('East_Bay'))
+                if eb_train: location_list_return.append(loadLocations('East_Bay'))
 
                 for i in location_list_return:
                     locs[list(i.keys())[0]] = i[list(i.keys())[0]]
