@@ -44,8 +44,8 @@ def openDatasets(test_set, mod):
         masterDataSet.orig_testy = tempmasterDataSet.orig_testy
 
     print(">>>STRINGS")
-    print(">", masterDataSet.trainstring)
-    print(">", masterDataSet.teststring)
+    print("train >", masterDataSet.trainstring)
+    print("test  >", masterDataSet.teststring)
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):

@@ -22,6 +22,7 @@ def saveExperiment(mod, masterDataSet, test_set, SPLIT):
     time_string = time.strftime("%Y%m%d-%H%M%S")
     if SPLIT: time_string = "YNET_" + time_string
     else: time_string = "UNET_" + time_string
+    time_string = time_string + masterDataSet.trainstring
     if test_set:
         if bin_class: fname = 'models/' + time_string + '_test_set_BIN.h5'
         elif classify: fname = 'models/' + time_string + '_test_set_CLASS.h5'
