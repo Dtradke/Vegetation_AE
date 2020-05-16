@@ -30,14 +30,11 @@ def openDatasets(test_set, mod):
         data = rawdata.RawData.load(locNames='all', special_layers='all')
         # data.formatDataLayers()
         data.normalizeAllLayers()
-    masterDataSet = dataset.Squares(data, test_set, mod)
+    if test_set: masterDataSet = dataset.Squares(data, test_set, mod)
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
-        testSiteDataset = dataset.Squares(new_data, test_set, mod=mod)
-        masterDataSet.testX = testSiteDataset.squares
-        masterDataSet.testy = testSiteDataset.square_labels
-        masterDataSet.orig_testy = testSiteDataset.orig_trainy
+        masterDataSet = dataset.Squares(new_data, test_set, mod=mod)
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
