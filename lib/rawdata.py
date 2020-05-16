@@ -39,7 +39,10 @@ class RawData(object):
     @staticmethod
     def load(locNames='all', special_layers='all', new_data=None):
         global data_type
-        data_type = locNames
+        if new_data is None:
+            data_type = "TrainingON"
+        else:
+            data_type = "TestON"
         print("in rawdata load")
         if locNames == 'all':
             locNames = listdir_nohidden('data/')
