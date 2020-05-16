@@ -35,7 +35,7 @@ class Squares(object):
         self.correct, self.total = {}, {}
         # self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
         # self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
-        if data is None:
+        if data is None and datasets is None:
             self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
         else:
             if not grab_site:
