@@ -49,15 +49,16 @@ class RawData(object):
                 locs = {}
                 cores = 4
                 chunksize = 1
+                eb_train = False
 
                 if 'East_Bay' in locNames:
+                    eb_train = True
                     locNames.remove('East_Bay') #too large for multiprocessing
                 print("LocName: ", locNames)
-                
+
                 with Pool(processes=cores) as pool:
                     location_list_return = pool.map(loadLocations, locNames, chunksize)
-
-                location_list_return.append(loadLocations('East_Bay'))
+                if ebtrain: location_list_return.append(loadLocations('East_Bay'))
 
                 for i in location_list_return:
                     locs[list(i.keys())[0]] = i[list(i.keys())[0]]
