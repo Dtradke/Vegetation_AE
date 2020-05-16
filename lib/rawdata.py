@@ -14,6 +14,7 @@ PIXEL_SIZE = 1
 
 classify = True
 bin_class = False
+data_type = ''
 
 small_obj_heights = False
 AUGMENT = False
@@ -28,12 +29,14 @@ class RawData(object):
         self.locs = locs
 
         for i in self.locs.values():
-            print(i)
-        start = ''
-        self.names = start.join(self.locs.values.name)
+            print("loc: ", i)
+            
+        self.names = data_type.join(self.locs.values.name)
+        print("RawData names: ", self.names)
 
     @staticmethod
     def load(locNames='all', special_layers='all', new_data=None):
+        data_type = locNames
         print("in rawdata load")
         if locNames == 'all':
             locNames = listdir_nohidden('data/')
@@ -48,7 +51,7 @@ class RawData(object):
                 chunksize = 1
 
                 locNames.remove('East_Bay') #too large for multiprocessing
-                print(locNames)
+                print("LocName: ", locNames)
                 with Pool(processes=cores) as pool:
                     location_list_return = pool.map(loadLocations, locNames, chunksize)
 
