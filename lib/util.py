@@ -27,11 +27,12 @@ def saveExperiment(mod, masterDataSet, test_set, SPLIT):
         if bin_class: fname = 'models/' + time_string + '_test_set_BIN.h5'
         elif classify: fname = 'models/' + time_string + '_test_set_CLASS.h5'
         else: fname = 'models/' + time_string + '_test_set_NORM.h5'
-        saveDatasets(masterDataSet, fname)
+        # saveDatasets(masterDataSet, fname)
     else:
         if bin_class: fname = 'models/' + time_string + '_test_site_BIN.h5'
         elif classify: fname = 'models/' + time_string + '_test_site_CLASS.h5'
         else: fname = 'models/' + time_string + '_test_site_NORM.h5'
+    saveDatasets(masterDataSet, fname)
     print("Saving: ", fname)
     # mod.save_weights(fname)
     mod.save(fname)
