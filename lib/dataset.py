@@ -52,7 +52,7 @@ class Squares(object):
             # self.measureBal()
             self.makeClasses()
             if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
-            else: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], []
+            else: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.squares, self.square_labels, self.square_labels_orig, self.squares, self.square_labels, self.square_labels_orig
             if mod is None: self.makeValDataset()
             # else:
             #     self.testX, self.testy, self.square_labels_orig = [], [], []
