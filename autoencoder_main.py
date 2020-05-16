@@ -36,6 +36,10 @@ def openDatasets(test_set, mod):
         new_data.normalizeAllLayers()
         grab_site = True
         testDataSet = dataset.Squares(new_data, test_set, mod=mod, grab_site=grab_site)
+        if mod is not None:
+            masterDataSet.trainX = testDataSet.testX
+            masterDataSet.trainy = testDataSet.testy
+            masterDataSet.orig_trainy = testDataSet.orig_testy
         masterDataSet.testX = testDataSet.testX
         masterDataSet.testy = testDataSet.testy
         masterDataSet.orig_testy = testDataSet.orig_testy
