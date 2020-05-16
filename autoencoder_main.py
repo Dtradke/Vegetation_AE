@@ -33,6 +33,7 @@ def openDatasets(test_set, mod):
     masterDataSet = dataset.Squares(data, test_set, mod)
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
+        new_data.normalizeAllLayers()
         testSiteDataset = dataset.Squares(new_data, test_set, mod=None)
         masterDataSet.testX = testSiteDataset.squares
         masterDataSet.testy = testSiteDataset.square_labels
@@ -62,8 +63,8 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
         if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
-        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=sys.argv[-1])
-        else: mod = model.unet(masterDataSet, pretrained_weights='models/' + sys.argv[2])
+        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
+        else: mod = model.unet(masterDataSet, pretrained_weights=mod)
     return mod
 
 def modPredict(mod, masterDataSet):
@@ -75,19 +76,7 @@ def modPredict(mod, masterDataSet):
         y_preds = mod.predict(masterDataSet.testX)
     util.evaluateYNET(y_preds, masterDataSet)
 
-def openAndTrain(test_set=True, mod=None, load_datasets=False, save_mod=False):
-    start_time = time.time()
-    if load_datasets:
-        try:
-            print("Loading preprocessed datasets")
-            datasets = util.loadDatasets(mod)
-        except:
-            print("Loading Squares")
-            datasets = util.loadSquareDatasets(mod)
-        masterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
-    else:
-        masterDataSet = openDatasets(test_set, mod)
-
+def heightsCheck(masterDataSet):
     total_val = {}
     for i in range(5):
         total_val[i] = 0
@@ -98,12 +87,23 @@ def openAndTrain(test_set=True, mod=None, load_datasets=False, save_mod=False):
         total_val[2]+=np.count_nonzero(val == 2)
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
-    print(vall)
-    print(pred)
     [print(total_val[i]) for i in total_val.keys()]
 
-    test_len = util.KCross(masterDataSet)
+def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
+    start_time = time.time()
+    if load_datasets is not None:
+        try:
+            print("Loading preprocessed datasets")
+            datasets = util.loadDatasets(load_datasets)
+        except:
+            print("Loading Squares")
+            datasets = util.loadSquareDatasets(load_datasets)
+        masterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
+    else:
+        masterDataSet = openDatasets(test_set, mod)
 
+    heightsCheck(masterDataSet)
+    test_len = util.KCross(masterDataSet)
     for i in range(test_len):
         print(i)
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
@@ -129,14 +129,17 @@ if __name__ == "__main__":
         if len(sys.argv) > 2:
             if sys.argv[-1] == 'train': #python3 autoencoder.py test_set [model string] train
                 print("loading datasets but training new model")
-                openAndTrain(True, load_datasets=True, save_mod=True)
+                openAndTrain(True, load_datasets=sys.argv[-2], save_mod=True)
+            elif len(sys.argv) == 3: #python3 autoencoder.py test_set [model string] [dataset_string]
+                print("Loading past model and other datasets")
+                openAndTrain(True, mod=sys.argv[2], loadDatasets=sys.argv[-1])
             else: #python3 autoencoder.py test_set [model string]
                 print("Loading datasets and model")
-                openAndTrain(True, mod=sys.argv[2], load_datasets=True)
+                openAndTrain(True, mod=sys.argv[2], load_datasets=sys.argv[-1])
         else: #python3 autoencoder.py test_set
             print("Loading new datasets and training new model")
             openAndTrain(True, save_mod=True)
     else: #python3 autoencoder.py
         print("========= TEST SITE =========")
-        if 'mod' in sys.argv: openAndTrain(False, mod='mod')
+        if len(sys.argv) == 2: openAndTrain(False, mod=sys.argv[-1])
         else: openAndTrain(False, save_mod=True)

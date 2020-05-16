@@ -47,24 +47,22 @@ def saveDatasets(masterDataSet, fname):
     np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.testX)
     np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
 
-def loadDatasets(mod):
+def loadDatasets(load_datasets):
     print("Loading Datasets")
     files = ['trainX.npy', 'trainy.npy', 'valX.npy', 'valy.npy', 'testX.npy', 'testy.npy']
     datasets = []
-    if mod is None: position = -2
-    else: position = -1
+
     for suffix in files:
-        datasets.append(np.load('output/datasets/' + sys.argv[position] + suffix))
+        datasets.append(np.load('output/datasets/' + load_datasets + suffix))
     return datasets
 
-def loadSquareDatasets(mod):
+def loadSquareDatasets(load_datasets):
     print("Loading Datasets")
     files = ['squares.npy', 'labels.npy', 'labels_orig.npy']
     datasets = []
-    if mod is None: position = -2
-    else: position = -1
+
     for suffix in files:
-        datasets.append(np.load('output/raw_squares/' + sys.argv[position] + suffix))
+        datasets.append(np.load('output/raw_squares/' + load_datasets + suffix))
     return datasets
 
 def KCross(masterDataSet):

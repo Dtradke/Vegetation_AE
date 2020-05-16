@@ -279,10 +279,6 @@ class Location(object):
 
         obj_heights[self.specialLayers['footprints'].allVeg == 1] = -1
 
-        if small_obj_heights:
-            obj_heights[obj_heights<0] = 0
-            obj_heights[obj_heights>150] = 150
-            obj_heights = np.divide(obj_heights, 150, out=np.zeros_like(obj_heights))
         return obj_heights
 
     def loadVeg2(self):
@@ -393,12 +389,6 @@ class SpecialLayer(object):
 
 
         obj_heights[self.footprints == 1] = -1
-
-
-        if small_obj_heights:
-            obj_heights[obj_heights<0] = 0
-            obj_heights[obj_heights>150] = 150
-            obj_heights = np.divide(obj_heights, 150, out=np.zeros_like(obj_heights))
 
         return obj_heights
 

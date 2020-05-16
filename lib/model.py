@@ -49,8 +49,9 @@ except:
     import preprocess
 
 def unet(masterDataSet, pretrained_weights = None):
-    if(pretrained_weights):
-        model = load_model(pretrained_weights)
+    if pretrained_weights:
+        fname = 'models/' + pretrained_weights + ".h5"
+        model = load_model(fname)
         return model
 
     input_size = masterDataSet.testX[0].shape
@@ -138,7 +139,7 @@ def encoder(inputs):
 
 
 def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
-    if(pretrained_weights):
+    if pretrained_weights:
         fname = 'models/' + pretrained_weights + ".h5"
         model = load_model(fname)
         return model
