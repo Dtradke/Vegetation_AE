@@ -38,6 +38,7 @@ class RawData(object):
 
     @staticmethod
     def load(locNames='all', special_layers='all', new_data=None):
+        global data_type
         data_type = locNames
         print("in rawdata load")
         if locNames == 'all':
