@@ -45,8 +45,12 @@ class Squares(object):
                 else:
                     self.squares, self.square_labels, self.square_labels_orig = datasets
                     self.makeClasses()
-                    if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
-                    else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], []
+                    if test_set:
+                        self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
+                    else:
+                        print("Not test set, loading all squares into all datasets")
+                        self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.squares, self.square_labels, self.square_labels_orig, [], [], []
+                        print(self.trainX.shape)
                     self.makeValDataset()
             else:
                 # if mod is None:
