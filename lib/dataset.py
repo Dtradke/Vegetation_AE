@@ -37,7 +37,7 @@ class Squares(object):
         # self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
         if not grab_site:
             if not test_set and mod is not None:
-                self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = [], [], [], [], [], []
+                self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
         else:
             if datasets is not None:
                 if len(datasets) == 6:
