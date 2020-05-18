@@ -137,7 +137,7 @@ if __name__ == "__main__":
     if 'test_set' in sys.argv:
         print("========= TEST SET =========")
         if len(sys.argv) > 2:
-            if sys.argv[-1] == 'train': #python3 autoencoder.py test_set [model string] train
+            if sys.argv[-1] == 'train': #python3 autoencoder.py test_set [dataset string] train
                 print("loading datasets but training new model")
                 openAndTrain(True, load_datasets=sys.argv[-2], save_mod=True)
             elif len(sys.argv) == 3: #python3 autoencoder.py test_set [model string] [dataset_string]
@@ -151,5 +151,8 @@ if __name__ == "__main__":
             openAndTrain(True, save_mod=True)
     else: #python3 autoencoder.py
         print("========= TEST SITE =========")
-        if len(sys.argv) == 2: openAndTrain(False, mod=sys.argv[-1])
-        else: openAndTrain(False, save_mod=True)
+        if len(sys.argv) == 2:
+            print("Loading model: ", sys.argv[-1])
+            openAndTrain(False, mod=sys.argv[-1])
+        else:
+            openAndTrain(False, save_mod=True)

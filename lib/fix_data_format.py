@@ -4,8 +4,9 @@ from io import StringIO
 from scipy import ndimage
 import sys
 
+files = ['obj_height']
 # files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'obj_height']
-files = ['band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'slope', 'evi', 'obj_height']
+# files = ['band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'slope', 'evi', 'obj_height']
 # special_layers = ['footprints', 'obj_height']
 # files = ['SW_Orinda_Fat/dem', 'OrindaHome/dem', 'OrindaDowns/dem', 'SW_Orinda_Skinny/dem', 'Test_Site/dem']
 
