@@ -285,7 +285,7 @@ class Location(object):
         obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         obj_heights = obj_heights.astype('float32')
         obj_heights = np.around(obj_heights, 0)
-
+        obj_heights[obj_heights > 250] = 250
 
         obj_heights[self.specialLayers['footprints'].allVeg == 1] = -1
 
@@ -396,7 +396,7 @@ class SpecialLayer(object):
         obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         obj_heights = obj_heights.astype('float32')
         obj_heights = np.around(obj_heights, 0)
-
+        obj_heights[obj_heights > 250] = 250
 
         obj_heights[self.footprints == 1] = -1
         return obj_heights
