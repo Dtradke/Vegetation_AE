@@ -142,9 +142,9 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     ground = {}
     classes = len(masterDataSet.split_beg)
     print("classes: ", classes)
-    for i in range(classes):
+    for i in range(classes+1):
         ground[i] = {}
-        for j in range(classes):
+        for j in range(classes+1):
             ground[i][j] = 0
 
     for i, row in enumerate(val):
