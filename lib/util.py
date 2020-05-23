@@ -131,20 +131,14 @@ def checkNeighborhood(pred, val, real_height, masterDataSet, keys):
     return correct, incorrect, grass_close, shrub_close
 
 
-def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
+def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys, ground):
     global correct_val_slow
 
     val = np.squeeze(val)
     answers = np.ones_like(val)
     diff = 1
 
-    # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
-    ground = {}
-    classes = len(masterDataSet.split_beg)
-    for i in range(classes+1):
-        ground[i] = {}
-        for j in range(classes+1):
-            ground[i][j] = 0
+
 
     for i, row in enumerate(val):
         for j, entry in enumerate(row):
@@ -234,6 +228,14 @@ def evaluateYNET(y_preds, masterDataSet):
         correct_val_fast[i] = 0
         correct_val_slow[i] = 0
 
+    # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
+    ground = {}
+    classes = len(masterDataSet.split_beg)
+    for i in range(classes+1):
+        ground[i] = {}
+        for j in range(classes+1):
+            ground[i][j] = 0
+
     if len(masterDataSet.correct.keys()) == 0: masterDataSet.setKeys(keys)
     worst_arr_count = 0
     total_grass_close, total_shrub_close = 0, 0
@@ -255,7 +257,7 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[6]+=np.count_nonzero(val == 6)
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)
-        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close, ground = slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys)
+        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close, ground = slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys, ground)
         ncorrect+=sq_correct
         nincorrect+=sq_incorrect
         ck_correct_total+=ck_correct
