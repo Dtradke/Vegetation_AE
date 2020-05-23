@@ -140,6 +140,7 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
 
     # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
     classes = np.amax(val)
+    print(classes)
     ground = {}
     for i in range(classes):
         ground[i] = {}
