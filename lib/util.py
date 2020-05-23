@@ -160,8 +160,8 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     for i in range(keys):
         correct_val_slow[i]+=np.count_nonzero((answers == 0) & (val == i))
 
-    wrong = pred[answers != 1]
-    right = val[answers != 1]
+    wrong = pred[answers == 1]
+    right = val[answers == 1]
     for i, height in enumerate(right):
         ground[height][wrong[i]]+=1
 
