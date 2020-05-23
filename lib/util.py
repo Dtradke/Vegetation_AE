@@ -139,9 +139,8 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     diff = 1
 
     # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
-    classes = np.amax(val)
-    print(classes)
     ground = {}
+    classes = len(masterDataSet.split_beg)
     for i in range(classes):
         ground[i] = {}
         for j in range(classes):
@@ -173,8 +172,6 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     return correct, incorrect, grass_close, shrub_close, ground
 
 def formatPreds(pred, val):
-
-
     #NOTE: added for softmax (commented above)
     if classify or bin_class:
         max_pred = np.argmax(pred, axis=2)
