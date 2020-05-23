@@ -145,12 +145,12 @@ if __name__ == "__main__":
             if sys.argv[-1] == 'train': #python3 autoencoder.py test_set [dataset string] train
                 print("loading datasets but training new model")
                 openAndTrain(True, load_datasets=sys.argv[-2], save_mod=True)
-            elif len(sys.argv) == 3: #python3 autoencoder.py test_set [model string] [dataset_string]
+            elif len(sys.argv) == 4: #python3 autoencoder.py test_set [model string] [dataset_string]
                 print("Loading past model and other datasets")
-                openAndTrain(True, mod=sys.argv[2], loadDatasets=sys.argv[-1])
+                openAndTrain(True, mod=sys.argv[-2], load_datasets=sys.argv[-1])
             else: #python3 autoencoder.py test_set [model string]
-                print("Loading datasets and model")
-                openAndTrain(True, mod=sys.argv[2], load_datasets=sys.argv[-1])
+                print("Loading datasets and model with same name")
+                openAndTrain(True, mod=sys.argv[-1], load_datasets=sys.argv[-1])
         else: #python3 autoencoder.py test_set
             print("Loading new datasets and training new model")
             openAndTrain(True, save_mod=True)
