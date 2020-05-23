@@ -141,6 +141,7 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
     ground = {}
     classes = len(masterDataSet.split_beg)
+    print("classes: ", classes)
     for i in range(classes):
         ground[i] = {}
         for j in range(classes):
