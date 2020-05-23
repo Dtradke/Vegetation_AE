@@ -139,8 +139,10 @@ class Squares(object):
 
     def setClasses(self):
         ''' Set height classes manually depending on past study '''
-        self.split_beg = [0,2,6,20,50,80]
-        self.split_end = [2,6,20,50,80,251]
+        # self.split_beg = [0,2,6,20,50,80]
+        # self.split_end = [2,6,20,50,80,251]
+        self.split_beg = [0,4,10,30,70,100]
+        self.split_end = [4,10,30,70,100,251]
 
     def balanceClasses(self):
         ''' Balance height classes so that ~same amount of samples in each class '''
