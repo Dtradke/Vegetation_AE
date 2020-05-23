@@ -132,15 +132,15 @@ class Squares(object):
             self.square_labels[self.square_labels < 0] = 0
             print("count: ", np.count_nonzero(self.square_labels == 0))
             print("max: ", np.amax(self.square_labels))
-            for i in range(5):
+            for i in range(6):
                 print(np.count_nonzero(self.square_labels == i))
             self.square_labels = to_categorical(self.square_labels, (len(self.split_beg) + 1))
 
 
     def setClasses(self):
         ''' Set height classes manually depending on past study '''
-        self.split_beg = [0,2,6,50,80]
-        self.split_end = [2,6,50,80,251]
+        self.split_beg = [0,2,6,20,50,80]
+        self.split_end = [2,6,20,50,80,251]
 
     def balanceClasses(self):
         ''' Balance height classes so that ~same amount of samples in each class '''

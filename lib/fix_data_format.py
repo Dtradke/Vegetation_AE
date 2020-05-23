@@ -4,7 +4,7 @@ from io import StringIO
 from scipy import ndimage
 import sys
 
-files = ['obj_height']
+files = ['footprints']
 # files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'obj_height']
 # files = ['band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'slope', 'evi', 'obj_height']
 # special_layers = ['footprints', 'obj_height']
@@ -41,7 +41,7 @@ for f in files:
     else:
         layer = cv2.imread(fname, cv2.IMREAD_UNCHANGED)
 
-    print(layer.shape)
+
     the_type = layer.dtype
     new_fname = folder + f + '.txt'
     # print(layer)

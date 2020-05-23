@@ -138,6 +138,14 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     answers = np.ones_like(val)
     diff = 1
 
+    # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
+    classes = np.amax(val)
+    ground = {}
+    for i in range(classes):
+        ground[i] = {}
+        for j in range(classes):
+            ground[i][j] = 0
+
     for i, row in enumerate(val):
         for j, entry in enumerate(row):
             for iter_i in range(3):
@@ -152,11 +160,16 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     for i in range(keys):
         correct_val_slow[i]+=np.count_nonzero((answers == 0) & (val == i))
 
+    wrong = pred[answers != 1]
+    right = val[answers != 1]
+    for i, height in enumerate(right):
+        ground[height][wrong[i]]+=1
+
     grass_close, shrub_close = 0,0#getClosePreds(real_height, val, answers, masterDataSet)
 
     correct = np.count_nonzero((answers == 0) & (val != 0))
     incorrect = np.count_nonzero((answers != 0) & (val != 0))
-    return correct, incorrect, grass_close, shrub_close
+    return correct, incorrect, grass_close, shrub_close, ground
 
 def formatPreds(pred, val):
 
@@ -241,9 +254,10 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
         total_val[5]+=np.count_nonzero(val == 5)
+        total_val[5]+=np.count_nonzero(val == 6)
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)
-        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close = slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys)
+        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close, ground = slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys)
         ncorrect+=sq_correct
         nincorrect+=sq_incorrect
         ck_correct_total+=ck_correct
@@ -304,6 +318,11 @@ def evaluateYNET(y_preds, masterDataSet):
     for i in correct_val_slow.keys():
         masterDataSet.correct[i] += correct_val_slow[i]
         masterDataSet.total[i] += total_val[i]
+
+    print("WRONG PREDICTION BREAKDOWN (for confusion mtx):")
+    for i, key in enumerate(ground.keys()):
+        for w, inner_key in enumerate(ground[key].keys()):
+            print("Ground: ", key, " - Total predicted wrong as ", inner_key,": ", ground[key][inner_key])
 
 
 
