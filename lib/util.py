@@ -141,7 +141,6 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys):
     # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
     ground = {}
     classes = len(masterDataSet.split_beg)
-    print("classes: ", classes)
     for i in range(classes+1):
         ground[i] = {}
         for j in range(classes+1):
@@ -252,7 +251,7 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[2]+=np.count_nonzero(val == 2)
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
-        # total_val[5]+=np.count_nonzero(val == 5)
+        total_val[5]+=np.count_nonzero(val == 5)
         # total_val[6]+=np.count_nonzero(val == 6)
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)

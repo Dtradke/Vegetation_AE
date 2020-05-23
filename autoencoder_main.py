@@ -99,7 +99,7 @@ def heightsCheck(masterDataSet):
         total_val[2]+=np.count_nonzero(val == 2)
         total_val[3]+=np.count_nonzero(val == 3)
         total_val[4]+=np.count_nonzero(val == 4)
-        # total_val[5]+=np.count_nonzero(val == 5)
+        total_val[5]+=np.count_nonzero(val == 5)
         # total_val[6]+=np.count_nonzero(val == 6)
     [print(total_val[i]) for i in total_val.keys()]
 
