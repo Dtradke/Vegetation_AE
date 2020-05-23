@@ -322,7 +322,7 @@ def evaluateYNET(y_preds, masterDataSet):
     print("WRONG PREDICTION BREAKDOWN (for confusion mtx):")
     for i, key in enumerate(ground.keys()):
         for w, inner_key in enumerate(ground[key].keys()):
-            print("Ground: ", key, " - Total predicted wrong as ", inner_key,": ", ground[key][inner_key])
+            print("Ground: ", key, " - Total predicted wrong as ", inner_key,": ", ground[key][inner_key]/total_val[key])
 
 
 
