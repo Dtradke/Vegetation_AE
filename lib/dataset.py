@@ -40,7 +40,7 @@ class Squares(object):
         if datasets is not None:
             if len(datasets) == 6:
                 self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
-                self.split_beg = list(range(self.testy.shape[-1]))
+                self.split_beg = list(range(self.testy.shape[-1])-1)
             else:
                 self.squares, self.square_labels, self.square_labels_orig = datasets
                 self.makeClasses()

@@ -227,18 +227,16 @@ def evaluateYNET(y_preds, masterDataSet):
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
     total_val = {}
     keys = y_preds.shape[3]
+    # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
+    ground = {}
     for i in range(keys):
         total_val[i] = 0
         correct_val_fast[i] = 0
         correct_val_slow[i] = 0
-
-    # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
-    ground = {}
-    classes = len(masterDataSet.split_beg)
-    for i in range(classes+1):
         ground[i] = {}
-        for j in range(classes+1):
+        for j in range(keys):
             ground[i][j] = 0
+
 
     if len(masterDataSet.correct.keys()) == 0: masterDataSet.setKeys(keys)
     worst_arr_count = 0
