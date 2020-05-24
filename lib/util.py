@@ -131,7 +131,7 @@ def checkNeighborhood(pred, val, real_height, masterDataSet, keys):
     return correct, incorrect, grass_close, shrub_close
 
 
-def slowCheckNeighborhood(i, pred, val, real_height, masterDataSet, keys, ground):
+def slowCheckNeighborhood(sample, pred, val, real_height, masterDataSet, keys, ground):
     global correct_val_slow
 
     val = np.squeeze(val)
@@ -159,7 +159,8 @@ def slowCheckNeighborhood(i, pred, val, real_height, masterDataSet, keys, ground
     for i, height in enumerate(right):
         ground[height][wrong[i]]+=1
 
-    viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, answers, i)
+    if sample < 500:
+        viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, answers, sample)
 
     grass_close, shrub_close = 0,0#getClosePreds(real_height, val, answers, masterDataSet)
 
