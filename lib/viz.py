@@ -42,6 +42,7 @@ def view3d(layer):
 
 def viewResult(layer, val, pred, diff, num):
     titles = ['layer', 'val', 'pred', 'diff']
+    arr = [layer, val, pred, diff]
     count = 0
 
     fig = plt.figure(figsize=(8, 8))
