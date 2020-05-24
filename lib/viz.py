@@ -40,7 +40,7 @@ def view3d(layer):
     plt.show()
 
 
-def viewResult(layer, val, pred, diff):
+def viewResult(layer, val, pred, diff, num):
     titles = ['layer', 'val', 'pred', 'diff']
     count = 0
 
@@ -57,7 +57,10 @@ def viewResult(layer, val, pred, diff):
         plt.imshow(img) #, alpha=0.25
         count+=1
 
-    plt.show()
+    # plt.show()
+    if save:
+        fname = "output/figures/" + num + ".png"
+        plt.savefig(fname, dpi=fig.dpi)
 
 def displayKCrossVal(dataset):
     print("TOTALS:")

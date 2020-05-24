@@ -131,7 +131,7 @@ def checkNeighborhood(pred, val, real_height, masterDataSet, keys):
     return correct, incorrect, grass_close, shrub_close
 
 
-def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys, ground):
+def slowCheckNeighborhood(i, pred, val, real_height, masterDataSet, keys, ground):
     global correct_val_slow
 
     val = np.squeeze(val)
@@ -158,6 +158,8 @@ def slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys, ground):
     right = val[answers == 1]
     for i, height in enumerate(right):
         ground[height][wrong[i]]+=1
+
+    viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, answers, i)
 
     grass_close, shrub_close = 0,0#getClosePreds(real_height, val, answers, masterDataSet)
 
@@ -257,7 +259,7 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[6]+=np.count_nonzero(val == 6)
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)
-        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close, ground = slowCheckNeighborhood(pred, val, real_height, masterDataSet, keys, ground)
+        ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close, ground = slowCheckNeighborhood(i, pred, val, real_height, masterDataSet, keys, ground)
         ncorrect+=sq_correct
         nincorrect+=sq_incorrect
         ck_correct_total+=ck_correct
