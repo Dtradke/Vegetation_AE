@@ -60,7 +60,7 @@ def viewResult(layer, val, pred, diff, num):
 
     # plt.show()
     if save:
-        fname = "output/figures/" + num + ".png"
+        fname = "output/figures/" + str(num) + ".png"
         plt.savefig(fname, dpi=fig.dpi)
 
 def displayKCrossVal(dataset):
