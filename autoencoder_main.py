@@ -113,7 +113,6 @@ def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
             print("Loading Squares")
             datasets = util.loadSquareDatasets(load_datasets)
         masterDataSet = dataset.Squares(test_set=test_set, datasets=datasets)
-        print(">test: ", masterDataSet.testX)
     else:
         print("Making new Datasets")
         masterDataSet = openDatasets(test_set, mod)
