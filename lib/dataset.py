@@ -20,7 +20,7 @@ AOIRadius = 11
 classify = True
 bin_class = False
 
-balance_classes = False
+balance_classes = True
 
 SQUARE_DIM = 64
 
@@ -149,7 +149,7 @@ class Squares(object):
         ''' Balance height classes so that ~same amount of samples in each class '''
         for i in range(sorted_squares.shape[0]):
             try:
-                split_arr = np.split(sorted_squares, 4)
+                split_arr = np.split(sorted_squares, 6)
                 break
             except:
                 sorted_squares = sorted_squares[:-1]
