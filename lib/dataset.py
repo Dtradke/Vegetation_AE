@@ -116,7 +116,7 @@ class Squares(object):
         sorted_squares = sorted_squares[sorted_squares != -1]
         if classify:
             if balance_classes:
-                self.balanceClasses()
+                self.balanceClasses(sorted_squares)
             else:
                 self.setClasses()
 
@@ -145,7 +145,7 @@ class Squares(object):
         self.split_beg = [0,4,10,30,70,100]
         self.split_end = [4,10,30,70,100,251]
 
-    def balanceClasses(self):
+    def balanceClasses(self, sorted_squares):
         ''' Balance height classes so that ~same amount of samples in each class '''
         for i in range(sorted_squares.shape[0]):
             try:
