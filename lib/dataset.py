@@ -40,9 +40,7 @@ class Squares(object):
         if datasets is not None:
             if len(datasets) == 6:
                 self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
-                print("max: ", np.amax(self.testX))
-                exit()
-                self.split_beg = list(range(np.amax(self.testX)+1))
+                self.split_beg = list(range(np.amax(self.testy)+1))
             else:
                 self.squares, self.square_labels, self.square_labels_orig = datasets
                 self.makeClasses()
