@@ -108,7 +108,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
     if load_datasets is not None:
         try:
             print("Loading preprocessed datasets")
-            datasets = util.loadDatasets(load_datasets)
+            datasets = util.loadDatasets(load_datasets, save_mod)
         except:
             print("Loading Squares")
             datasets = util.loadSquareDatasets(load_datasets)
