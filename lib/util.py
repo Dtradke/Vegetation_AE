@@ -327,7 +327,7 @@ def evaluateRegression(y_preds, masterDataSet):
         pred, val = formatPreds(pred, val)
         mse = np.mean(np.square(np.subtract(val, pred)))
         mse_diff = np.square(np.subtract(val, pred))
-        if i < 1: viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, mse_diff, i)
+        if i < 500: viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, mse_diff, i)
 
     # calculate result
     ground = masterDataSet.testy.flatten()
