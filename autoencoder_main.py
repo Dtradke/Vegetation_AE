@@ -120,7 +120,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
         print("Making new Datasets")
         masterDataSet = openDatasets(test_set, mod)
 
-    heightsCheck(masterDataSet)
+    # heightsCheck(masterDataSet)
     test_len = util.KCross(masterDataSet)
     for i in range(test_len):
         print(i)
