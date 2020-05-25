@@ -55,7 +55,7 @@ def viewResult(layer, val, pred, diff, num):
         # create subplot and append to ax
         ax.append( fig.add_subplot(rows, columns, i+1) )
         ax[-1].set_title(titles[count] + ": " + str(round((val.size - np.count_nonzero(diff)) / val.size, 4)))  # set title
-        ax[-1].legend(bbox_to_anchor=(1.05, 1.0), loc='upper left')
+        ax[-1].legend(loc='upper left')
         plt.imshow(img) #, alpha=0.25
         count+=1
 
