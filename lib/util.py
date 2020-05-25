@@ -326,6 +326,7 @@ def evaluateRegression(y_preds, masterDataSet):
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
         mse = np.mean(np.square(np.subtract(val, pred)))
+        mse_diff = np.square(np.subtract(val, pred))
         viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, mse, i)
 
     # calculate result
