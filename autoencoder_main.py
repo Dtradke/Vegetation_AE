@@ -53,9 +53,6 @@ def openDatasets(test_set, mod):
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
-    print(masterDataSet.testy)
-    print(masterDataSet.testy.shape)
-    exit()
     if mod is None:
         if SPLIT:
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
@@ -120,8 +117,12 @@ def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
         print("Making new Datasets")
         masterDataSet = openDatasets(test_set, mod)
 
-    # heightsCheck(masterDataSet)
-    test_len = util.KCross(masterDataSet)
+    try:
+        heightsCheck(masterDataSet)
+        test_len = util.KCross(masterDataSet)
+    except:
+        test_len = 1
+        
     for i in range(test_len):
         print(i)
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])
