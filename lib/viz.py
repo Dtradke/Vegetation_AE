@@ -51,6 +51,7 @@ def viewResult(layer, val, pred, diff, num):
 
     ax = []
     for i in range(columns*rows):
+        print(titles[count], " : ", arr[count])
         img = np.squeeze(arr[count])
         # create subplot and append to ax
         ax.append( fig.add_subplot(rows, columns, i+1) )
