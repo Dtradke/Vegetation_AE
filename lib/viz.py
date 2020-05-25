@@ -62,7 +62,7 @@ def viewResult(layer, val, pred, diff, num):
     # plt.show()
     if save:
         fname = "output/figures/" + str(num) + ".png"
-        plt.savefig(fname, dpi=fig.dpi, bbox_extra_artists=(lg,), bbox_inches='tight')
+        plt.savefig(fname, dpi=fig.dpi)
     plt.close()
 
 
