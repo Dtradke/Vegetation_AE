@@ -53,6 +53,9 @@ def openDatasets(test_set, mod):
     return masterDataSet
 
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
+    print(masterDataSet.testy)
+    print(masterDataSet.testy.shape)
+    exit()
     if mod is None:
         if SPLIT:
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
