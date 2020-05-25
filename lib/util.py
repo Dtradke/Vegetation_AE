@@ -9,7 +9,7 @@ import csv
 import sys
 from lib import viz
 
-classify = True
+classify = False
 bin_class = False
 
 try:
@@ -161,7 +161,7 @@ def slowCheckNeighborhood(sample, pred, val, real_height, masterDataSet, keys, g
         ground[height][wrong[i]]+=1
 
     if sample < 500:
-        viz.viewResult(masterDataSet.testX[i][:, :, 2], val, pred, answers, sample)
+        viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, answers, sample)
 
     grass_close, shrub_close = 0,0#getClosePreds(real_height, val, answers, masterDataSet)
 
@@ -176,18 +176,8 @@ def formatPreds(pred, val):
         max_val = np.argmax(val, axis=2)
         return max_pred, max_val
     else:
-        pred = np.squeeze(pred)
-        pred[pred >= 0.80] = 4
-        pred[(pred >= 0.6) & (pred < 0.8)] = 3
-        pred[(pred >= 0.4) & (pred < 0.6)] = 2
-        pred[(pred >= 0.2) & (pred < .4)] = 1
-        pred[pred < 0.2] = 0
-        val = np.squeeze(val)
-        val[val == 1] = 3
-        val[val == 0.75] = 3
-        val[val == 0.5] = 2
-        val[val == 0.25] = 1
-        val[val == 0] = 0
+        # pred = np.squeeze(pred)
+        # val = np.squeeze(val)
         return pred, val
 
 def getClosePreds(real_height, val, diff, masterDataSet):
@@ -329,26 +319,18 @@ def evaluateYNET(y_preds, masterDataSet):
 
 
 def evaluateRegression(y_preds, masterDataSet):
-    # error = np.mean( y_preds != masterDataSet.testy )
-    # ground = np.squeeze(masterDataSet.testy)
-    # y_preds = np.squeeze(y_preds)
+    # make visuals
+    for i, val in enumerate(masterDataSet.testy):
+        pred = y_preds[i]
+        try: real_height = masterDataSet.orig_testy[i]
+        except: real_height = np.array([])
+        pred, val = formatPreds(pred, val)
+        mse = np.mean(np.square(np.subtract(val, pred)))
+        viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, mse, i)
+
+    # calculate result
     ground = masterDataSet.testy.flatten()
     y_preds = y_preds.flatten()
 
-    diff = np.absolute(np.subtract(ground, y_preds))
-    below10diff = diff[ground < 10]
-    between10and50 = diff[(ground >= 10) & (ground < 50)]
-    above50diff = diff[ground >= 50]
-
-    error_under10 = np.mean(below10diff)
-    error_middle = np.mean(between10and50)
-    error_high = np.mean(above50diff)
-    print("short: ", error_under10)
-    print("middle: ", error_middle)
-    print("high: ", error_high)
-
-
-    # percentage = np.divide(diff, ground)
-    error = np.mean(np.nan_to_num(diff))
-    print("Error in feet: ", error)
-    exit()
+    mse = np.mean(np.square(np.subtract(ground, y_preds)))
+    print("mean_squared_error: ", mse)

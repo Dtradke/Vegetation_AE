@@ -37,7 +37,7 @@ tf.random.set_seed(42)# tensorflow seed fixing
 
 import random
 
-classify = True
+classify = False
 bin_class = False
 
 GPU = False
