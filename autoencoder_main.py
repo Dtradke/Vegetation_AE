@@ -22,7 +22,7 @@ from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
 SPLIT = True
-pretrain = True
+pretrain = False
 
 def openDatasets(test_set, mod):
     data = None
@@ -63,6 +63,8 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             if pretrain:
                 pretrain_mod = model.unet_split(X_split_1, X_split_2, pretrain=True)
                 mod = model.pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod)
+            else:
+                mod = model.unet_split(X_split_1, X_split_2)
 
 # TODO: do transfer learning with small datasets after unsupervised pretraining... see how small the dataset can be
 
@@ -122,7 +124,7 @@ def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
         test_len = util.KCross(masterDataSet)
     except:
         test_len = 1
-        
+
     for i in range(test_len):
         print(i)
         print("Length of train: ", masterDataSet.trainX.shape[0], " and test: ", masterDataSet.testX.shape[0])

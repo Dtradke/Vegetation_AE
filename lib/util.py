@@ -335,4 +335,5 @@ def evaluateRegression(y_preds, masterDataSet):
 
     mse = np.mean(np.square(np.subtract(ground, y_preds)))
     print("mean_squared_error: ", mse)
+    print("Finished")
     exit()
