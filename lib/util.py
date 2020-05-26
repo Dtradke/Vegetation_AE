@@ -319,6 +319,7 @@ def evaluateYNET(y_preds, masterDataSet):
 
 
 def evaluateRegression(y_preds, masterDataSet):
+    single_r_squareds = []
     # make visuals
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
@@ -326,12 +327,23 @@ def evaluateRegression(y_preds, masterDataSet):
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
         mse = np.mean(np.square(np.subtract(val, pred)))
-        mse_diff = np.square(np.subtract(val, pred))
-        if i < 500: viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, mse_diff, i)
+        absolute_diff = np.absolute(np.subtract(val, pred))
+
+        RSS = np.sum(np.square(np.subtract(val, pred)))
+        TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
+        single_r_squareds.append(1 - (RSS/TSS))
+
+        if i < 500: viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
 
     # calculate result
     ground = masterDataSet.testy.flatten()
     y_preds = y_preds.flatten()
+
+    RSS = np.sum(np.square(np.subtract(ground, y_preds)))
+    TSS = np.sum(np.square(np.subtract(ground,np.mean(ground))))
+    r_squared = 1 - (RSS/TSS)
+    print("R^2 together: ", r_squared)
+    print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
 
     mse = np.mean(np.square(np.subtract(ground, y_preds)))
     print("mean_squared_error: ", mse)
