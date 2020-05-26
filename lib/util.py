@@ -8,6 +8,7 @@ import time
 import csv
 import sys
 from lib import viz
+import math
 
 classify = False
 bin_class = False
@@ -336,8 +337,14 @@ def evaluateRegression(y_preds, masterDataSet):
         mse = np.mean(np.square(np.subtract(val, pred)))
         absolute_diff = np.absolute(np.subtract(val, pred))
 
-
-        single_r_squareds.append(calculateRSquared(flat_pred, flat_val))
+        r = calculateRSquared(flat_pred, flat_val)
+        if math.isnan(r):
+            print("pred: ", pred)
+            print("val: ", val)
+            print("mse: ", mse)
+            print("diff: ", absolute_diff)
+            continue
+        single_r_squareds.append()
 
 
         if i < 500:
@@ -350,7 +357,7 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds = y_preds[ground>0]
     ground = ground[ground>0]
 
-    print(single_r_squareds)
+    # print(single_r_squareds)
     print("nan?: ", np.any(np.isnan(np.array(single_r_squareds))))
     print("inf?: ", np.any(np.isinf(np.array(single_r_squareds))))
     print("R^2 together: ", calculateRSquared(y_preds, ground))
