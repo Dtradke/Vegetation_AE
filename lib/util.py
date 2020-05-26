@@ -351,8 +351,8 @@ def evaluateRegression(y_preds, masterDataSet):
     ground = ground[ground>0]
 
     print(single_r_squareds)
-    print("nan?: ", np.isnan(np.array(single_r_squareds)))
-    print("inf?: ", np.isinf(np.array(single_r_squareds)))
+    print("nan?: ", np.any(np.isnan(np.array(single_r_squareds))))
+    print("inf?: ", np.any(np.isinf(np.array(single_r_squareds))))
     print("R^2 together: ", calculateRSquared(y_preds, ground))
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
 
