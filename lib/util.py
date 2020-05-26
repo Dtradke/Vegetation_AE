@@ -352,7 +352,7 @@ def evaluateRegression(y_preds, masterDataSet):
 
     ground = ground[ground>0]
     print("g2: ", ground.shape)
-    y_preds = y_preds[y_preds>0]
+    y_preds = y_preds[ground>0]
     print("y2: ", y_preds.shape)
 
     # RSS = np.sum(np.square(np.subtract(ground, y_preds)))
