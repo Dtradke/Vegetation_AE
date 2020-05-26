@@ -240,7 +240,13 @@ class Squares(object):
             if np.count_nonzero(lab == -1) == lab.size:
                 delete_idx.append(count)
 
-        print(delete_idx)
+        print("cubes: ", cubes.shape)
+        print("labels: ", cube_labels.shape)
+        cubes = np.delete(cubes, delete_idx)
+        cube_labels = np.delete(cubes, delete_idx)
+        print("cubes: ", cubes.shape)
+        print("labels: ", cube_labels.shape)
+        print(len(delete_idx))
         exit()
 
     @staticmethod
