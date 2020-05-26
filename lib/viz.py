@@ -104,22 +104,23 @@ def viewResultColorbar(layer, val, pred, diff, r_squared, num):
     plt.close()
 
 
-    # Make images respond to changes in the norm of other images (e.g. via the
-    # "edit axis, curves and images parameters" GUI on Qt), but be careful not to
-    # recurse infinitely!
-    # def update(changed_image):
-    #     for im in images:
-    #         if (changed_image.get_cmap() != im.get_cmap()
-    #                 or changed_image.get_clim() != im.get_clim()):
-    #             im.set_cmap(changed_image.get_cmap())
-    #             im.set_clim(changed_image.get_clim())
-    #
-    #
-    # for im in images:
-    #     im.callbacksSM.connect('changed', update)
-    #
-    # plt.show()
+def scatterplotRegression(preds, ground):
+    import matplotlib.lines as mlines
+    plt.scatter(preds, ground, c='b', alpha=0.5)
+    line = mlines.Line2D([0, 250], [0, 250], color='red')
 
+    m, b = np.polyfit(preds, ground, 1)
+    plt.plot(preds, m*preds + b, c='o')
+
+
+    plt.add_line(line)
+    plt.title('Scatter plot pythonspot.com')
+    plt.xlabel('Predicted', fontsize=20)
+    plt.ylabel('Lidar', fontsize=20)
+    if save:
+        fname = "output/figures/scatterplot.png"
+        plt.savefig(fname, dpi=fig.dpi)
+    plt.close()
 
 
 def displayKCrossVal(dataset):

@@ -353,10 +353,8 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds = y_preds[ground>0]
     ground = ground[ground>0]
 
-    print("pred first: ", y_preds[0])
-    print("ground first: ", ground[0])
-    zipped = np.array(list(zip(y_preds, ground)))
-    print("zip first: ", zipped[0])
+    # zipped = np.array(list(zip(y_preds, ground)))
+    viz.scatterplotRegression(y_preds, ground)
 
     print("R^2 together: ", calculateRSquared(y_preds, ground))
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
