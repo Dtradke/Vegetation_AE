@@ -350,6 +350,7 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds = y_preds[ground>0]
     ground = ground[ground>0]
 
+    print(single_r_squareds)
     print("R^2 together: ", calculateRSquared(y_preds, ground))
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
 
