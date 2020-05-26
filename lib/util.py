@@ -333,8 +333,8 @@ def evaluateRegression(y_preds, masterDataSet):
         pred, val = formatPreds(pred, val)
         flat_pred = pred[val>0]
         flat_val = val[val>0]
-        mse = np.mean(np.square(np.subtract(pred, pred)))
-        absolute_diff = np.absolute(np.subtract(pred, pred))
+        mse = np.mean(np.square(np.subtract(val, pred)))
+        absolute_diff = np.absolute(np.subtract(val, pred))
 
 
         single_r_squareds.append(calculateRSquared(flat_pred, flat_val))
