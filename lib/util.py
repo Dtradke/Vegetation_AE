@@ -332,10 +332,11 @@ def evaluateRegression(y_preds, masterDataSet):
         RSS = np.sum(np.square(np.subtract(val, pred)))
         TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
         r_squared = 1 - (RSS/TSS)
+        if i == 0:
+            print(">", RSS, " , ", TSS, " , ", r_squared)
         single_r_squareds.append(r_squared)
 
-        if i == 0:
-            print(">", single_r_squareds[-1])
+
 
         if i < 500: viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
 
