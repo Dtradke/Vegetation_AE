@@ -344,7 +344,7 @@ def evaluateRegression(y_preds, masterDataSet):
             print("mse: ", mse)
             print("diff: ", absolute_diff)
             continue
-        single_r_squareds.append()
+        single_r_squareds.append(r)
 
 
         if i < 500:
