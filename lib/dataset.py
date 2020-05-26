@@ -31,6 +31,7 @@ class Squares(object):
     def __init__(self, data=None, test_set=False, mod=None, datasets=None):
         print("mod: ", mod)
         exit()
+        
         self.split_beg = []
         self.split_end = []
         self.trainstring = ''
