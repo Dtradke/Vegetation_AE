@@ -13,6 +13,7 @@ try:
 except:
     print('Failed to import pyplot ')
 
+from matplotlib import colors
 from lib import dataset
 from lib import util
 
@@ -55,17 +56,67 @@ def viewResult(layer, val, pred, diff, r_squared, num):
         # create subplot and append to ax
         ax.append( fig.add_subplot(rows, columns, i+1) )
         # ax[-1].set_title(titles[count] + ": " + str(round((val.size - np.count_nonzero(diff)) / val.size, 4)))  # set title
-        # print(">>", round(r_squared, 4))
         ax[-1].set_title(titles[count] + ": " + str(round(r_squared, 4)))
-        # ax[-1].legend(loc='upper left')
         plt.imshow(img) #, alpha=0.25
         count+=1
-
     # plt.show()
     if save:
         fname = "output/figures/" + str(num) + ".png"
         plt.savefig(fname, dpi=fig.dpi)
     plt.close()
+
+def viewResultColorbar(layer, val, pred, diff, r_squared, num):
+    titles = ['layer', 'diff', 'val', 'pred']
+    arr = [layer, diff, val, pred]
+    np.random.seed(19680801)
+    Nr = 2
+    Nc = 2
+    cmap = "summer"
+
+    fig, axs = plt.subplots(Nr, Nc)
+    fig.suptitle('Multiple images')
+
+    images = []
+    count = 0
+    for i in range(Nr):
+        for j in range(Nc):
+            # Generate data with a range that varies from one plot to the next.
+            data = arr[count]  #((1 + i + j) / 10) * np.random.rand(10, 20) * 1e-6
+            images.append(axs[i, j].imshow(data, cmap=cmap))
+            # axs[i, j].label_outer()
+            count+=1
+
+    # Find the min and max of all colors for use in setting the color scale.
+    vmin = min(np.amin(val), np.amin(pred)) #min(image.get_array().min() for image in images)
+    vmax = max(np.amax(val), np.amax(pred)) #max(image.get_array().max() for image in images)
+    norm = colors.Normalize(vmin=vmin, vmax=vmax)
+    for i, im in enumerate(images):
+        if titles[i] == 'val' or titles[i] == 'pred':
+            im.set_norm(norm)
+
+    fig.colorbar(images[0], ax=axs, orientation='horizontal', fraction=.1)
+
+    if save:
+        fname = "output/figures/norm" + str(num) + ".png"
+        plt.savefig(fname, dpi=fig.dpi)
+    plt.close()
+
+
+    # Make images respond to changes in the norm of other images (e.g. via the
+    # "edit axis, curves and images parameters" GUI on Qt), but be careful not to
+    # recurse infinitely!
+    # def update(changed_image):
+    #     for im in images:
+    #         if (changed_image.get_cmap() != im.get_cmap()
+    #                 or changed_image.get_clim() != im.get_clim()):
+    #             im.set_cmap(changed_image.get_cmap())
+    #             im.set_clim(changed_image.get_clim())
+    #
+    #
+    # for im in images:
+    #     im.callbacksSM.connect('changed', update)
+    #
+    # plt.show()
 
 
 
