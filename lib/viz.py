@@ -82,6 +82,8 @@ def viewResultColorbar(layer, val, pred, diff, r_squared, num):
         for j in range(Nc):
             # Generate data with a range that varies from one plot to the next.
             data = arr[count]  #((1 + i + j) / 10) * np.random.rand(10, 20) * 1e-6
+            if len(data.shape) > 2:
+                data = np.squeeze(data)
             images.append(axs[i, j].imshow(data, cmap=cmap))
             # axs[i, j].label_outer()
             count+=1
