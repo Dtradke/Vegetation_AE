@@ -71,10 +71,10 @@ def viewResultColorbar(layer, val, pred, diff, r_squared, num):
     np.random.seed(19680801)
     Nr = 2
     Nc = 2
-    cmap = "summer"
+    cmap = "viridis"
 
     fig, axs = plt.subplots(Nr, Nc)
-    fig.suptitle('Multiple images')
+    fig.suptitle("R^2: " + str(r_squared))
 
     images = []
     count = 0
@@ -93,10 +93,10 @@ def viewResultColorbar(layer, val, pred, diff, r_squared, num):
     vmax = max(np.amax(val), np.amax(pred)) #max(image.get_array().max() for image in images)
     norm = colors.Normalize(vmin=vmin, vmax=vmax)
     for i, im in enumerate(images):
-        if titles[i] == 'val' or titles[i] == 'pred':
-            im.set_norm(norm)
+        # if titles[i] == 'val' or titles[i] == 'pred':
+        im.set_norm(norm)
 
-    fig.colorbar(images[0], ax=axs, orientation='horizontal', fraction=.1)
+    fig.colorbar(images[-1], ax=axs, orientation='horizontal', fraction=.1)
 
     if save:
         fname = "output/figures/norm" + str(num) + ".png"
