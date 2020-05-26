@@ -242,8 +242,8 @@ class Squares(object):
 
         print("cubes: ", cubes.shape)
         print("labels: ", cube_labels.shape)
-        cubes = np.delete(cubes, delete_idx, axis=2)
-        cube_labels = np.delete(cubes, delete_idx, axis=2)
+        cubes = np.delete(cubes, delete_idx, axis=3)
+        cube_labels = np.delete(cubes, delete_idx, axis=3)
         print("cubes: ", cubes.shape)
         print("labels: ", cube_labels.shape)
         print(len(delete_idx))
