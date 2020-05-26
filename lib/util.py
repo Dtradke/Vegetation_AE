@@ -339,10 +339,6 @@ def evaluateRegression(y_preds, masterDataSet):
 
         r = calculateRSquared(flat_pred, flat_val)
         if math.isnan(r):
-            print("pred: ", pred)
-            print("val: ", val)
-            print("mse: ", mse)
-            print("diff: ", absolute_diff)
             continue
         single_r_squareds.append(r)
 
@@ -357,9 +353,6 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds = y_preds[ground>0]
     ground = ground[ground>0]
 
-    # print(single_r_squareds)
-    print("nan?: ", np.any(np.isnan(np.array(single_r_squareds))))
-    print("inf?: ", np.any(np.isinf(np.array(single_r_squareds))))
     print("R^2 together: ", calculateRSquared(y_preds, ground))
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
 
