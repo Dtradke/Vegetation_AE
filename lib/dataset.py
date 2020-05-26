@@ -222,12 +222,26 @@ class Squares(object):
                 layers_arr.append(np.array(layer_squares))
             cubes = np.stack(layers_arr, axis=3)
             cube_labels = self.makeLabel(loc.layer_obj_heights)
+
+            cubes, cube_labels = self.deleteFootprintSquares(cubes, cube_labels)
+
+
             print(cubes.shape, " labels: ", cube_labels.shape)
             all_cubes.append(cubes)
             all_cubes_labels.append(cube_labels)
         all_cubes = np.concatenate(all_cubes, axis=0 )
         all_cubes_labels = np.concatenate(all_cubes_labels, axis=0 )
         return shuffle(all_cubes, all_cubes_labels, all_cubes_labels)
+
+    @staticmethod
+    def deleteFootprintSquares(cubes, cube_labels):
+        delete_idx = []
+        for count, lab in cube_labels:
+            if np.count_nonzero(lab == -1) == lab.size:
+                delete_idx.append(count)
+
+        print(count)
+        exit()
 
     @staticmethod
     def makeLabel(label_layer):

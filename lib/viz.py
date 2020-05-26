@@ -55,7 +55,7 @@ def viewResult(layer, val, pred, diff, r_squared, num):
         # create subplot and append to ax
         ax.append( fig.add_subplot(rows, columns, i+1) )
         # ax[-1].set_title(titles[count] + ": " + str(round((val.size - np.count_nonzero(diff)) / val.size, 4)))  # set title
-        print(">>", round(r_squared, 4))
+        # print(">>", round(r_squared, 4))
         ax[-1].set_title(titles[count] + ": " + str(round(r_squared, 4)))
         # ax[-1].legend(loc='upper left')
         plt.imshow(img) #, alpha=0.25
