@@ -222,10 +222,7 @@ class Squares(object):
                 layers_arr.append(np.array(layer_squares))
             cubes = np.stack(layers_arr, axis=3)
             cube_labels = self.makeLabel(loc.layer_obj_heights)
-
             cubes, cube_labels = self.deleteFootprintSquares(cubes, cube_labels)
-
-
             print(cubes.shape, " labels: ", cube_labels.shape)
             all_cubes.append(cubes)
             all_cubes_labels.append(cube_labels)
@@ -235,19 +232,15 @@ class Squares(object):
 
     @staticmethod
     def deleteFootprintSquares(cubes, cube_labels):
+        ''' If a square is over 80% non-vegetation, don't include it '''
         delete_idx = []
         for count, lab in enumerate(cube_labels):
-            if np.count_nonzero(lab == -1) == lab.size:
+            if np.count_nonzero(lab == -1) >= (lab.size * 0.8):
                 delete_idx.append(count)
 
-        print("cubes: ", cubes.shape)
-        print("labels: ", cube_labels.shape)
         cubes = np.delete(cubes, delete_idx, axis=0)
-        cube_labels = np.delete(cubes, delete_idx, axis=0)
-        print("cubes: ", cubes.shape)
-        print("labels: ", cube_labels.shape)
-        print(len(delete_idx))
-        exit()
+        cube_labels = np.delete(cube_labels, delete_idx, axis=0)
+        return cubes, cube_labels
 
     @staticmethod
     def makeLabel(label_layer):

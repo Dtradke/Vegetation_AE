@@ -70,12 +70,12 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
 
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=1, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
-        if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
+        # if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
         if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
         else: mod = model.unet(masterDataSet, pretrained_weights=mod)
