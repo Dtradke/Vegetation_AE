@@ -326,11 +326,13 @@ def evaluateRegression(y_preds, masterDataSet):
         try: real_height = masterDataSet.orig_testy[i]
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
-        mse = np.mean(np.square(np.subtract(val, pred)))
-        absolute_diff = np.absolute(np.subtract(val, pred))
+        flat_pred = pred[val>0]
+        flat_val = val[val>0]
+        mse = np.mean(np.square(np.subtract(flat_val, flat_pred)))
+        absolute_diff = np.absolute(np.subtract(flat_val, flat_pred))
 
-        RSS = np.sum(np.square(np.subtract(val, pred)))
-        TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
+        RSS = np.sum(np.square(np.subtract(flat_val, flat_pred)))
+        TSS = np.sum(np.square(np.subtract(flat_val,np.mean(flat_val))))
         r_squared = 1 - (RSS/TSS)
         if i == 0:
             print(">", RSS, " , ", TSS, " , ", r_squared)
