@@ -240,7 +240,7 @@ class Squares(object):
             if np.count_nonzero(lab == -1) == lab.size:
                 delete_idx.append(count)
 
-        print(count)
+        print(delete_idx)
         exit()
 
     @staticmethod
