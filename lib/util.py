@@ -343,15 +343,20 @@ def evaluateRegression(y_preds, masterDataSet):
         single_r_squareds.append(r)
 
 
-        if i < 500:
-            # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
-            viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        # if i < 500:
+        #     # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        #     viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
 
     # calculate result
     ground = masterDataSet.testy.flatten()
     y_preds = y_preds.flatten()
     y_preds = y_preds[ground>0]
     ground = ground[ground>0]
+
+    print("pred first: ", y_preds[0])
+    print("ground first: ", ground[0])
+    zipped = zip(y_preds, ground)
+    print("zip first: ", zipped[0])
 
     print("R^2 together: ", calculateRSquared(y_preds, ground))
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
