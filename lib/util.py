@@ -340,7 +340,9 @@ def evaluateRegression(y_preds, masterDataSet):
         single_r_squareds.append(calculateRSquared(flat_pred, flat_val))
 
 
-        if i < 500: viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        if i < 500:
+            # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+            viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
 
     # calculate result
     print(masterDataSet.testy.shape)
