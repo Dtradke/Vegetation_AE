@@ -318,8 +318,8 @@ def evaluateYNET(y_preds, masterDataSet):
 
 
 def calculateRSquared(pred, val):
-    RSS = np.sum(np.square(np.subtract(pred, pred)))
-    TSS = np.sum(np.square(np.subtract(pred,np.mean(pred))))
+    RSS = np.sum(np.square(np.subtract(val, pred)))
+    TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
     r_squared = 1 - (RSS/TSS)
     return r_squared
 
@@ -343,14 +343,25 @@ def evaluateRegression(y_preds, masterDataSet):
         if i < 500: viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
 
     # calculate result
+    print(masterDataSet.testy.shape)
+    print(y_preds.shape)
     ground = masterDataSet.testy.flatten()
     y_preds = y_preds.flatten()
+    print("g: ", ground.shape)
+    print("y: ", y_preds.shape)
 
-    RSS = np.sum(np.square(np.subtract(ground, y_preds)))
-    TSS = np.sum(np.square(np.subtract(ground,np.mean(ground))))
-    r_squared = 1 - (RSS/TSS)
-    print("R^2 together: ", r_squared)
+    ground = ground[ground>0]
+    print("g2: ", ground.shape)
+    y_preds = y_preds[y_preds>0]
+    print("y2: ", y_preds.shape)
+
+    # RSS = np.sum(np.square(np.subtract(ground, y_preds)))
+    # TSS = np.sum(np.square(np.subtract(ground,np.mean(ground))))
+    # r_squared = 1 - (RSS/TSS)
+    print("R^2 together: ", calculateRSquared(y_preds, ground))
+    # print(single_r_squareds)
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
+
 
     mse = np.mean(np.square(np.subtract(ground, y_preds)))
     print("mean_squared_error: ", mse)
