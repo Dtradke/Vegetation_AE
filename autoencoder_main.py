@@ -27,9 +27,11 @@ pretrain = False
 def openDatasets(test_set, mod):
     data = None
     if mod is None:
-        data = rawdata.RawData.load(locNames='all', special_layers='all')
+        # data = rawdata.RawData.load(locNames='all', special_layers='all')
         # data.formatDataLayers()
-        data.normalizeAllLayers()
+        data = []
+        print("here")
+        # data.normalizeAllLayers()
         masterDataSet = dataset.Squares(data, test_set, mod)
         masterDataSet.trainstring = data.names
     else:
