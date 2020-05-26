@@ -317,6 +317,11 @@ def evaluateYNET(y_preds, masterDataSet):
             print("Ground: ", key, " - Total predicted wrong as ", inner_key,": ", ground[key][inner_key]/total_val[key])
 
 
+def calculateRSquared(pred, val):
+    RSS = np.sum(np.square(np.subtract(pred, pred)))
+    TSS = np.sum(np.square(np.subtract(pred,np.mean(pred))))
+    r_squared = 1 - (RSS/TSS)
+    return r_squared
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
@@ -328,16 +333,11 @@ def evaluateRegression(y_preds, masterDataSet):
         pred, val = formatPreds(pred, val)
         flat_pred = pred[val>0]
         flat_val = val[val>0]
-        mse = np.mean(np.square(np.subtract(flat_val, flat_pred)))
-        absolute_diff = np.absolute(np.subtract(flat_val, flat_pred))
+        mse = np.mean(np.square(np.subtract(pred, pred)))
+        absolute_diff = np.absolute(np.subtract(pred, pred))
 
-        RSS = np.sum(np.square(np.subtract(flat_val, flat_pred)))
-        TSS = np.sum(np.square(np.subtract(flat_val,np.mean(flat_val))))
-        r_squared = 1 - (RSS/TSS)
-        if i == 0:
-            print(">", RSS, " , ", TSS, " , ", r_squared)
-        single_r_squareds.append(r_squared)
 
+        single_r_squareds.append(calculateRSquared(flat_pred, flat_val))
 
 
         if i < 500: viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
