@@ -236,7 +236,7 @@ class Squares(object):
     @staticmethod
     def deleteFootprintSquares(cubes, cube_labels):
         delete_idx = []
-        for count, lab in cube_labels:
+        for count, lab in enumerate(cube_labels):
             if np.count_nonzero(lab == -1) == lab.size:
                 delete_idx.append(count)
 
