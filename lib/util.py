@@ -355,7 +355,7 @@ def evaluateRegression(y_preds, masterDataSet):
 
     print("pred first: ", y_preds[0])
     print("ground first: ", ground[0])
-    zipped = zip(y_preds, ground)
+    zipped = np.array(list(zip(y_preds, ground)))
     print("zip first: ", zipped[0])
 
     print("R^2 together: ", calculateRSquared(y_preds, ground))
