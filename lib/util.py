@@ -177,8 +177,8 @@ def formatPreds(pred, val):
         max_val = np.argmax(val, axis=2)
         return max_pred, max_val
     else:
-        # pred = np.squeeze(pred)
-        # val = np.squeeze(val)
+        pred = np.squeeze(pred)
+        val = np.squeeze(val)
         return pred, val
 
 def getClosePreds(real_height, val, diff, masterDataSet):
@@ -257,9 +257,7 @@ def evaluateYNET(y_preds, masterDataSet):
         try: real_height = masterDataSet.orig_testy[i]
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
-        print(val)
-        print(val.shape)
-        exit()
+        
         total_val[0]+=np.count_nonzero(val == 0)
         total_val[1]+=np.count_nonzero(val == 1)
         total_val[2]+=np.count_nonzero(val == 2)
