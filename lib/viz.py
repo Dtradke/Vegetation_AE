@@ -123,7 +123,7 @@ def scatterplotRegression(preds, ground):
     plt.ylabel('Lidar', fontsize=20)
     if save:
         fname = "output/figures/scatterplot.png"
-        plt.savefig(fname, dpi=fig.dpi)
+        plt.savefig(fname)
     plt.close()
 
 
