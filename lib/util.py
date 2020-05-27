@@ -259,6 +259,7 @@ def evaluateYNET(y_preds, masterDataSet):
         pred, val = formatPreds(pred, val)
 
         try:
+            print(i)
             total_val[0]+=np.count_nonzero(val == 0)
             total_val[1]+=np.count_nonzero(val == 1)
             total_val[2]+=np.count_nonzero(val == 2)
