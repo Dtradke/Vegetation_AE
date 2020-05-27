@@ -258,18 +258,17 @@ def evaluateYNET(y_preds, masterDataSet):
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
 
-        try:
-            print(i)
-            total_val[0]+=np.count_nonzero(val == 0)
-            total_val[1]+=np.count_nonzero(val == 1)
-            total_val[2]+=np.count_nonzero(val == 2)
-            total_val[3]+=np.count_nonzero(val == 3)
-            total_val[4]+=np.count_nonzero(val == 4)
-            total_val[5]+=np.count_nonzero(val == 5)
-            total_val[6]+=np.count_nonzero(val == 6)
-        except:
-            print(val)
-            exit()
+        print(val.shape)
+        total_val[0]+=np.count_nonzero(val == 0)
+        total_val[1]+=np.count_nonzero(val == 1)
+        total_val[2]+=np.count_nonzero(val == 2)
+        total_val[3]+=np.count_nonzero(val == 3)
+        total_val[4]+=np.count_nonzero(val == 4)
+        total_val[5]+=np.count_nonzero(val == 5)
+        total_val[6]+=np.count_nonzero(val == 6)
+        print(val)
+        exit()
+
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)
         ck_correct, ck_incorrect, slow_grass_close, slow_shrub_close, ground = slowCheckNeighborhood(i, pred, val, real_height, masterDataSet, keys, ground)
