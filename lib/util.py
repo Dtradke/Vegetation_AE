@@ -161,8 +161,8 @@ def slowCheckNeighborhood(sample, pred, val, real_height, masterDataSet, keys, g
     for i, height in enumerate(right):
         ground[height][wrong[i]]+=1
 
-    if sample < 500:
-        viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, answers, sample)
+    # if sample < 500:
+    #     viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, answers, num=sample)
 
     grass_close, shrub_close = 0,0#getClosePreds(real_height, val, answers, masterDataSet)
 

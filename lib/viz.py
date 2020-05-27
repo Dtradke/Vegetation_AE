@@ -65,7 +65,7 @@ def viewResult(layer, val, pred, diff, r_squared, num):
         plt.savefig(fname, dpi=fig.dpi)
     plt.close()
 
-def viewResultColorbar(layer, val, pred, diff, r_squared, num):
+def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
     titles = ['layer', 'diff', 'val', 'pred']
     arr = [layer, diff, val, pred]
     np.random.seed(19680801)
