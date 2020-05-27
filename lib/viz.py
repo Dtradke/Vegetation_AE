@@ -117,7 +117,7 @@ def scatterplotRegression(preds, ground):
     plt.plot(preds, m*preds + b, c='o')
 
 
-    plt.add_line(line)
+    # plt.add_line(line)
     plt.title('Scatter plot pythonspot.com')
     plt.xlabel('Predicted', fontsize=20)
     plt.ylabel('Lidar', fontsize=20)
