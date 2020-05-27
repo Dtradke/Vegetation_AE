@@ -220,7 +220,7 @@ def pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod):
     mod.compile(optimizer = Adam(lr = 1e-4), loss = 'mse', metrics = ['accuracy']) #mse
     return mod
 
-def unet_mse(X_split_1, X_split_2, pretrained_weights = None):
+def unet_branch_dropout(X_split_1, X_split_2, pretrained_weights = None):
     input_size_1 = X_split_1[0].shape
     input_size_2 = X_split_2[0].shape
 

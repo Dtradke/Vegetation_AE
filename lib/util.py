@@ -219,11 +219,11 @@ def evaluateYNET(y_preds, masterDataSet):
     global correct_val_fast
     global correct_val_slow
     if not classify and not bin_class:
-        y_preds, masterDataSet = classifyRegression(y_preds, masterDataSet)
+        evaluateRegression(y_preds, masterDataSet)
+        # y_preds, masterDataSet = classifyRegression(y_preds, masterDataSet)
         keys = 7
     else:
         keys = y_preds.shape[3]
-        # evaluateRegression(y_preds, masterDataSet)
     # global correct_val_slow
     # global correct_val_fast
     incorrect = 0
