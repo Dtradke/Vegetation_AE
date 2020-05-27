@@ -220,6 +220,9 @@ def evaluateYNET(y_preds, masterDataSet):
     global correct_val_slow
     if not classify and not bin_class:
         y_preds, masterDataSet = classifyRegression(y_preds, masterDataSet)
+        keys = 7
+    else:
+        keys = y_preds.shape[3]
         # evaluateRegression(y_preds, masterDataSet)
     # global correct_val_slow
     # global correct_val_fast
@@ -234,7 +237,6 @@ def evaluateYNET(y_preds, masterDataSet):
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0, "tall_tree": 0, "tallest": 0}
     # total_val = {"footprint":0, "grass":0, "shrub":0, "tree":0}
     total_val = {}
-    keys = y_preds.shape[3]
     # the keys of ground are the known heights, the dict values represent the wrong predictions of that class
     ground = {}
     for i in range(keys):
@@ -258,7 +260,7 @@ def evaluateYNET(y_preds, masterDataSet):
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
 
-        print(val.shape)
+
         total_val[0]+=np.count_nonzero(val == 0)
         total_val[1]+=np.count_nonzero(val == 1)
         total_val[2]+=np.count_nonzero(val == 2)
@@ -266,8 +268,7 @@ def evaluateYNET(y_preds, masterDataSet):
         total_val[4]+=np.count_nonzero(val == 4)
         total_val[5]+=np.count_nonzero(val == 5)
         total_val[6]+=np.count_nonzero(val == 6)
-        print(val)
-        exit()
+
 
 
         sq_correct, sq_incorrect, fast_grass_close, fast_shrub_close = checkNeighborhood(pred, val, real_height, masterDataSet, keys)
