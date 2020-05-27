@@ -257,7 +257,9 @@ def evaluateYNET(y_preds, masterDataSet):
         try: real_height = masterDataSet.orig_testy[i]
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
-
+        print(val)
+        print(val.shape)
+        exit()
         total_val[0]+=np.count_nonzero(val == 0)
         total_val[1]+=np.count_nonzero(val == 1)
         total_val[2]+=np.count_nonzero(val == 2)
