@@ -196,8 +196,6 @@ def getClosePreds(real_height, val, diff, masterDataSet):
     return close_grass, close_shrub
 
 def makeClassification(arr):
-    print(arr.shape)
-    print(arr)
     arr[(arr >= 0) & (arr < 2)] = 1
     arr[(arr >= 2) & (arr < 6)] = 2
     arr[(arr >= 6) & (arr < 20)] = 3
@@ -205,19 +203,13 @@ def makeClassification(arr):
     arr[(arr >= 50) & (arr < 80)] = 5
     arr[arr >= 80] = 6
     arr[arr < 0] = 0
-    print(arr)
-    print(arr.shape)
-    exit()
+    return arr
 
 def classifyRegression(y_preds, masterDataSet):
-    testy_temp = []
-
     for i in range(masterDataSet.testy.shape[0]):
         y_preds[i] = makeClassification(y_preds[i])
         masterDataSet.testy[i] = makeClassification(masterDataSet.testy[i])
-
-
-    return preds, masterDataSet
+    return y_preds, masterDataSet
 
 
 # TODO: Look at the squares which the model performs worst on
