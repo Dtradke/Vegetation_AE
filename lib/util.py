@@ -10,7 +10,7 @@ import sys
 from lib import viz
 import math
 
-classify = True
+classify = False
 bin_class = False
 
 try:

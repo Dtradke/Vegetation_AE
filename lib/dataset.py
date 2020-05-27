@@ -17,7 +17,7 @@ from sklearn.utils import shuffle
 
 AOIRadius = 11
 
-classify = True
+classify = False
 bin_class = False
 
 balance_classes = False
