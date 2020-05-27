@@ -21,7 +21,7 @@ manual_variable_initialization(True)
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
-SPLIT = False
+SPLIT = True
 pretrain = False
 
 def openDatasets(test_set, mod):
@@ -64,8 +64,8 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
                 pretrain_mod = model.unet_split(X_split_1, X_split_2, pretrain=True)
                 mod = model.pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod)
             else:
-                # mod = model.unet_split(X_split_1, X_split_2)
-                mod = model.unet_branch_dropout(X_split_1, X_split_2)
+                mod = model.unet_split(X_split_1, X_split_2)
+                # mod = model.unet_branch_dropout(X_split_1, X_split_2)
 
 # TODO: do transfer learning with small datasets after unsupervised pretraining... see how small the dataset can be
 

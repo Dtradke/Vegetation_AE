@@ -16,7 +16,7 @@ classify = False
 bin_class = False
 
 small_obj_heights = False
-AUGMENT = False
+AUGMENT = True
 
 def loadLocations(input_arr):
     locName = input_arr
@@ -65,19 +65,30 @@ class RawData(object):
                     locs[list(i.keys())[0]] = i[list(i.keys())[0]]
 
                 if AUGMENT:
-                    new_locs = {}
-                    rotations = 1
-                    while rotations < 4:
-                        for i, key in enumerate(locs.keys()):
-                            key_string = key + str(rotations)
-                            specialLayers, layer_obj_heights, rot_layers = locs[key].rotate((rotations * 90))
-                            new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
-                        rotations+=1
+                    # new_locs = {}
+                    # rotations = 1
+                    # while rotations < 4:
+                    #     for i, key in enumerate(locs.keys()):
+                    #         key_string = key + str(rotations)
+                    #         specialLayers, layer_obj_heights, rot_layers = locs[key].rotate((rotations * 90))
+                    #         new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
+                    #     rotations+=1
+                    #
+                    # for i, key in enumerate(locs.keys()):
+                    #     key_string = key + "_shift_"+ str(rotations)
+                    #     specialLayers, layer_obj_heights, rot_layers = locs[key].shift()
+                    #     new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
+                    # locs.update(new_locs)
+                    # print(locs)
 
+                    # -- only flip
+                    new_locs = {}
+                    rotations = 2
                     for i, key in enumerate(locs.keys()):
-                        key_string = key + "_shift_"+ str(rotations)
-                        specialLayers, layer_obj_heights, rot_layers = locs[key].shift()
+                        key_string = key + str(rotations)
+                        specialLayers, layer_obj_heights, rot_layers = locs[key].rotate((rotations * 90))
                         new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
+
                     locs.update(new_locs)
                     print(locs)
 #endtraining
