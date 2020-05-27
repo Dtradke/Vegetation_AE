@@ -107,7 +107,11 @@ def viewResultColorbar(layer, val, pred, diff, r_squared, num):
 def scatterplotRegression(preds, ground):
     import matplotlib.lines as mlines
     plt.scatter(preds, ground, c='b', alpha=0.5)
-    line = mlines.Line2D([0, 250], [0, 250], color='red')
+
+    x = np.arange(250)
+    y = np.arange(250)
+    plt.plot(x,y,c='r')
+    # line = mlines.Line2D([0, 250], [0, 250], color='red')
 
     m, b = np.polyfit(preds, ground, 1)
     plt.plot(preds, m*preds + b, c='o')
