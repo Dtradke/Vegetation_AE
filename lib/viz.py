@@ -114,7 +114,7 @@ def scatterplotRegression(preds, ground):
     # line = mlines.Line2D([0, 250], [0, 250], color='red')
 
     m, b = np.polyfit(preds, ground, 1)
-    plt.plot(preds, m*preds + b, c='o')
+    plt.plot(preds, m*preds + b, c='g')
 
 
     # plt.add_line(line)
