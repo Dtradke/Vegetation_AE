@@ -64,13 +64,14 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
                 pretrain_mod = model.unet_split(X_split_1, X_split_2, pretrain=True)
                 mod = model.pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod)
             else:
-                mod = model.unet_split(X_split_1, X_split_2)
+                # mod = model.unet_split(X_split_1, X_split_2)
+                mod = model.unet_branch_dropout(X_split_1, X_split_2)
 
 # TODO: do transfer learning with small datasets after unsupervised pretraining... see how small the dataset can be
 
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=150, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
