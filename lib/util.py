@@ -195,6 +195,30 @@ def getClosePreds(real_height, val, diff, masterDataSet):
         close_shrub = 0
     return close_grass, close_shrub
 
+def makeClassification(arr):
+    print(arr.shape)
+    print(arr)
+    arr[(arr >= 0) & (arr < 2)] = 1
+    arr[(arr >= 2) & (arr < 6)] = 2
+    arr[(arr >= 6) & (arr < 20)] = 3
+    arr[(arr >= 20) & (arr < 50)] = 4
+    arr[(arr >= 50) & (arr < 80)] = 5
+    arr[arr >= 80] = 6
+    arr[arr < 0] = 0
+    print(arr)
+    print(arr.shape)
+    exit()
+
+def classifyRegression(y_preds, masterDataSet):
+    testy_temp = []
+
+    for i in range(masterDataSet.testy.shape[0]):
+        y_preds[i] = makeClassification(y_preds[i])
+        masterDataSet.testy[i] = makeClassification(masterDataSet.testy[i])
+
+
+    return preds, masterDataSet
+
 
 # TODO: Look at the squares which the model performs worst on
 correct_val_fast = {}
@@ -203,7 +227,8 @@ def evaluateYNET(y_preds, masterDataSet):
     global correct_val_fast
     global correct_val_slow
     if not classify and not bin_class:
-        evaluateRegression(y_preds, masterDataSet)
+        y_preds, masterDataSet = classifyRegression(y_preds, masterDataSet)
+        # evaluateRegression(y_preds, masterDataSet)
     # global correct_val_slow
     # global correct_val_fast
     incorrect = 0
