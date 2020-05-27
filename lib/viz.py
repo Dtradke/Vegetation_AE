@@ -106,7 +106,7 @@ def viewResultColorbar(layer, val, pred, diff, r_squared, num):
 
 def scatterplotRegression(preds, ground):
     import matplotlib.lines as mlines
-    plt.scatter(preds, ground, c='b', alpha=0.5)
+    plt.scatter(preds, ground, s=0.2, c='b', alpha=0.5)
 
     x = np.arange(250)
     y = np.arange(250)
