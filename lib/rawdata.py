@@ -92,7 +92,7 @@ class RawData(object):
                                 new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
                         rotations+=1
                     for i, key in enumerate(locs.keys()):
-                        if key != 'East_Bay':
+                        if key != 'East_Bay' or key != 'OrindaDowns':
                             key_string = key + "_shift_"+ str(rotations)
                             specialLayers, layer_obj_heights, rot_layers = locs[key].shift()
                             new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
