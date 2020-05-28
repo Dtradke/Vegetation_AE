@@ -80,6 +80,9 @@ class DataGenerator(Sequence):
         # print(">X - : ", np.array(x_batch_1).shape)
         # print(">y - : ", y.shape)
 
+        print("np.array(x_batch_1)> ", np.array(x_batch_1).shape)
+        print("np.array(x_batch_2)> ", np.array(x_batch_2).shape)
+
         return [np.array(x_batch_1), np.array(x_batch_2)], np.array(y_batch)
 
     def on_epoch_end(self):
