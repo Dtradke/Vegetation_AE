@@ -54,9 +54,6 @@ class DataGenerator(Sequence):
         """
         # Generate indexes of the batch
         indexes = self.indexes[index * self.batch_size:(index + 1) * self.batch_size]
-        indexes2 = self.indexes[index * self.batch_size:(index + 1) * self.batch_size]
-        indexes3 = self.indexes[index * self.batch_size:(index + 1) * self.batch_size]
-        indexes4 = self.indexes[index * self.batch_size:(index + 1) * self.batch_size]
 
         # Find list of IDs
         # list_IDs_temp = [self.list_IDs[k] for k in indexes]
@@ -75,31 +72,15 @@ class DataGenerator(Sequence):
             x_batch_2[count,] = X[val][:,:,3:]
             y_batch[count,] = y[val]
             count+=1
-        for i, val in enumerate(indexes2):
-            x_batch_1[count,] = np.rot90(X[val][:,:,:3], 1, (1,0))
-            x_batch_2[count,] = np.rot90(X[val][:,:,3:], 1, (1,0))
-            y_batch[count,] = np.rot90(y[val], 1)
-            count+=1
-        for i, val in enumerate(indexes3):
-            x_batch_1[count,] = np.rot90(X[val][:,:,:3], 2, (1,0))
-            x_batch_2[count,] = np.rot90(X[val][:,:,3:], 2, (1,0))
-            y_batch[count,] = np.rot90(y[val], 1)
-            count+=1
-        for i, val in enumerate(indexes4):
-            x_batch_1[count,] = np.rot90(X[val][:,:,:3], 3, (1,0))
-            x_batch_2[count,] = np.rot90(X[val][:,:,3:], 3, (1,0))
-            y_batch[count,] = np.rot90(y[val], 1)
-            count+=1
-            # count+=1
-            # rot = 1
-            # while rot < 4:
-            #     # print("rot: ", rot)
-            #     x_batch_1[count,] = np.rot90(X[val][:,:,:3], rot, (1,0))
-            #     x_batch_2[count,] = np.rot90(X[val][:,:,3:], rot, (1,0))
-            #     y_batch[count,] = np.rot90(y[val], rot)
-            #
-            #     rot+=1
-            #     count+=1
+            rot = 1
+            while rot < 4:
+                # print("rot: ", rot)
+                x_batch_1[count,] = np.rot90(X[val][:,:,:3], rot, (1,0))
+                x_batch_2[count,] = np.rot90(X[val][:,:,3:], rot, (1,0))
+                y_batch[count,] = np.rot90(y[val], rot)
+
+                rot+=1
+                count+=1
 
         # print("np.array(x_batch_1)> ", x_batch_1.shape)
         # print("np.array(x_batch_2)> ", x_batch_2.shape)
@@ -114,42 +95,3 @@ class DataGenerator(Sequence):
         self.indexes = np.arange(len(self.list_IDs))
         if self.shuffle == True:
             np.random.shuffle(self.indexes)
-
-    # def _generate_X(self, list_IDs_temp):
-    #     """Generates data containing batch_size images
-    #     :param list_IDs_temp: list of label ids to load
-    #     :return: batch of images
-    #     """
-    #     # Initialization
-    #     X = np.empty((self.batch_size, *self.dim, self.n_channels))
-    #
-    #     # Generate data
-    #     for i, ID in enumerate(list_IDs_temp):
-    #         # Store sample
-    #         X[i,] = self._load_grayscale_image(self.image_path + self.labels[ID])
-    #
-    #     return X
-    #
-    # def _generate_y(self, list_IDs_temp):
-    #     """Generates data containing batch_size masks
-    #     :param list_IDs_temp: list of label ids to load
-    #     :return: batch if masks
-    #     """
-    #     y = np.empty((self.batch_size, *self.dim,1), dtype=int)
-    #
-    #     # Generate data
-    #     for i, ID in enumerate(list_IDs_temp):
-    #         # Store sample
-    #         y[i,] = self._load_grayscale_image(self.mask_path + self.labels[ID])
-    #
-    #     return y
-    #
-    # def _load_grayscale_image(self, image_path):
-    #     """Load grayscale image
-    #     :param image_path: path to image to load
-    #     :return: loaded image
-    #     """
-    #     img = cv2.imread(image_path)
-    #     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    #     img = img / 255
-    #     return img

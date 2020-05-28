@@ -16,7 +16,7 @@ classify = False
 bin_class = False
 
 small_obj_heights = False
-AUGMENT = False
+AUGMENT = True
 
 def loadLocations(input_arr):
     locName = input_arr
@@ -91,6 +91,11 @@ class RawData(object):
                                 specialLayers, layer_obj_heights, rot_layers = locs[key].rotate((rotations * 90))
                                 new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
                         rotations+=1
+                    for i, key in enumerate(locs.keys()):
+                        if key != 'East_Bay':
+                            key_string = key + "_shift_"+ str(rotations)
+                            specialLayers, layer_obj_heights, rot_layers = locs[key].shift()
+                            new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
 
                     locs.update(new_locs)
                     print(locs)
