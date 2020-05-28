@@ -86,7 +86,7 @@ class DataGenerator(Sequence):
         """Updates indexes after each epoch
         """
         # self.indexes = np.arange(len(self.list_IDs))
-        self.indexes = np.arange(len(self.list_IDs)*4)
+        self.indexes = np.arange(len(self.list_IDs))
         if self.shuffle == True:
             np.random.shuffle(self.indexes)
 
