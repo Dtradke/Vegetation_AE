@@ -61,6 +61,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
             val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
+            print("Val Split shape: ", val_split_1.shape, " ", val_split_2.shape)
             inputs = [X_split_1, X_split_2]
             vals = [val_split_1, val_split_2]
             if pretrain:

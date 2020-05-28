@@ -73,8 +73,8 @@ class Squares(object):
 
     def saveRawSquares(self):
         print("Saving raw squares")
-        # time_string = time.strftime("%Y%m%d-%H%M%S")
-        inc = self.data.names
+        time_string = time.strftime("%Y%m%d-%H%M%S")
+        inc = time_string #self.data.names
         fname = "YNET_" + inc
         print("File Name: ", fname)
         np.save('output/raw_squares/' + fname + 'squares.npy', self.squares)
