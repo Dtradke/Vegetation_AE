@@ -54,6 +54,9 @@ class DataGenerator(Sequence):
         """
         # Generate indexes of the batch
         indexes = self.indexes[index * self.batch_size:(index + 1) * self.batch_size]
+        indexes2 = self.indexes[index * self.batch_size:(index + 1) * self.batch_size]
+        indexes3 = self.indexes[index * self.batch_size:(index + 1) * self.batch_size]
+        indexes4 = self.indexes[index * self.batch_size:(index + 1) * self.batch_size]
 
         # Find list of IDs
         # list_IDs_temp = [self.list_IDs[k] for k in indexes]
@@ -72,15 +75,31 @@ class DataGenerator(Sequence):
             x_batch_2[count,] = X[val][:,:,3:]
             y_batch[count,] = y[val]
             count+=1
-            rot = 1
-            while rot < 4:
-                # print("rot: ", rot)
-                x_batch_1[count,] = np.rot90(X[val][:,:,:3], rot, (1,0))
-                x_batch_2[count,] = np.rot90(X[val][:,:,3:], rot, (1,0))
-                y_batch[count,] = np.rot90(y[val], rot)
-
-                rot+=1
-                count+=1
+        for i, val in enumerate(indexes2):
+            x_batch_1[count,] = np.rot90(X[val][:,:,:3], 1, (1,0))
+            x_batch_2[count,] = np.rot90(X[val][:,:,3:], 1, (1,0))
+            y_batch[count,] = np.rot90(y[val], 1)
+            count+=1
+        for i, val in enumerate(indexes3):
+            x_batch_1[count,] = np.rot90(X[val][:,:,:3], 2, (1,0))
+            x_batch_2[count,] = np.rot90(X[val][:,:,3:], 2, (1,0))
+            y_batch[count,] = np.rot90(y[val], 1)
+            count+=1
+        for i, val in enumerate(indexes4):
+            x_batch_1[count,] = np.rot90(X[val][:,:,:3], 3, (1,0))
+            x_batch_2[count,] = np.rot90(X[val][:,:,3:], 3, (1,0))
+            y_batch[count,] = np.rot90(y[val], 1)
+            count+=1
+            # count+=1
+            # rot = 1
+            # while rot < 4:
+            #     # print("rot: ", rot)
+            #     x_batch_1[count,] = np.rot90(X[val][:,:,:3], rot, (1,0))
+            #     x_batch_2[count,] = np.rot90(X[val][:,:,3:], rot, (1,0))
+            #     y_batch[count,] = np.rot90(y[val], rot)
+            #
+            #     rot+=1
+            #     count+=1
 
         # print("np.array(x_batch_1)> ", x_batch_1.shape)
         # print("np.array(x_batch_2)> ", x_batch_2.shape)
