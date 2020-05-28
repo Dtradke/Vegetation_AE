@@ -27,7 +27,7 @@ class DataGenerator(Sequence):
         :param n_classes: number of output masks
         :param shuffle: True to shuffle label indexes after every epoch
         """
-        # self.list_IDs = list_IDs
+        self.list_IDs = range(X_data.shape[0])#list_IDs
         # self.labels = labels
         # self.image_path = image_path
         # self.mask_path = mask_path
@@ -87,7 +87,7 @@ class DataGenerator(Sequence):
         """Updates indexes after each epoch
         """
         # self.indexes = np.arange(len(self.list_IDs))
-        self.indexes = np.arange((self.X_data.shape[0])*4)
+        self.indexes = np.arange(len(self.list_IDs)*4)
         if self.shuffle == True:
             np.random.shuffle(self.indexes)
 

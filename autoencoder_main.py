@@ -72,7 +72,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
 
             gen = generator.DataGenerator(masterDataSet.trainX, masterDataSet.trainy)
             val_gen = generator.DataGenerator(masterDataSet.valX, masterDataSet.valy)
-            mod.fit(gen, val_gen)
+            mod.fit(gen, validation_data=val_gen)
 
 
 # TODO: do transfer learning with small datasets after unsupervised pretraining... see how small the dataset can be
