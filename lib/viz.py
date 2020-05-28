@@ -96,7 +96,8 @@ def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
         if titles[i] == 'val' or titles[i] == 'pred':
             im.set_norm(norm)
 
-    fig.colorbar(images[-1], ax=axs, labelsize=20, orientation='horizontal', fraction=.1).set_label(label="Height (Feet)", fontsize=20)
+    cb = fig.colorbar(images[-1], ax=axs, orientation='horizontal', fraction=.1).set_label(label="Height (Feet)", fontsize=20)
+    cb.ax.tick_params(labelsize=20)
     # cb.tick_params(labelsize=20)
 
     if save:
