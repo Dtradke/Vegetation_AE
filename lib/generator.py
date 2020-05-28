@@ -45,7 +45,7 @@ class DataGenerator(Sequence):
         """Denotes the number of batches per epoch
         :return: number of batches per epoch
         """
-        return int(np.floor((self.X_data.shape[0] * 4) / self.batch_size))
+        return int(np.floor(self.X_data.shape[0] / self.batch_size))
 
     def __getitem__(self, index):
         """Generate one batch of data
@@ -96,41 +96,41 @@ class DataGenerator(Sequence):
         if self.shuffle == True:
             np.random.shuffle(self.indexes)
 
-    def _generate_X(self, list_IDs_temp):
-        """Generates data containing batch_size images
-        :param list_IDs_temp: list of label ids to load
-        :return: batch of images
-        """
-        # Initialization
-        X = np.empty((self.batch_size, *self.dim, self.n_channels))
-
-        # Generate data
-        for i, ID in enumerate(list_IDs_temp):
-            # Store sample
-            X[i,] = self._load_grayscale_image(self.image_path + self.labels[ID])
-
-        return X
-
-    def _generate_y(self, list_IDs_temp):
-        """Generates data containing batch_size masks
-        :param list_IDs_temp: list of label ids to load
-        :return: batch if masks
-        """
-        y = np.empty((self.batch_size, *self.dim,1), dtype=int)
-
-        # Generate data
-        for i, ID in enumerate(list_IDs_temp):
-            # Store sample
-            y[i,] = self._load_grayscale_image(self.mask_path + self.labels[ID])
-
-        return y
-
-    def _load_grayscale_image(self, image_path):
-        """Load grayscale image
-        :param image_path: path to image to load
-        :return: loaded image
-        """
-        img = cv2.imread(image_path)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        img = img / 255
-        return img
+    # def _generate_X(self, list_IDs_temp):
+    #     """Generates data containing batch_size images
+    #     :param list_IDs_temp: list of label ids to load
+    #     :return: batch of images
+    #     """
+    #     # Initialization
+    #     X = np.empty((self.batch_size, *self.dim, self.n_channels))
+    #
+    #     # Generate data
+    #     for i, ID in enumerate(list_IDs_temp):
+    #         # Store sample
+    #         X[i,] = self._load_grayscale_image(self.image_path + self.labels[ID])
+    #
+    #     return X
+    #
+    # def _generate_y(self, list_IDs_temp):
+    #     """Generates data containing batch_size masks
+    #     :param list_IDs_temp: list of label ids to load
+    #     :return: batch if masks
+    #     """
+    #     y = np.empty((self.batch_size, *self.dim,1), dtype=int)
+    #
+    #     # Generate data
+    #     for i, ID in enumerate(list_IDs_temp):
+    #         # Store sample
+    #         y[i,] = self._load_grayscale_image(self.mask_path + self.labels[ID])
+    #
+    #     return y
+    #
+    # def _load_grayscale_image(self, image_path):
+    #     """Load grayscale image
+    #     :param image_path: path to image to load
+    #     :return: loaded image
+    #     """
+    #     img = cv2.imread(image_path)
+    #     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    #     img = img / 255
+    #     return img
