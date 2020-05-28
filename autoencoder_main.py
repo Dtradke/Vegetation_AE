@@ -73,7 +73,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             gen = generator.DataGenerator(masterDataSet.trainX, masterDataSet.trainy)
             val_gen = generator.DataGenerator(masterDataSet.valX, masterDataSet.valy)
-            mod.fit(gen, epochs=1, validation_data=val_gen, callbacks=[es])
+            mod.fit(gen, epochs=300, validation_data=val_gen, callbacks=[es])
 
 
 # TODO: do transfer learning with small datasets after unsupervised pretraining... see how small the dataset can be
