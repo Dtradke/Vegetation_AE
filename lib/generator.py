@@ -64,28 +64,30 @@ class DataGenerator(Sequence):
         print(">X: ", X.shape)
         print(">y: ", y.shape)
         print(">idx: ", indexes)
-        exit()
 
-        x_batch = []
-        y_batch = []
-        for i, val in enumerate(indexes):
-            x_batch.append(X[val])
-            y_batch.append(y[val])
-            rot = 0
-            # while rot < 4:
-            #     x_batch.append()
-
-        if self.to_fit:
-            y = self._generate_y(list_IDs_temp)
-            return X, y
-        else:
-            return X
+        return X, y
+        # exit()
+        #
+        # x_batch = []
+        # y_batch = []
+        # for i, val in enumerate(indexes):
+        #     x_batch.append(X[val])
+        #     y_batch.append(y[val])
+        #     rot = 0
+        #     # while rot < 4:
+        #     #     x_batch.append()
+        #
+        # if self.to_fit:
+        #     y = self._generate_y(list_IDs_temp)
+        #     return X, y
+        # else:
+        #     return X
 
     def on_epoch_end(self):
         """Updates indexes after each epoch
         """
         # self.indexes = np.arange(len(self.list_IDs))
-        self.indexes = np.arange(self.X_data.shape[0])
+        self.indexes = np.arange((self.X_data.shape[0])*4)
         if self.shuffle == True:
             np.random.shuffle(self.indexes)
 
