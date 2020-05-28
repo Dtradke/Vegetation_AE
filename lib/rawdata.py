@@ -84,7 +84,7 @@ class RawData(object):
                     # -- only flip
                     new_locs = {}
                     rotations = 1
-                    while rotations < 4:
+                    while rotations < 3:
                         for i, key in enumerate(locs.keys()):
                             if key != 'East_Bay':
                                 key_string = key + str(rotations)
