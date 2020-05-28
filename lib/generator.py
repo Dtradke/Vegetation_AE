@@ -61,27 +61,26 @@ class DataGenerator(Sequence):
         X = self.X_data #self._generate_X(list_IDs_temp)
         y = self.y_data
 
-        print(">X: ", X.shape)
-        print(">y: ", y.shape)
-        print(">idx: ", indexes)
+        x_batch_1, x_batch_2 = [], []
+        y_batch = []
+        for i, val in enumerate(indexes):
+            print(">X: ", X[val][:,:,:3].shape)
+            print(">X2: ", X[val][:,:,3:].shape)
+            print("y: ", y[val].shape)
 
-        return X, y
-        # exit()
-        #
-        # x_batch = []
-        # y_batch = []
-        # for i, val in enumerate(indexes):
-        #     x_batch.append(X[val])
-        #     y_batch.append(y[val])
-        #     rot = 0
-        #     # while rot < 4:
-        #     #     x_batch.append()
-        #
-        # if self.to_fit:
-        #     y = self._generate_y(list_IDs_temp)
-        #     return X, y
-        # else:
-        #     return X
+            x_batch_1.append(X[val][:,:,:3])
+            x_batch_2.append(X[val][:,:,3:])
+            y_batch.append(y[val])
+            rot = 0
+            while rot < 4:
+                x_batch_1.append(np.rot90(X[val][:,:,:3], rot, (1,2)))
+                x_batch_2.append(np.rot90(X[val][:,:,3:], rot, (1,2)))
+                y_batch.append(np.rot90(y[va]), rot)
+
+        print(">X - : ", np.array(x_batch_1).shape)
+        print(">y - : ", y.shape)
+
+        return [np.array(x_batch_1), np.array(x_batch_2)], np.array(y_batch)
 
     def on_epoch_end(self):
         """Updates indexes after each epoch
