@@ -17,6 +17,8 @@ from lib import model
 from multiprocessing import Pool
 from keras.backend import manual_variable_initialization
 manual_variable_initialization(True)
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+
 
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
@@ -71,7 +73,11 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
 
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            # mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            EPOCHS = 1
+            BS = 32
+            aug = ImageDataGenerator(horizontal_flip=True, vertical_flip=True)
+            model.fit_generator(aug.flow([X_split_1, X_split_2], masterDataSet.trainy, batch_size=BS), validation_data=([val_split_1, val_split_2], masterDataSet.valy), steps_per_epoch=len(trainX) // BS, epochs=EPOCHS)
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
