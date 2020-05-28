@@ -71,11 +71,12 @@ class DataGenerator(Sequence):
             x_batch_1.append(X[val][:,:,:3])
             x_batch_2.append(X[val][:,:,3:])
             y_batch.append(y[val])
-            rot = 0
+            rot = 1
             while rot < 4:
                 x_batch_1.append(np.rot90(X[val][:,:,:3], rot, (1,2)))
                 x_batch_2.append(np.rot90(X[val][:,:,3:], rot, (1,2)))
                 y_batch.append(np.rot90(y[val]), rot)
+                rot+=1
 
         # print(">X - : ", np.array(x_batch_1).shape)
         # print(">y - : ", y.shape)
