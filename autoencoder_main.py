@@ -59,6 +59,11 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
     if mod is None:
         if SPLIT:
             gen = generator.DataGenerator(masterDataSet.trainX, masterDataSet.trainy)
+            val_gen = generator.DataGenerator(masterDataSet.valX, masterDataSet.valy)
+            mod.fit_generator(gen, val_gen, epochs=300, callbacks=[es])
+
+
+
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
             val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
