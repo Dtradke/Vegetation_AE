@@ -64,9 +64,9 @@ class DataGenerator(Sequence):
         x_batch_1, x_batch_2 = [], []
         y_batch = []
         for i, val in enumerate(indexes):
-            print(">X: ", X[val][:,:,:3].shape)
-            print(">X2: ", X[val][:,:,3:].shape)
-            print("y: ", y[val].shape)
+            # print(">X: ", X[val][:,:,:3].shape)
+            # print(">X2: ", X[val][:,:,3:].shape)
+            # print("y: ", y[val].shape)
 
             x_batch_1.append(X[val][:,:,:3])
             x_batch_2.append(X[val][:,:,3:])
@@ -75,10 +75,10 @@ class DataGenerator(Sequence):
             while rot < 4:
                 x_batch_1.append(np.rot90(X[val][:,:,:3], rot, (1,2)))
                 x_batch_2.append(np.rot90(X[val][:,:,3:], rot, (1,2)))
-                y_batch.append(np.rot90(y[va]), rot)
+                y_batch.append(np.rot90(y[val]), rot)
 
-        print(">X - : ", np.array(x_batch_1).shape)
-        print(">y - : ", y.shape)
+        # print(">X - : ", np.array(x_batch_1).shape)
+        # print(">y - : ", y.shape)
 
         return [np.array(x_batch_1), np.array(x_batch_2)], np.array(y_batch)
 
