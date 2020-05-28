@@ -41,16 +41,16 @@ class Squares(object):
             if len(datasets) == 6:
                 self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
                 self.split_beg = list(range(self.testy.shape[-1]))
-                print(self.trainX.shape)
-                print(self.valX.shape)
-                print(self.testX.shape)
-                exit()
             else:
                 self.squares, self.square_labels, self.square_labels_orig = datasets
                 self.makeClasses()
                 if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
                 else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], []
                 self.makeValDataset()
+                print(self.trainX.shape)
+                print(self.valX.shape)
+                print(self.testX.shape)
+                exit()
         else:
             if data is None and test_set is False and mod is None:
                 self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = np.array([]), np.array([]), np.array([]), np.array([]), np.array([]), np.array([])
