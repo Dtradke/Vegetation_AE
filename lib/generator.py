@@ -6,6 +6,7 @@ import os
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.utils import Sequence
+from sklearn.utils import shuffle
 
 
 class DataGenerator(Sequence):
@@ -67,38 +68,23 @@ class DataGenerator(Sequence):
 
         count = 0
         for i, val in enumerate(indexes):
-            # print(">X: ", X[val][:,:,:3].shape)
-            # print(">X2: ", X[val][:,:,3:].shape)
-            # print("y: ", y[val].shape)
-
-
             x_batch_1[count,] = X[val][:,:,:3]
             x_batch_2[count,] = X[val][:,:,3:]
             y_batch[count,] = y[val]
             count+=1
-
-            # x_batch_1.append(X[val][:,:,:3])
-            # x_batch_2.append(X[val][:,:,3:])
-            # print("x: ", len(x_batch_1))
-            # y_batch.append(y[val])
             rot = 1
             while rot < 4:
                 # print("rot: ", rot)
                 x_batch_1[count,] = np.rot90(X[val][:,:,:3], rot, (1,0))
                 x_batch_2[count,] = np.rot90(X[val][:,:,3:], rot, (1,0))
                 y_batch[count,] = np.rot90(y[val], rot)
-                # x_batch_1.append(np.rot90(X[val][:,:,:3], rot, (1,2)))
-                # x_batch_2.append(np.rot90(X[val][:,:,3:], rot, (1,2)))
-                # y_batch.append(np.rot90(y[val], rot))
-                # print("x2: ", len(x_batch_1))
+
                 rot+=1
                 count+=1
 
-        # print(">X - : ", np.array(x_batch_1).shape)
-        # print(">y - : ", y.shape)
-
-        print("np.array(x_batch_1)> ", x_batch_1.shape)
-        print("np.array(x_batch_2)> ", x_batch_2.shape)
+        # print("np.array(x_batch_1)> ", x_batch_1.shape)
+        # print("np.array(x_batch_2)> ", x_batch_2.shape)
+        x_batch_1, x_batch_2, y_batch = shuffle(x_batch_1, x_batch_2, y_batch)
 
         return [x_batch_1, x_batch_2], y_batch
 
