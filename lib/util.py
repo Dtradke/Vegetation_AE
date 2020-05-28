@@ -346,6 +346,13 @@ def calculateRSquared(pred, val):
     r_squared = 1 - (RSS/TSS)
     return r_squared
 
+def calcError(y_preds, ground, lower=0, upper=2):
+    y_preds = y_preds[(ground >= lower) & (ground < upper)]
+    ground = ground[(ground >= lower) & (ground < upper)]
+    rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
+    print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse)
+    # return rmse
+
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
     # make visuals
@@ -372,14 +379,22 @@ def evaluateRegression(y_preds, masterDataSet):
     # calculate result
     ground = masterDataSet.testy.flatten()
     y_preds = y_preds.flatten()
-    y_preds = y_preds[ground>0]
-    ground = ground[ground>0]
+    y_preds = y_preds[ground>=0]
+    ground = ground[ground>=0]
 
     # zipped = np.array(list(zip(y_preds, ground)))
     viz.scatterplotRegression(y_preds, ground)
 
     print("R^2 together: ", calculateRSquared(y_preds, ground))
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
+
+    calcError(y_preds, ground, lower=0, upper=2)
+    calcError(y_preds, ground, lower=2, upper=6)
+    calcError(y_preds, ground, lower=6, upper=20)
+    calcError(y_preds, ground, lower=6, upper=50)
+    calcError(y_preds, ground, lower=20, upper=50)
+    calcError(y_preds, ground, lower=50, upper=80)
+    calcError(y_preds, ground, lower=80, upper=251)
 
     mse = np.mean(np.square(np.subtract(ground, y_preds)))
     print("mean_squared_error: ", mse)
