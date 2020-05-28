@@ -86,16 +86,16 @@ class RawData(object):
                     rotations = 1
                     while rotations < 4:
                         for i, key in enumerate(locs.keys()):
-                            if key != 'East_Bay' and rotations == 2:
+                            if key != 'East_Bay':
                                 key_string = key + str(rotations)
                                 specialLayers, layer_obj_heights, rot_layers = locs[key].rotate((rotations * 90))
                                 new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
                         rotations+=1
-                    for i, key in enumerate(locs.keys()):
-                        if key != 'East_Bay' or key != 'OrindaDowns':
-                            key_string = key + "_shift_"+ str(rotations)
-                            specialLayers, layer_obj_heights, rot_layers = locs[key].shift()
-                            new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
+                    # for i, key in enumerate(locs.keys()):
+                    #     if key != 'East_Bay' or key != 'OrindaDowns':
+                    #         key_string = key + "_shift_"+ str(rotations)
+                    #         specialLayers, layer_obj_heights, rot_layers = locs[key].shift()
+                    #         new_locs[key_string] = Location(key_string, specialLayers, layer_obj_heights, rot_layers)
 
                     locs.update(new_locs)
                     print(locs)
