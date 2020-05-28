@@ -70,7 +70,7 @@ class DataGenerator(Sequence):
 
             x_batch_1.append(X[val][:,:,:3])
             x_batch_2.append(X[val][:,:,3:])
-            print("x: ", x_batch_1)
+            print("x: ", x_batch_1[0].shape)
             y_batch.append(y[val])
             rot = 1
             while rot < 4:
