@@ -77,7 +77,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             EPOCHS = 1
             BS = 32
             aug = ImageDataGenerator(horizontal_flip=True, vertical_flip=True)
-            mod.fit_generator(aug.flow([X_split_1, X_split_2], masterDataSet.trainy, batch_size=BS), validation_data=([val_split_1, val_split_2], masterDataSet.valy), steps_per_epoch=len(trainX) // BS, epochs=EPOCHS)
+            mod.fit_generator(aug.flow([X_split_1, X_split_2], masterDataSet.trainy, batch_size=BS), validation_data=([val_split_1, val_split_2], masterDataSet.valy), steps_per_epoch=X_split_1.shape[0] // BS, epochs=EPOCHS)
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
