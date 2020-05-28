@@ -63,7 +63,7 @@ class DataGenerator(Sequence):
 
         x_batch_1 = np.empty(((self.batch_size*4), *self.dim, 3))
         x_batch_2 = np.empty(((self.batch_size*4), *self.dim, 7))
-        y_batch = np.empty((self.batch_size, *self.dim,1), dtype=int)
+        y_batch = np.empty(((self.batch_size*4), *self.dim,1), dtype=int)
 
         count = 0
         for i, val in enumerate(indexes):
