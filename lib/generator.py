@@ -61,34 +61,46 @@ class DataGenerator(Sequence):
         X = self.X_data #self._generate_X(list_IDs_temp)
         y = self.y_data
 
-        x_batch_1 = []
-        x_batch_2 = []
-        y_batch = []
+        x_batch_1 = np.empty(((self.batch_size*4), *self.dim, 3))
+        x_batch_2 = np.empty(((self.batch_size*4), *self.dim, 7))
+        y_batch = np.empty((self.batch_size, *self.dim,1), dtype=int)
+
+        count = 0
         for i, val in enumerate(indexes):
             # print(">X: ", X[val][:,:,:3].shape)
             # print(">X2: ", X[val][:,:,3:].shape)
             # print("y: ", y[val].shape)
 
-            x_batch_1.append(X[val][:,:,:3])
-            x_batch_2.append(X[val][:,:,3:])
+
+            x_batch_1[count,] = X[val][:,:,:3]
+            x_batch_2[count,] = X[val][:,:,3:]
+            y_batch[count,] = y[val]
+            count+=1
+
+            # x_batch_1.append(X[val][:,:,:3])
+            # x_batch_2.append(X[val][:,:,3:])
             # print("x: ", len(x_batch_1))
-            y_batch.append(y[val])
+            # y_batch.append(y[val])
             rot = 1
             while rot < 4:
                 # print("rot: ", rot)
-                x_batch_1.append(np.rot90(X[val][:,:,:3], rot, (1,2)))
-                x_batch_2.append(np.rot90(X[val][:,:,3:], rot, (1,2)))
-                y_batch.append(np.rot90(y[val], rot))
+                x_batch_1[count,] = np.rot90(X[val][:,:,:3], rot, (1,2))
+                x_batch_2[count,] = np.rot90(X[val][:,:,3:], rot, (1,2))
+                y_batch[count,] = np.rot90(y[val], rot)
+                # x_batch_1.append(np.rot90(X[val][:,:,:3], rot, (1,2)))
+                # x_batch_2.append(np.rot90(X[val][:,:,3:], rot, (1,2)))
+                # y_batch.append(np.rot90(y[val], rot))
                 # print("x2: ", len(x_batch_1))
                 rot+=1
+                count+=1
 
         # print(">X - : ", np.array(x_batch_1).shape)
         # print(">y - : ", y.shape)
 
-        print("np.array(x_batch_1)> ", len(x_batch_1))
-        print("np.array(x_batch_2)> ", len(x_batch_2))
+        print("np.array(x_batch_1)> ", x_batch_1.shape)
+        print("np.array(x_batch_2)> ", x_batch_2.shape)
 
-        return [np.array(x_batch_1), np.array(x_batch_2)], np.array(y_batch)
+        return [x_batch_1, x_batch_2], y_batch
 
     def on_epoch_end(self):
         """Updates indexes after each epoch
