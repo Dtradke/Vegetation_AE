@@ -61,7 +61,8 @@ class DataGenerator(Sequence):
         X = self.X_data #self._generate_X(list_IDs_temp)
         y = self.y_data
 
-        x_batch_1, x_batch_2 = [], []
+        x_batch_1 = []
+        x_batch_2 = []
         y_batch = []
         for i, val in enumerate(indexes):
             # print(">X: ", X[val][:,:,:3].shape)
@@ -70,13 +71,15 @@ class DataGenerator(Sequence):
 
             x_batch_1.append(X[val][:,:,:3])
             x_batch_2.append(X[val][:,:,3:])
-            print("x: ", x_batch_1[0].shape)
+            print("x: ", len(x_batch_1))
             y_batch.append(y[val])
             rot = 1
             while rot < 4:
+                print("rot: ", rot)
                 x_batch_1.append(np.rot90(X[val][:,:,:3], rot, (1,2)))
                 x_batch_2.append(np.rot90(X[val][:,:,3:], rot, (1,2)))
                 y_batch.append(np.rot90(y[val]), rot)
+                print("x2: ", len(x_batch_1))
                 rot+=1
 
         # print(">X - : ", np.array(x_batch_1).shape)
