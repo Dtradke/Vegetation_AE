@@ -172,9 +172,9 @@ class Squares(object):
         print(self.trainX.shape)
         # print(self.valX.shape)
         # print(self.testX.shape)
-        self.valX = self.trainX[-l:]
-        self.valy = self.trainy[-l:]
-        self.orig_testy = self.orig_trainy[-l:]
+        self.valX = self.trainX[l:]
+        self.valy = self.trainy[l:]
+        self.orig_testy = self.orig_trainy[l:]
         self.trainX = self.trainX[:l]
         self.trainy = self.trainy[:l]
         self.orig_trainy = self.orig_trainy[:l]
