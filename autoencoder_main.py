@@ -14,6 +14,7 @@ from lib import viz
 from lib import preprocess
 from lib import util
 from lib import model
+from lib import generator
 from multiprocessing import Pool
 from keras.backend import manual_variable_initialization
 manual_variable_initialization(True)
@@ -57,6 +58,7 @@ def openDatasets(test_set, mod):
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
     if mod is None:
         if SPLIT:
+            gen = generator.DataGenerator(masterDataSet.trainX, masterDataSet.trainy)
             X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
             val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
@@ -70,7 +72,6 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
                 # mod = model.unet_branch_dropout(X_split_1, X_split_2)
 
 # TODO: do transfer learning with small datasets after unsupervised pretraining... see how small the dataset can be
-
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
             # mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
