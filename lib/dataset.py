@@ -168,12 +168,19 @@ class Squares(object):
 
     def makeValDataset(self):
         l = int(self.trainX.shape[0] * 0.8)
+        print(">l: ", l)
+        print(self.trainX.shape)
+        # print(self.valX.shape)
+        # print(self.testX.shape)
         self.valX = self.trainX[-l:]
         self.valy = self.trainy[-l:]
         self.orig_testy = self.orig_trainy[-l:]
         self.trainX = self.trainX[:l]
         self.trainy = self.trainy[:l]
         self.orig_trainy = self.orig_trainy[:l]
+        print(self.trainX.shape)
+        print(self.valX.shape)
+        exit()
 
 
     def splitDataset(self):
