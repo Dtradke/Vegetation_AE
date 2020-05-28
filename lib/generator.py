@@ -85,8 +85,8 @@ class DataGenerator(Sequence):
         # print(">X - : ", np.array(x_batch_1).shape)
         # print(">y - : ", y.shape)
 
-        print("np.array(x_batch_1)> ", np.array(x_batch_1).shape)
-        print("np.array(x_batch_2)> ", np.array(x_batch_2).shape)
+        print("np.array(x_batch_1)> ", len(x_batch_1))
+        print("np.array(x_batch_2)> ", len(x_batch_2))
 
         return [np.array(x_batch_1), np.array(x_batch_2)], np.array(y_batch)
 
