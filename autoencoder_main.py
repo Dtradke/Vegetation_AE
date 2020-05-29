@@ -27,7 +27,7 @@ from keras.callbacks import ModelCheckpoint
 SPLIT = True
 pretrain = False
 
-geo_start = 1
+geo_start = 0
 geo_stop = 3
 imagery_start = 3
 
