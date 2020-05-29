@@ -27,6 +27,10 @@ from keras.callbacks import ModelCheckpoint
 SPLIT = True
 pretrain = False
 
+geo_start = 1
+geo_stop = 3
+imagery_start = 3
+
 def openDatasets(test_set, mod):
     data = None
     if mod is None:
@@ -55,11 +59,22 @@ def openDatasets(test_set, mod):
     print("test  >", masterDataSet.teststring)
     return masterDataSet
 
+# dem
+# slope
+# aspect
+# ndvi
+# band_4
+# band_3
+# band_2
+# band_1
+# footprints
+# grvi
+
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
     if mod is None:
         if SPLIT:
-            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
-            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:]
+            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,geo_start:geo_stop], masterDataSet.trainX[:,:,:,imagery_start:]
+            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,geo_start:geo_stop], masterDataSet.valX[:,:,:,imagery_start:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
             print("Val Split shape: ", val_split_1.shape, " ", val_split_2.shape)
             inputs = [X_split_1, X_split_2]
@@ -94,7 +109,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
 def modPredict(mod, masterDataSet):
     print("Predicting...")
     if SPLIT:
-        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:3], masterDataSet.testX[:,:,:,3:]
+        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,geo_start:geo_stop], masterDataSet.testX[:,:,:,imagery_start:]
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
