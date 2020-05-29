@@ -92,16 +92,16 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
                 mod = model.unet_split(X_split_1, X_split_2)
                 # mod = model.unet_branch_dropout(X_split_1, X_split_2)
 
-            es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
-            gen = generator.DataGenerator(masterDataSet.trainX, masterDataSet.trainy)
-            val_gen = generator.DataGenerator(masterDataSet.valX, masterDataSet.valy)
-            mod.fit(gen, epochs=300, validation_data=val_gen, callbacks=[es])
+            # es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
+            # gen = generator.DataGenerator(masterDataSet.trainX, masterDataSet.trainy)
+            # val_gen = generator.DataGenerator(masterDataSet.valX, masterDataSet.valy)
+            # mod.fit(gen, epochs=300, validation_data=val_gen, callbacks=[es])
 
 
 # TODO: do transfer learning with small datasets after unsupervised pretraining... see how small the dataset can be
-            # es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
-            # # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
-            # mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
+            es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
+            # mc = ModelCheckpoint('models/split_nodrop_best_model.h5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True, save_weights_only=True)
+            mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
             mod = model.unet(masterDataSet)
