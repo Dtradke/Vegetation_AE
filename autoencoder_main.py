@@ -81,7 +81,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
 
             val_split_1 = masterDataSet.valX[:,:,:,:3]
             # val_split_2 = np.stack((masterDataSet.valX[:,:,:,3], masterDataSet.valX[:,:,:,5:]), axis=3)
-            X_split_2 = np.concatenate((np.expand_dims(masterDataSet.valX[:,:,:,3], axis=3),masterDataSet.valX[:,:,:,5:]), axis=3)
+            val_split_2 = np.concatenate((np.expand_dims(masterDataSet.valX[:,:,:,3], axis=3),masterDataSet.valX[:,:,:,5:]), axis=3)
 
 
             # val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:]
