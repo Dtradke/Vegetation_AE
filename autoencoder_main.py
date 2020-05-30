@@ -73,14 +73,16 @@ def openDatasets(test_set, mod):
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
     if mod is None:
         if SPLIT:
-            # X_split_1 = np.stack((masterDataSet.trainX[:,:,:,0],masterDataSet.trainX[:,:,:,2]), axis=3)#np.column_stack((masterDataSet.trainX[:,:,:,0], masterDataSet.trainX[:,:,:,2]))
-            # X_split_2 = masterDataSet.trainX[:,:,:,3:]
-            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,4:]
+            X_split_1 = masterDataSet.trainX[:,:,:,:3]
+            X_split_2 = np.stack((masterDataSet.trainX[:,:,:,3],masterDataSet.trainX[:,:,:,5:]), axis=3)#np.column_stack((masterDataSet.trainX[:,:,:,0], masterDataSet.trainX[:,:,:,2]))
 
-            # val_split_1 = np.stack((masterDataSet.valX[:,:,:,0], masterDataSet.valX[:,:,:,2]), axis=3)
-            # val_split_2 = masterDataSet.valX[:,:,:,3:]
+            # X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
 
-            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,4:]
+            val_split_1 = masterDataSet.valX[:,:,:,:3]
+            val_split_2 = np.stack((masterDataSet.valX[:,:,:,3], masterDataSet.valX[:,:,:,5:]), axis=3)
+
+
+            # val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
             print("Val Split shape: ", val_split_1.shape, " ", val_split_2.shape)
             inputs = [X_split_1, X_split_2]
@@ -115,9 +117,9 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
 def modPredict(mod, masterDataSet):
     print("Predicting...")
     if SPLIT:
-        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:3], masterDataSet.testX[:,:,:,4:]
-        # X_split_1 = np.stack((masterDataSet.testX[:,:,:,0], masterDataSet.testX[:,:,:,2]), axis=3)
-        # X_split_2 = masterDataSet.testX[:,:,:,3:]
+        # X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:3], masterDataSet.testX[:,:,:,3:]
+        X_split_1 = masterDataSet.testX[:,:,:,:3]
+        X_split_2 = np.stack((masterDataSet.testX[:,:,:,3], masterDataSet.testX[:,:,:,5:]), axis=3)
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
