@@ -73,12 +73,12 @@ def openDatasets(test_set, mod):
 def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod=False):
     if mod is None:
         if SPLIT:
-            X_split_1 = np.column_stack((masterDataSet.trainX[:,:,:,0], masterDataSet.trainX[:,:,:,2]))
-            X_split_2 = masterDataSet.trainX[:,:,:,imagery_start:]
+            X_split_1 = np.stack((masterDataSet.trainX[:,:,:,0],masterDataSet.trainX[:,:,:,2]), axis=3)#np.column_stack((masterDataSet.trainX[:,:,:,0], masterDataSet.trainX[:,:,:,2]))
+            X_split_2 = masterDataSet.trainX[:,:,:,3:]
             # X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,geo_start:geo_stop], masterDataSet.trainX[:,:,:,imagery_start:]
 
-            val_split_1 = np.column_stack((masterDataSet.valX[:,:,:,0], masterDataSet.valX[:,:,:,2]))
-            val_split_2 = masterDataSet.valX[:,:,:,imagery_start:]
+            val_split_1 = np.stack((masterDataSet.valX[:,:,:,0], masterDataSet.valX[:,:,:,2]), axis=3)
+            val_split_2 = masterDataSet.valX[:,:,:,3:]
 
             # val_split_1, val_split_2 = masterDataSet.valX[:,:,:,geo_start:geo_stop], masterDataSet.valX[:,:,:,imagery_start:]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
@@ -115,7 +115,9 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
 def modPredict(mod, masterDataSet):
     print("Predicting...")
     if SPLIT:
-        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,geo_start:geo_stop], masterDataSet.testX[:,:,:,imagery_start:]
+        # X_split_1, X_split_2 = masterDataSet.testX[:,:,:,geo_start:geo_stop], masterDataSet.testX[:,:,:,imagery_start:]
+        X_split_1 = np.stack((masterDataSet.testX[:,:,:,0], masterDataSet.testX[:,:,:,2]), axis=3)
+        X_split_2 = masterDataSet.testX[:,:,:,3:]
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
