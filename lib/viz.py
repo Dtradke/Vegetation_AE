@@ -76,9 +76,9 @@ def makeCDF(y_preds, ground, lower, upper):
 
     x_ticks = []
     labels = []
-    for i in range(0,1,0.1):
-        x_ticks.append(int(x.shape[0] * i))
-        labels.append(str(int(i*10)))
+    for i in range(0,110,10):
+        x_ticks.append(int(x.shape[0] * (i/10)))
+        labels.append(str(i))
 
     plt.xticks(x_ticks, labels)
 
