@@ -65,11 +65,14 @@ def viewResult(layer, val, pred, diff, r_squared, num):
         plt.savefig(fname, dpi=fig.dpi)
     plt.close()
 
-def makeCDF(y_preds, ground, lower, upper):
-    error = np.sort(np.absolute(np.subtract(ground, y_preds)))
-    cumsum_error = np.cumsum(error)
-    y = np.linspace(0, 1, cumsum_error.shape[0])
-    plt.plot(cumsum_error, y, 'r')
+def makeCDF(stats):
+    labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
+    for i, stat in stats:
+        error = np.sort(np.absolute(np.subtract(ground, y_preds)))
+        norm_error /= error.sum()
+        cumsum_error = np.cumsum(norm_error)
+        # x = np.linspace(0, error[-1], error.shape[0])
+        plt.plot(error, cumsum_error, label=label[i])
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
     plt.title("CDF for " + str(lower) + " to " + str(upper) + " feet tall")
