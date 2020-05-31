@@ -84,6 +84,8 @@ def makeCDFclasses(stats):
 
 def makeCDFreg(y_pred, ground):
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
+    print("Median: ", error[error.shape[0]//2])
+    print("AVG: ", error.sum() / error.shape[0])
     norm_error = error / error.sum()
     cumsum_error = np.cumsum(norm_error)
     # x = np.linspace(0, error[-1], error.shape[0])
