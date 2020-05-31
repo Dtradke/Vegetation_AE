@@ -72,9 +72,10 @@ def makeCDF(stats):
         norm_error = error / error.sum()
         cumsum_error = np.cumsum(norm_error)
         # x = np.linspace(0, error[-1], error.shape[0])
-        plt.plot(error, cumsum_error, label=label[i])
+        plt.plot(error, cumsum_error, label=labels[i])
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
+    plt.legend(loc=best)
     plt.title("CDF")
 
     # x_ticks = []
