@@ -87,6 +87,7 @@ def makeCDFclasses(stats):
 
 def makeCDFreg(y_pred, ground):
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
+    np.save('ynet_error.npy', error)
     print("Median: ", np.median(error))
     print("AVG: ", np.mean(error))
     # norm_error = error / error.sum()
