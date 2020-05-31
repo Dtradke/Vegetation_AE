@@ -75,14 +75,14 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
         if SPLIT:
             X_split_1 = masterDataSet.trainX[:,:,:,:3]
             # X_split_2 = np.stack((masterDataSet.trainX[:,:,:,3],masterDataSet.trainX[:,:,:,5:]), axis=3)#np.column_stack((masterDataSet.trainX[:,:,:,0], masterDataSet.trainX[:,:,:,2]))
-            X_split_2 = np.concatenate((masterDataSet.trainX[:,:,:,3:6],masterDataSet.trainX[:,:,:,7:]), axis=3)
+            X_split_2 = np.concatenate((masterDataSet.trainX[:,:,:,3:7],masterDataSet.trainX[:,:,:,8:]), axis=3)
             # X_split_2 = np.concatenate((np.expand_dims(masterDataSet.trainX[:,:,:,3], axis=3),masterDataSet.trainX[:,:,:,5:]), axis=3)
 
             # X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:]
 
             val_split_1 = masterDataSet.valX[:,:,:,:3]
             # val_split_2 = np.stack((masterDataSet.valX[:,:,:,3], masterDataSet.valX[:,:,:,5:]), axis=3)
-            val_split_2 = np.concatenate((masterDataSet.valX[:,:,:,3:6],masterDataSet.valX[:,:,:,7:]), axis=3)
+            val_split_2 = np.concatenate((masterDataSet.valX[:,:,:,3:7],masterDataSet.valX[:,:,:,8:]), axis=3)
             # val_split_2 = np.concatenate((np.expand_dims(masterDataSet.valX[:,:,:,3], axis=3),masterDataSet.valX[:,:,:,5:]), axis=3)
 
 
@@ -124,7 +124,7 @@ def modPredict(mod, masterDataSet):
         # X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:3], masterDataSet.testX[:,:,:,3:]
         X_split_1 = masterDataSet.testX[:,:,:,:3]
         # X_split_2 = np.stack((masterDataSet.testX[:,:,:,3], masterDataSet.testX[:,:,:,5:]), axis=3)
-        X_split_2 = np.concatenate((masterDataSet.testX[:,:,:,3:6],masterDataSet.testX[:,:,:,7:]), axis=3)
+        X_split_2 = np.concatenate((masterDataSet.testX[:,:,:,3:7],masterDataSet.testX[:,:,:,8:]), axis=3)
         # X_split_2 = np.concatenate((np.expand_dims(masterDataSet.testX[:,:,:,3], axis=3),masterDataSet.testX[:,:,:,5:]), axis=3)
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
