@@ -75,7 +75,7 @@ def makeCDF(stats):
         plt.plot(error, cumsum_error, label=labels[i])
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
-    plt.legend(loc=best)
+    plt.legend(loc='best')
     plt.title("CDF")
 
     # x_ticks = []
