@@ -83,7 +83,7 @@ def makeCDF(y_preds, ground, lower, upper):
     plt.xticks(x_ticks, labels)
 
     fname = "output/figures/CDF-" + str(lower) + "-" + str(upper) + ".png"
-    plt.savefig(fname, dpi=fig.dpi)
+    plt.savefig(fname)
     plt.close()
 
 def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
