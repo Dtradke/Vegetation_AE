@@ -67,10 +67,9 @@ def viewResult(layer, val, pred, diff, r_squared, num):
 
 def makeCDF(y_preds, ground, lower, upper):
     error = np.sort(np.absolute(np.subtract(ground, y_preds)))
-    error /= error.sum()
     cumsum_error = np.cumsum(error)
-    x = np.linspace(0, cumsum_error.shape[0], cumsum_error.shape[0])
-    plt.plot(x, cumsum_error, 'r')
+    y = np.linspace(0, 1, cumsum_error.shape[0])
+    plt.plot(cumsum_error, y, 'r')
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
     plt.title("CDF for " + str(lower) + " to " + str(upper) + " feet tall")
@@ -81,7 +80,7 @@ def makeCDF(y_preds, ground, lower, upper):
     #     x_ticks.append(int(x.shape[0] * (i/10)))
     #     labels.append(str(i))
 
-    plt.xticks(x_ticks, labels)
+    # plt.xticks(x_ticks, labels)
 
     fname = "output/figures/CDF-" + str(lower) + "-" + str(upper) + ".png"
     plt.savefig(fname)
