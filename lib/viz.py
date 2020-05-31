@@ -69,8 +69,9 @@ def makeCDFclasses(stats):
     labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
-        norm_error = error / error.sum()
-        cumsum_error = np.cumsum(norm_error)
+        # norm_error = error / error.sum()
+        # cumsum_error = np.cumsum(norm_error)
+        cumsum_error = scipy.stats.norm.cdf(error)
         # x = np.linspace(0, error[-1], error.shape[0])
         plt.plot(error, cumsum_error, label=labels[i])
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
