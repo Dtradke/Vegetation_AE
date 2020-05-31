@@ -65,7 +65,7 @@ def viewResult(layer, val, pred, diff, r_squared, num):
         plt.savefig(fname, dpi=fig.dpi)
     plt.close()
 
-def makeCDF(stats):
+def makeCDFclasses(stats):
     labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
@@ -78,15 +78,22 @@ def makeCDF(stats):
     plt.legend(loc='best')
     plt.title("CDF")
 
-    # x_ticks = []
-    # labels = []
-    # for i in range(0,110,10):
-    #     x_ticks.append(int(x.shape[0] * (i/10)))
-    #     labels.append(str(i))
+    fname = "output/figures/CDF_classes.png"
+    plt.savefig(fname)
+    plt.close()
 
-    # plt.xticks(x_ticks, labels)
+def makeCDFreg(y_pred, ground):
+    error = np.sort(np.absolute(np.subtract(y_pred, ground)))
+    norm_error = error / error.sum()
+    cumsum_error = np.cumsum(norm_error)
+    # x = np.linspace(0, error[-1], error.shape[0])
+    plt.plot(error, cumsum_error)
+    plt.ylabel("Percent of Predictions (%)", fontsize=20)
+    plt.xlabel("Absolute Error (ft)", fontsize=20)
+    # plt.legend(loc='best')
+    plt.title("CDF for Regression")
 
-    fname = "output/figures/CDF.png"
+    fname = "output/figures/CDF_reg.png"
     plt.savefig(fname)
     plt.close()
 

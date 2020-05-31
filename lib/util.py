@@ -387,6 +387,7 @@ def evaluateRegression(y_preds, masterDataSet):
 
     # zipped = np.array(list(zip(y_preds, ground)))
     viz.scatterplotRegression(y_preds, ground)
+    viz.makeCDFreg(y_preds, ground)
 
     print("R^2 together: ", calculateRSquared(y_preds, ground))
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
@@ -399,7 +400,7 @@ def evaluateRegression(y_preds, masterDataSet):
     stats.append(calcError(y_preds, ground, lower=20, upper=50))
     stats.append(calcError(y_preds, ground, lower=50, upper=80))
     stats.append(calcError(y_preds, ground, lower=80, upper=251))
-    viz.makeCDF(stats)
+    viz.makeCDFclasses(stats)
 
     mse = np.mean(np.square(np.subtract(ground, y_preds)))
     print("mean_squared_error: ", mse)
