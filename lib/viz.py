@@ -65,6 +65,27 @@ def viewResult(layer, val, pred, diff, r_squared, num):
         plt.savefig(fname, dpi=fig.dpi)
     plt.close()
 
+def makeCDF(y_preds, ground, lower, upper):
+    error = np.sort(np.absolute(np.subtract(ground, y_preds)))
+    cumsum_error = np.cumsum(error)
+    x = np.linspace(0, cumsum_error.shape[0], cumsum_error.shape[0])
+    plt.plot(x, cumsum_error, 'r')
+    plt.xlabel("Percent of Predictions (%)", fontsize=20)
+    plt.ylabel("Absolute Error (ft)", fontsize=20)
+    plt.title("CDF for " + str(lower) + " to " + upper + " feet tall")
+
+    x_ticks = []
+    labels = []
+    for i in range(0,1,0.1):
+        x_ticks.append(int(x.shape[0] * i))
+        labels.append(str(int(i*10)))
+
+    plt.xticks(x_ticks, labels)
+
+    fname = "output/figures/CDF-" + str(lower) + "-" + str(upper) + ".png"
+    plt.savefig(fname, dpi=fig.dpi)
+    plt.close()
+
 def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
     titles = ['layer', 'diff', 'val', 'pred']
     arr = [layer, diff, val, pred]

@@ -346,9 +346,12 @@ def calculateRSquared(pred, val):
     r_squared = 1 - (RSS/TSS)
     return r_squared
 
+
+
 def calcError(y_preds, ground, lower=0, upper=2):
     y_preds = y_preds[(ground >= lower) & (ground < upper)]
     ground = ground[(ground >= lower) & (ground < upper)]
+    viz.makeCDF(y_preds, ground, lower, upper)
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse)
     # return rmse
