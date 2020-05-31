@@ -67,7 +67,7 @@ def viewResult(layer, val, pred, diff, r_squared, num):
 
 def makeCDF(stats):
     labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
-    for i, stat in stats:
+    for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(ground, y_preds)))
         norm_error /= error.sum()
         cumsum_error = np.cumsum(norm_error)
