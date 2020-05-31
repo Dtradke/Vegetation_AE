@@ -75,7 +75,7 @@ def makeCDF(stats):
         plt.plot(error, cumsum_error, label=label[i])
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
-    plt.title("CDF for " + str(lower) + " to " + str(upper) + " feet tall")
+    plt.title("CDF")
 
     # x_ticks = []
     # labels = []
@@ -85,7 +85,7 @@ def makeCDF(stats):
 
     # plt.xticks(x_ticks, labels)
 
-    fname = "output/figures/CDF-" + str(lower) + "-" + str(upper) + ".png"
+    fname = "output/figures/CDF.png"
     plt.savefig(fname)
     plt.close()
 
