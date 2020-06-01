@@ -82,7 +82,7 @@ def makeCDFclasses(stats):
         # cumsum_error = scipy.stats.norm.cdf(error)
         # x = np.linspace(0, error[-1], error.shape[0])
         plt.plot(error, y, label=labels[i])
-    plt.xlim(left = 0)
+    # plt.xlim(left = 0)
     plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
@@ -111,7 +111,7 @@ def makeCDFreg(y_pred, ground):
     # cumsum_error = scipy.stats.norm.cdf(error)
     # x = np.linspace(0, error[-1], error.shape[0])
     plt.plot(error, y)
-    plt.xlim(left=0)
+    # plt.xlim(left=0)
     plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
@@ -163,13 +163,14 @@ def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
     plt.close()
 
 
-def scatterplotRegression(preds, ground):
+def scatterplotRegression(preds, ground, cut=False):
     import matplotlib.lines as mlines
     error = np.absolute(np.subtract(preds, ground))
-    keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
-    error = error[keep_idx]
-    preds = preds[keep_idx]
-    ground = ground[keep_idx]
+    if cut:
+        keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
+        error = error[keep_idx]
+        preds = preds[keep_idx]
+        ground = ground[keep_idx]
 
     plt.scatter(preds, ground, s=0.2, c='b', alpha=0.5)
 
@@ -187,7 +188,10 @@ def scatterplotRegression(preds, ground):
     plt.xlabel('Predicted', fontsize=20)
     plt.ylabel('Lidar', fontsize=20)
     if save:
-        fname = "output/figures/scatterplot.png"
+        if cut:
+            fname = "output/figures/scatterplot_cut.png"
+        else:
+            fname = "output/figures/scatterplot.png"
         plt.savefig(fname)
     plt.close()
 
