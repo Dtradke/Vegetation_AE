@@ -71,6 +71,8 @@ def makeCDFclasses(stats):
     labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
+        new_error = error[error <= np.quantile(error, 0.95)]
+        error = new_error[new_error >= np.quantile(error, 0.05)]
         # norm_error = error / error.sum()
         # cumsum_error = np.cumsum(norm_error)
         cumsum_error = scipy.stats.norm.cdf(error)
@@ -79,7 +81,7 @@ def makeCDFclasses(stats):
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
     plt.legend(loc='best')
-    plt.title("CDF")
+    plt.title("CDF - Classes", fontsize=20)
 
     fname = "output/figures/CDF_classes.png"
     plt.savefig(fname)
@@ -87,9 +89,11 @@ def makeCDFclasses(stats):
 
 def makeCDFreg(y_pred, ground):
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
-    np.save('ynet_error.npy', error)
-    np.save('ynet_y_pred.npy', y_pred)
-    np.save('ynet_ground.npy', ground)
+    new_error = error[error <= np.quantile(error, 0.95)]
+    error = new_error[new_error >= np.quantile(error, 0.05)]
+    # np.save('ynet_error.npy', error)
+    # np.save('ynet_y_pred.npy', y_pred)
+    # np.save('ynet_ground.npy', ground)
     print("Median: ", np.median(error))
     print("AVG: ", np.mean(error))
     # norm_error = error / error.sum()
@@ -100,7 +104,7 @@ def makeCDFreg(y_pred, ground):
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
     # plt.legend(loc='best')
-    plt.title("CDF for Regression")
+    plt.title("CDF for Y-NET", fontsize=20)
 
     fname = "output/figures/CDF_reg.png"
     plt.savefig(fname)
