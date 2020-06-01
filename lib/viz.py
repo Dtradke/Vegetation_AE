@@ -79,7 +79,7 @@ def makeCDFclasses(stats):
         # cumsum_error = scipy.stats.norm.cdf(error)
         # x = np.linspace(0, error[-1], error.shape[0])
         plt.plot(error, y, label=labels[i])
-    plt.xlim(left = 0,10)
+    plt.xlim(left = 0)
     plt.ylim((0,1))
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
