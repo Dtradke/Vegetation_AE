@@ -114,14 +114,14 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
         if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
-        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,1:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
+        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
         else: mod = model.unet(masterDataSet, pretrained_weights=mod)
     return mod
 
 def modPredict(mod, masterDataSet):
     print("Predicting...")
     if SPLIT:
-        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:3], masterDataSet.testX[:,:,:,3:-1]
+        X_split_1, X_split_2 = masterDataSet.testX[:,:,:,1:3], masterDataSet.testX[:,:,:,3:-1]
         # X_split_1 = masterDataSet.testX[:,:,:,:3]
         # X_split_2 = np.stack((masterDataSet.testX[:,:,:,3], masterDataSet.testX[:,:,:,5:]), axis=3)
         # X_split_2 = np.concatenate((masterDataSet.testX[:,:,:,3:8],masterDataSet.testX[:,:,:,9:]), axis=3)

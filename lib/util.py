@@ -351,10 +351,10 @@ def calculateRSquared(y_pred, ground):
 
 
     error = np.absolute(np.subtract(y_pred, ground))
-    keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
-    error = error[keep_idx]
-    pred = y_pred[keep_idx]
-    val = ground[keep_idx]
+    # keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
+    # error = error[keep_idx]
+    # pred = y_pred[keep_idx]
+    # val = ground[keep_idx]
 
     RSS = np.sum(np.square(np.subtract(val, pred)))
     TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
