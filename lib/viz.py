@@ -72,6 +72,7 @@ def makeCDFclasses(stats):
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
         y = np.linspace(0,error.max(),error.shape[0])
+        y /= y.max()
         # new_error = error[error <= np.quantile(error, 0.95)]
         # error = new_error[new_error >= np.quantile(error, 0.05)]
         # norm_error = error / error.sum()
@@ -80,7 +81,7 @@ def makeCDFclasses(stats):
         # x = np.linspace(0, error[-1], error.shape[0])
         plt.plot(error, y, label=labels[i])
     plt.xlim(left = 0)
-    plt.ylim((0,1))
+    plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
     plt.legend(loc='best')
@@ -107,7 +108,7 @@ def makeCDFreg(y_pred, ground):
     # x = np.linspace(0, error[-1], error.shape[0])
     plt.plot(error, y)
     plt.xlim(left=0)
-    plt.ylim((0,1))
+    plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
     # plt.legend(loc='best')
