@@ -82,7 +82,7 @@ def makeCDFclasses(stats):
         # cumsum_error = scipy.stats.norm.cdf(error)
         # x = np.linspace(0, error[-1], error.shape[0])
         plt.plot(error, y, label=labels[i])
-    # plt.xlim(left = 0)
+    plt.xlim(left = 0)
     plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
@@ -111,7 +111,7 @@ def makeCDFreg(y_pred, ground):
     # cumsum_error = scipy.stats.norm.cdf(error)
     # x = np.linspace(0, error[-1], error.shape[0])
     plt.plot(error, y)
-    # plt.xlim(left=0)
+    plt.xlim(left=0)
     plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
@@ -172,7 +172,7 @@ def scatterplotRegression(preds, ground, cut=False):
         preds = preds[keep_idx]
         ground = ground[keep_idx]
 
-    plt.scatter(preds, ground, s=0.2, c='b', alpha=0.5)
+    plt.scatter(preds, ground, s=0.2, c='b', alpha=0.1)
 
     x = np.arange(250)
     y = np.arange(250)
