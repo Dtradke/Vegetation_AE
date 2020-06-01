@@ -368,7 +368,7 @@ def calcError(y_preds, ground, lower=0, upper=2):
     ground = ground[(ground >= lower) & (ground < upper)]
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     avg_abs = np.mean(np.absolute(np.subtract(ground, y_preds)))
-    print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", avg_abs)
+    print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", avg_abs, " - amt: ", ground.size)
     return [y_preds, ground]
     # return rmse
 
