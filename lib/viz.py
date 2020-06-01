@@ -134,7 +134,7 @@ def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
     vmax = max(np.amax(val), np.amax(pred)) #max(image.get_array().max() for image in images)
     norm = colors.Normalize(vmin=vmin, vmax=vmax)
     for i, im in enumerate(images):
-        if titles[i] == 'val' or titles[i] == 'pred':
+        if titles[i] != 'layer':
             im.set_norm(norm)
 
     cb = fig.colorbar(images[-1], ax=axs, orientation='horizontal', fraction=.1)
