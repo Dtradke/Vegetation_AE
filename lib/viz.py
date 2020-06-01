@@ -167,18 +167,18 @@ def scatterplotRegression(preds, ground, cut=False):
     import matplotlib.lines as mlines
     error = np.absolute(np.subtract(preds, ground))
     # if cut:
-    keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
+    keep_idx = (error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))
     error_cut = error[keep_idx]
     preds_cut = preds[keep_idx]
     ground_cut = ground[keep_idx]
 
-    keep_idx_comp = [(error < np.quantile(error,0.05)) & (error > np.quantile(error,0.95))]
-    error_comp = error[keep_idx_comp]
-    preds_comp = preds[keep_idx_comp]
-    ground_comp = ground[keep_idx_comp]
+    # keep_idx_comp = [(error < np.quantile(error,0.05)) & (error > np.quantile(error,0.95))]
+    error_comp = error[~keep_idx]
+    preds_comp = preds[~keep_idx]
+    ground_comp = ground[~keep_idx]
 
     plt.scatter(preds_cut, ground_cut, s=0.2, c='b', alpha=0.01)
-    plt.scatter(preds_comp, ground_comp, s=0.2, c='g', alpha=0.01)
+    plt.scatter(preds_comp, ground_comp, s=0.2, c='m', alpha=0.01)
 
     x = np.arange(250)
     y = np.arange(250)
