@@ -172,7 +172,7 @@ def scatterplotRegression(preds, ground, cut=False):
         preds = preds[keep_idx]
         ground = ground[keep_idx]
 
-    plt.scatter(preds, ground, s=0.2, c='b', alpha=0.1)
+    plt.scatter(preds, ground, s=0.2, c='b', alpha=0.01)
 
     x = np.arange(250)
     y = np.arange(250)
