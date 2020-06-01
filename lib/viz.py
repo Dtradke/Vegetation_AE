@@ -71,14 +71,15 @@ def makeCDFclasses(stats):
     labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
+        y = np.linspace(0,error.max(),error.shape[0])
         # new_error = error[error <= np.quantile(error, 0.95)]
         # error = new_error[new_error >= np.quantile(error, 0.05)]
         # norm_error = error / error.sum()
         # cumsum_error = np.cumsum(norm_error)
-        cumsum_error = scipy.stats.norm.cdf(error)
+        # cumsum_error = scipy.stats.norm.cdf(error)
         # x = np.linspace(0, error[-1], error.shape[0])
-        plt.plot(error, cumsum_error, label=labels[i])
-    plt.xlim((0,10))
+        plt.plot(error, y, label=labels[i])
+    plt.xlim(left = 0,10)
     plt.ylim((0,1))
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
@@ -91,6 +92,7 @@ def makeCDFclasses(stats):
 
 def makeCDFreg(y_pred, ground):
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
+    y = np.linspace(0,error.max(),error.shape[0])
     # new_error = error[error <= np.quantile(error, 0.95)]
     # error = new_error[new_error >= np.quantile(error, 0.05)]
     # np.save('ynet_error.npy', error)
@@ -100,10 +102,10 @@ def makeCDFreg(y_pred, ground):
     print("AVG: ", np.mean(error))
     # norm_error = error / error.sum()
     # cumsum_error = np.cumsum(norm_error)
-    cumsum_error = scipy.stats.norm.cdf(error)
+    # cumsum_error = scipy.stats.norm.cdf(error)
     # x = np.linspace(0, error[-1], error.shape[0])
-    plt.plot(error, cumsum_error)
-    plt.xlim((0,10))
+    plt.plot(error, y)
+    plt.xlim(left=0)
     plt.ylim((0,1))
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
