@@ -70,7 +70,6 @@ def viewResult(layer, val, pred, diff, r_squared, num):
 def makeCDFclasses(stats):
     plt.style.use('ggplot')
     plt.figure(figsize=(8,4))
-    plt.tight_layout()
     labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
@@ -91,13 +90,12 @@ def makeCDFclasses(stats):
     plt.title("CDF - Classes", fontsize=20)
 
     fname = "output/figures/CDF_classes.png"
-    plt.savefig(fname)
+    plt.savefig(fname,,bbox_inches='tight')
     plt.close()
 
 def makeCDFreg(y_pred, ground):
     plt.style.use('ggplot')
     plt.figure(figsize=(8,4))
-    plt.tight_layout()
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
     y = np.linspace(0,error.max(),error.shape[0])
     y /= y.max()
@@ -121,7 +119,7 @@ def makeCDFreg(y_pred, ground):
     plt.title("CDF for Y-NET", fontsize=20)
 
     fname = "output/figures/CDF_reg.png"
-    plt.savefig(fname)
+    plt.savefig(fname,,bbox_inches='tight')
     plt.close()
 
 def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
