@@ -172,9 +172,9 @@ def scatterplotRegression(preds, ground, cut=False):
     preds_cut = preds[keep_idx]
     ground_cut = ground[keep_idx]
 
-    error = error[~keep_idx]
-    preds = preds[~keep_idx]
-    ground = ground[~keep_idx]
+    error = np.where(~np.isin(error,keep_idx))#error[!keep_idx]
+    preds = np.where(~np.isin(preds,keep_idx))
+    ground = np.where(~np.isin(ground,keep_idx))
     plt.scatter(preds_cut, ground_cut, s=0.2, c='b', alpha=0.01)
     plt.scatter(preds, ground, s=0.2, c='g', alpha=0.01)
 
