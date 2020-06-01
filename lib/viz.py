@@ -93,6 +93,7 @@ def makeCDFclasses(stats):
 def makeCDFreg(y_pred, ground):
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
     y = np.linspace(0,error.max(),error.shape[0])
+    y /= y.max()
     # new_error = error[error <= np.quantile(error, 0.95)]
     # error = new_error[new_error >= np.quantile(error, 0.05)]
     # np.save('ynet_error.npy', error)
