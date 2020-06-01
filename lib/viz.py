@@ -163,30 +163,36 @@ def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
     plt.close()
 
 
-def scatterplotRegression(preds, ground, cut=False):
+def scatterplotRegression(preds, ground):
     import matplotlib.lines as mlines
     error = np.absolute(np.subtract(preds, ground))
-    # if cut:
-    keep_idx = (error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))
-    error_cut = error[keep_idx]
-    preds_cut = preds[keep_idx]
-    ground_cut = ground[keep_idx]
+    # keep_idx = (error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))
+    # error_cut = error[keep_idx]
+    # preds_cut = preds[keep_idx]
+    # ground_cut = ground[keep_idx]
+    #
+    # error_comp = error[~keep_idx]
+    # preds_comp = preds[~keep_idx]
+    # ground_comp = ground[~keep_idx]
+    #
+    # plt.scatter(preds_cut, ground_cut, s=0.2, c='b', alpha=0.01)
+    # plt.scatter(preds_comp, ground_comp, s=0.2, c='m', alpha=0.01)
+    #
+    # x = np.arange(250)
+    # y = np.arange(250)
+    # plt.plot(x,y,c='r')
+    # # line = mlines.Line2D([0, 250], [0, 250], color='red')
+    #
+    # m, b = np.polyfit(preds, ground, 1)
+    # plt.plot(preds, m*preds + b, c='g')
 
-    # keep_idx_comp = [(error < np.quantile(error,0.05)) & (error > np.quantile(error,0.95))]
-    error_comp = error[~keep_idx]
-    preds_comp = preds[~keep_idx]
-    ground_comp = ground[~keep_idx]
-
-    plt.scatter(preds_cut, ground_cut, s=0.2, c='b', alpha=0.01)
-    plt.scatter(preds_comp, ground_comp, s=0.2, c='m', alpha=0.01)
-
-    x = np.arange(250)
-    y = np.arange(250)
-    plt.plot(x,y,c='r')
-    # line = mlines.Line2D([0, 250], [0, 250], color='red')
-
-    m, b = np.polyfit(preds, ground, 1)
-    plt.plot(preds, m*preds + b, c='g')
+    from scipy.stats import gaussian_kde
+    xy = np.vstack([preds,ground])
+    z = gaussian_kde(xy)(xy)
+    idx = z.argsort()
+    x, y, z = preds[idx], ground[idx], z[idx]
+    # fig, ax = plt.subplots()
+    plt.scatter(x, y, c=z, s=50, edgecolor='')
 
 
     # plt.add_line(line)
