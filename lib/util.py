@@ -359,7 +359,7 @@ def calculateRSquared(y_pred, ground):
     RSS = np.sum(np.square(np.subtract(val, pred)))
     TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
     r_squared = 1 - (RSS/TSS)
-    return r_squared
+    return pred, val, r_squared
 
 
 
@@ -404,7 +404,9 @@ def evaluateRegression(y_preds, masterDataSet):
     viz.scatterplotRegression(y_preds, ground)
     viz.makeCDFreg(y_preds, ground)
 
-    print("R^2 together: ", calculateRSquared(y_preds, ground))
+    y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
+
+    print("R^2 together: ", r_sqr)
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
 
     stats = []

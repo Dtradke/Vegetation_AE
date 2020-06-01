@@ -71,8 +71,8 @@ def makeCDFclasses(stats):
     labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
-        new_error = error[error <= np.quantile(error, 0.95)]
-        error = new_error[new_error >= np.quantile(error, 0.05)]
+        # new_error = error[error <= np.quantile(error, 0.95)]
+        # error = new_error[new_error >= np.quantile(error, 0.05)]
         # norm_error = error / error.sum()
         # cumsum_error = np.cumsum(norm_error)
         cumsum_error = scipy.stats.norm.cdf(error)
@@ -89,8 +89,8 @@ def makeCDFclasses(stats):
 
 def makeCDFreg(y_pred, ground):
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
-    new_error = error[error <= np.quantile(error, 0.95)]
-    error = new_error[new_error >= np.quantile(error, 0.05)]
+    # new_error = error[error <= np.quantile(error, 0.95)]
+    # error = new_error[new_error >= np.quantile(error, 0.05)]
     # np.save('ynet_error.npy', error)
     # np.save('ynet_y_pred.npy', y_pred)
     # np.save('ynet_ground.npy', ground)
