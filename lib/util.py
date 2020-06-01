@@ -391,9 +391,9 @@ def evaluateRegression(y_preds, masterDataSet):
         single_r_squareds.append(r)
 
 
-        if i < 500:
-            # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
-            viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        # if i < 500:
+        #     # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        #     viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
 
     # calculate result
     ground = masterDataSet.testy.flatten()

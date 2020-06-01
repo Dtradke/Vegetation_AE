@@ -101,6 +101,7 @@ def makeCDFreg(y_pred, ground):
     cumsum_error = scipy.stats.norm.cdf(error)
     # x = np.linspace(0, error[-1], error.shape[0])
     plt.plot(error, cumsum_error)
+    plt.xlim((0,10))
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
     # plt.legend(loc='best')
@@ -153,6 +154,12 @@ def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
 
 def scatterplotRegression(preds, ground):
     import matplotlib.lines as mlines
+    error = np.absolute(np.subtract(preds, ground))
+    keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
+    error = error[keep_idx]
+    preds = preds[keep_idx]
+    ground = ground[keep_idx]
+
     plt.scatter(preds, ground, s=0.2, c='b', alpha=0.5)
 
     x = np.arange(250)
