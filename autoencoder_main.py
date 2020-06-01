@@ -78,7 +78,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             # X_split_2 = np.concatenate((masterDataSet.trainX[:,:,:,3:8],masterDataSet.trainX[:,:,:,9:]), axis=3)
             # X_split_2 = np.concatenate((masterDataSet.trainX[:,:,:,3:7], np.expand_dims(masterDataSet.trainX[:,:,:,8], axis=3)), axis=3)
 
-            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:-1]
+            X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,1:3], masterDataSet.trainX[:,:,:,3:-1]
 
             # val_split_1 = masterDataSet.valX[:,:,:,:3]
             # val_split_2 = np.stack((masterDataSet.valX[:,:,:,3], masterDataSet.valX[:,:,:,5:]), axis=3)
@@ -86,7 +86,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             # val_split_2 = np.concatenate((masterDataSet.valX[:,:,:,3:7], np.expand_dims(masterDataSet.valX[:,:,:,8], axis=3)), axis=3)
 
 
-            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:-1]
+            val_split_1, val_split_2 = masterDataSet.valX[:,:,:,1:3], masterDataSet.valX[:,:,:,3:-1]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
             print("Val Split shape: ", val_split_1.shape, " ", val_split_2.shape)
             inputs = [X_split_1, X_split_2]
@@ -114,7 +114,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
         if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
-        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
+        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,1:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
         else: mod = model.unet(masterDataSet, pretrained_weights=mod)
     return mod
 
