@@ -90,7 +90,7 @@ def makeCDFclasses(stats):
     plt.title("CDF - Classes", fontsize=20)
 
     fname = "output/figures/CDF_classes.png"
-    plt.savefig(fname,,bbox_inches='tight')
+    plt.savefig(fname,bbox_inches='tight')
     plt.close()
 
 def makeCDFreg(y_pred, ground):
@@ -119,7 +119,7 @@ def makeCDFreg(y_pred, ground):
     plt.title("CDF for Y-NET", fontsize=20)
 
     fname = "output/figures/CDF_reg.png"
-    plt.savefig(fname,,bbox_inches='tight')
+    plt.savefig(fname,bbox_inches='tight')
     plt.close()
 
 def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
