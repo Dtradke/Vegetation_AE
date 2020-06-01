@@ -384,7 +384,7 @@ def evaluateRegression(y_preds, masterDataSet):
         mse = np.mean(np.square(np.subtract(val, pred)))
         absolute_diff = np.absolute(np.subtract(val, pred))
 
-        r = calculateRSquared(flat_pred, flat_val)
+        _,_,r = calculateRSquared(flat_pred, flat_val)
         if math.isnan(r):
             continue
         single_r_squareds.append(r)
