@@ -340,7 +340,7 @@ def evaluateYNET(y_preds, masterDataSet):
             print("Ground: ", key, " - Total predicted wrong as ", inner_key,": ", ground[key][inner_key]/total_val[key])
 
 
-def calculateRSquared(pred, val):
+def calculateRSquared(y_pred, val):
     # error = np.sort(np.absolute(np.subtract(y_pred, ground)))
     # new_error = error[error <= np.quantile(error, 0.95)]
     # error = new_error[new_error >= np.quantile(error, 0.05)]
