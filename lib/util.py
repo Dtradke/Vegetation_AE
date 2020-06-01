@@ -341,6 +341,21 @@ def evaluateYNET(y_preds, masterDataSet):
 
 
 def calculateRSquared(pred, val):
+    # error = np.sort(np.absolute(np.subtract(y_pred, ground)))
+    # new_error = error[error <= np.quantile(error, 0.95)]
+    # error = new_error[new_error >= np.quantile(error, 0.05)]
+
+    # RSS = np.sum(np.square(np.subtract(val, pred)))
+    # TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
+    # r_squared = 1 - (RSS/TSS)
+
+
+    error = np.absolute(np.subtract(y_pred, ground))
+    keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
+    error = error[keep_idx]
+    pred = pred[keep_idx]
+    val = val[keep_idx]
+
     RSS = np.sum(np.square(np.subtract(val, pred)))
     TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
     r_squared = 1 - (RSS/TSS)
