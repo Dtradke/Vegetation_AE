@@ -68,6 +68,8 @@ def viewResult(layer, val, pred, diff, r_squared, num):
     plt.close()
 
 def makeCDFclasses(stats):
+    plt.style.use('ggplot')
+    plt.figure(figsize=(8,4))
     labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
@@ -92,6 +94,8 @@ def makeCDFclasses(stats):
     plt.close()
 
 def makeCDFreg(y_pred, ground):
+    plt.style.use('ggplot')
+    plt.figure(figsize=(8,4))
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
     y = np.linspace(0,error.max(),error.shape[0])
     y /= y.max()
