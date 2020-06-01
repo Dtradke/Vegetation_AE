@@ -101,9 +101,9 @@ def makeCDFreg(y_pred, ground):
     y /= y.max()
     # new_error = error[error <= np.quantile(error, 0.95)]
     # error = new_error[new_error >= np.quantile(error, 0.05)]
-    # np.save('ynet_error.npy', error)
-    # np.save('ynet_y_pred.npy', y_pred)
-    # np.save('ynet_ground.npy', ground)
+    np.save('ynet_error.npy', error)
+    np.save('ynet_y_pred.npy', y_pred)
+    np.save('ynet_ground.npy', ground)
     print("Median: ", np.median(error))
     print("AVG: ", np.mean(error))
     # norm_error = error / error.sum()
