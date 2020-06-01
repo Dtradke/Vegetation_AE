@@ -356,10 +356,10 @@ def calculateRSquared(y_pred, ground):
     # pred = y_pred[keep_idx]
     # val = ground[keep_idx]
 
-    RSS = np.sum(np.square(np.subtract(val, pred)))
-    TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
+    RSS = np.sum(np.square(np.subtract(ground, y_pred)))
+    TSS = np.sum(np.square(np.subtract(ground,np.mean(ground))))
     r_squared = 1 - (RSS/TSS)
-    return pred, val, r_squared
+    return y_pred, ground, r_squared
 
 
 
