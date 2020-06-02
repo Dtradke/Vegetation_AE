@@ -402,8 +402,8 @@ def evaluateRegression(y_preds, masterDataSet):
     ground = ground[ground>=0]
 
     # zipped = np.array(list(zip(y_preds, ground)))
-    viz.scatterplotRegression(y_preds, ground)
-    viz.makeCDFreg(y_preds, ground)
+    # viz.scatterplotRegression(y_preds, ground)
+    # viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
