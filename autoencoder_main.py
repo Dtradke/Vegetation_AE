@@ -74,16 +74,16 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
     if mod is None:
         if SPLIT:
             X_split_1 = masterDataSet.trainX[:,:,:,:3]
-            X_split_2 = np.concatenate((np.expand_dims(masterDataSet.trainX[:,:,:,3], axis=3), masterDataSet.trainX[:,:,:,4:-1]), axis=3)
-            # X_split_2 = masterDataSet.trainX[:,:,:,4:-1]
+            # X_split_2 = np.concatenate((np.expand_dims(masterDataSet.trainX[:,:,:,3], axis=3), masterDataSet.trainX[:,:,:,4:-1]), axis=3)
+            X_split_2 = masterDataSet.trainX[:,:,:,4:-1]
             # X_split_2 = np.concatenate((masterDataSet.trainX[:,:,:,3:7],masterDataSet.trainX[:,:,:,7:-1]), axis=3)
             # X_split_2 = np.concatenate((masterDataSet.trainX[:,:,:,3:7], np.expand_dims(masterDataSet.trainX[:,:,:,8], axis=3)), axis=3)
 
             # X_split_1, X_split_2 = masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:-1]
 
             val_split_1 = masterDataSet.valX[:,:,:,:3]
-            val_split_2 = np.concatenate((np.expand_dims(masterDataSet.valX[:,:,:,3], axis=3), masterDataSet.valX[:,:,:,4:-1]), axis=3)
-            # val_split_2 = masterDataSet.valX[:,:,:,4:-1]
+            # val_split_2 = np.concatenate((np.expand_dims(masterDataSet.valX[:,:,:,3], axis=3), masterDataSet.valX[:,:,:,4:-1]), axis=3)
+            val_split_2 = masterDataSet.valX[:,:,:,4:-1]
             # val_split_2 = np.concatenate((masterDataSet.valX[:,:,:,3:7],masterDataSet.valX[:,:,:,7:-1]), axis=3)
             # val_split_2 = np.concatenate((masterDataSet.valX[:,:,:,3:7], np.expand_dims(masterDataSet.valX[:,:,:,8], axis=3)), axis=3)
 
@@ -126,9 +126,9 @@ def modPredict(mod, masterDataSet):
         # X_split_1, X_split_2 = masterDataSet.testX[:,:,:,:3], masterDataSet.testX[:,:,:,3:-1]
         X_split_1 = masterDataSet.testX[:,:,:,:3]
         # X_split_1 = np.column_stack((masterDataSet.testX[:,:,:,0], masterDataSet.testX[:,:,:,2]), axis=3) #np.stack((masterDataSet.trainX[:,:,:,3],masterDataSet.trainX[:,:,:,5:]), axis=3)#
-        # X_split_2 = masterDataSet.testX[:,:,:,4:-1]
+        X_split_2 = masterDataSet.testX[:,:,:,4:-1]
         # X_split_2 = np.concatenate((masterDataSet.testX[:,:,:,3:7],masterDataSet.testX[:,:,:,7:-1]), axis=3)
-        X_split_2 = np.concatenate((np.expand_dims(masterDataSet.testX[:,:,:,3], axis=3), masterDataSet.testX[:,:,:,4:-1]), axis=3)
+        # X_split_2 = np.concatenate((np.expand_dims(masterDataSet.testX[:,:,:,3], axis=3), masterDataSet.testX[:,:,:,4:-1]), axis=3)
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
