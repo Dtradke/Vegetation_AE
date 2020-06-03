@@ -105,7 +105,7 @@ def makeCDFreg(y_pred, ground):
     # np.save('ynet_y_pred.npy', y_pred)
     # np.save('ynet_ground.npy', ground)
 
-    id_str = "noAspect"
+    id_str = "noSlope"
     np.save('CDF_x_'+ id_str +'.npy', error)
     np.save('CDF_y_'+ id_str +'.npy', y)
     print("Median: ", np.median(error))
