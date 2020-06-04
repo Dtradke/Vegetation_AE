@@ -67,7 +67,8 @@ def sampling(args):
 
 
 def vae(masterDataSet, pretrained_weights = None):
-    input_shape = (masterDataSet.testX[0].shape[0] * masterDataSet.testX[0].shape[0], )
+    original_dim = masterDataSet.testX[0].shape[0] * masterDataSet.testX[0].shape[0]
+    input_shape = (original_dim, )
     intermediate_dim = 512
     batch_size = 128
     latent_dim = 2
