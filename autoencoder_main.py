@@ -145,8 +145,6 @@ def modPredict(mod, masterDataSet):
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
-        print(y_preds.shape)
-        exit()
 
     np.save("ynet_squares_ground.npy", masterDataSet.testy)
     np.save("ynet_squares_pred.npy", y_preds)
