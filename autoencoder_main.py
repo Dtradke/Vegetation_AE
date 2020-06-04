@@ -115,8 +115,10 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
-            mod = model.unet(masterDataSet)
-            mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
+            # mod = model.unet(masterDataSet)
+            # mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
+            mod = model.vae(masterDataSet)
+            mod.fit(masterDataSet.trainX, epochs=1, batch_size=32, validation_data=(masterDataSet.valX, None))
         if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
         if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
@@ -137,6 +139,8 @@ def modPredict(mod, masterDataSet):
         y_preds = mod.predict([X_split_1, X_split_2])
     else:
         y_preds = mod.predict(masterDataSet.testX)
+        print(y_preds.shape)
+        exit()
 
     np.save("ynet_squares_ground.npy", masterDataSet.testy)
     np.save("ynet_squares_pred.npy", y_preds)
