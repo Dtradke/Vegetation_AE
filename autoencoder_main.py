@@ -146,8 +146,8 @@ def modPredict(mod, masterDataSet):
     else:
         y_preds = mod.predict(masterDataSet.testX)
 
-    np.save("ynet_squares_ground.npy", masterDataSet.testy)
-    np.save("ynet_squares_pred.npy", y_preds)
+    # np.save("ynet_squares_ground.npy", masterDataSet.testy)
+    # np.save("ynet_squares_pred.npy", y_preds)
     util.evaluateYNET(y_preds, masterDataSet)
 
 def heightsCheck(masterDataSet):
