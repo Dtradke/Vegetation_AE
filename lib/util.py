@@ -401,6 +401,9 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds = y_preds[ground>=0]
     ground = ground[ground>=0]
 
+    print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))))
+    print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
+
     # zipped = np.array(list(zip(y_preds, ground)))
     # viz.scatterplotRegression(y_preds, ground)
     viz.makeCDFreg(y_preds, ground)
