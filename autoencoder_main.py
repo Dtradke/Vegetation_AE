@@ -115,16 +115,16 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             mod.fit( inputs, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(vals, masterDataSet.valy), callbacks=[es]) #, callbacks=[es, mc]
         else:
             es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)
-            # mod = model.unet(masterDataSet)
-            # mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
-            mod = model.vae(masterDataSet)
-            x_train = np.reshape(masterDataSet.trainX, [-1, 64, 64, 1])
-            x_val = np.reshape(masterDataSet.valX, [-1, 64, 64, 1])
-            x_test = np.reshape(masterDataSet.testX, [-1, 64, 64, 1])
-            x_train = x_train.astype('float32') / 255
-            x_val = x_val.astype('float32') / 255
-            x_test = x_test.astype('float32') / 255
-            mod.fit(x_train, epochs=1, batch_size=32, validation_data=(x_val, None))
+            mod = model.unet(masterDataSet)
+            mod.fit(masterDataSet.trainX, masterDataSet.trainy, batch_size=32, epochs=300, verbose=1, validation_data=(masterDataSet.valX, masterDataSet.valy), callbacks=[es])
+            # mod = model.vae(masterDataSet)
+            # x_train = np.reshape(masterDataSet.trainX, [-1, 64, 64, 1])
+            # x_val = np.reshape(masterDataSet.valX, [-1, 64, 64, 1])
+            # x_test = np.reshape(masterDataSet.testX, [-1, 64, 64, 1])
+            # x_train = x_train.astype('float32') / 255
+            # x_val = x_val.astype('float32') / 255
+            # x_test = x_test.astype('float32') / 255
+            # mod.fit(x_train, epochs=1, batch_size=32, validation_data=(x_val, None))
         if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
         if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
