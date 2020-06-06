@@ -362,6 +362,18 @@ def calculateRSquared(y_pred, ground):
     return y_pred, ground, r_squared
 
 
+##### YNET RESULTS
+ynet_results = {0:{2:0.85},
+                2:{6:3.28},
+                6:{20:8.06, 50:8.68},
+                20:{50:8.93},
+                50:{80:16.52},
+                80:{251:28.74},
+                "r": 0.79,
+                "median": 2.27,
+                "avg": 6.59,
+                "rmse": 12.2}
+
 
 def calcError(y_preds, ground, lower=0, upper=2):
     y_preds = y_preds[(ground >= lower) & (ground < upper)]
@@ -369,6 +381,7 @@ def calcError(y_preds, ground, lower=0, upper=2):
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     avg_abs = np.mean(np.absolute(np.subtract(ground, y_preds)))
     print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", avg_abs, " - median: ", np.median(avg_abs), " - amt: ", ground.size)
+    print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", (ynet_results[lower][upper] - avg_abs), " - median: ", (ynet_results[lower][upper] - np.median(avg_abs)), " - amt: ", ground.size)
     return [y_preds, ground]
     # return rmse
 
@@ -408,15 +421,15 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds = y_preds[ground>=0]
     ground = ground[ground>=0]
 
-    print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))))
-    print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
+    print("Median: ", ynet_results["median"] - np.median(np.absolute(np.subtract(y_preds, ground))))
+    print("Mean: ", ynet_results["avg"] - np.mean(np.absolute(np.subtract(y_preds, ground))))
 
     # viz.scatterplotRegression(y_preds, ground)
     viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
-    print("R^2 together: ", r_sqr)
+    print("R^2 together: ", ynet_results["r"] - r_sqr)
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
 
     stats = []
@@ -430,6 +443,6 @@ def evaluateRegression(y_preds, masterDataSet):
     viz.makeCDFclasses(stats)
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
-    print("mean_squared_error: ", rmse)
+    print("mean_squared_error: ", ynet_results["rmse"] - rmse)
     print("Finished")
     exit()
