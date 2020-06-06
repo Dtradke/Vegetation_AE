@@ -24,7 +24,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
-SPLIT = False
+SPLIT = True
 pretrain = False
 
 geo_start = 0
