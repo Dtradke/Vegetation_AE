@@ -425,7 +425,7 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Mean: ", ynet_results["avg"] - np.mean(np.absolute(np.subtract(y_preds, ground))))
 
     # viz.scatterplotRegression(y_preds, ground)
-    viz.makeCDFreg(y_preds, ground)
+    # viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
