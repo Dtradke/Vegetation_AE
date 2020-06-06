@@ -374,6 +374,7 @@ def calcError(y_preds, ground, lower=0, upper=2):
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
+    pred_squares, val_squares = [], []
     # make visuals
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
@@ -390,10 +391,14 @@ def evaluateRegression(y_preds, masterDataSet):
             continue
         single_r_squareds.append(r)
 
+        if i < 500:
+            # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+            pred_squares.append(pred)
+            val_squares.append(val)
+            viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
 
-        # if i < 500:
-        #     # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
-        #     viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+    np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
+    np.save('new_ynet_squares_ground.npy', np.array(val_squares))
 
     # calculate result
     ground = masterDataSet.testy.flatten()
@@ -404,7 +409,6 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))))
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
-    # zipped = np.array(list(zip(y_preds, ground)))
     # viz.scatterplotRegression(y_preds, ground)
     viz.makeCDFreg(y_preds, ground)
 
@@ -421,7 +425,7 @@ def evaluateRegression(y_preds, masterDataSet):
     stats.append(calcError(y_preds, ground, lower=20, upper=50))
     stats.append(calcError(y_preds, ground, lower=50, upper=80))
     stats.append(calcError(y_preds, ground, lower=80, upper=251))
-    # viz.makeCDFclasses(stats)
+    viz.makeCDFclasses(stats)
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     print("mean_squared_error: ", rmse)
