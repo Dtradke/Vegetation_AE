@@ -374,7 +374,7 @@ def calcError(y_preds, ground, lower=0, upper=2):
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
-    pred_squares, val_squares = [], []
+    pred_squares, val_squares, img_squares = [], [], []
     # make visuals
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
@@ -395,10 +395,12 @@ def evaluateRegression(y_preds, masterDataSet):
             # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
             pred_squares.append(pred)
             val_squares.append(val)
+            img_squares.append(masterDataSet.testX[i][:, :, -3])
             viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
 
     np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
     np.save('new_ynet_squares_ground.npy', np.array(val_squares))
+    np.save('new_ynet_squares_img.npy', np.array(img_squares))
 
     # calculate result
     ground = masterDataSet.testy.flatten()
