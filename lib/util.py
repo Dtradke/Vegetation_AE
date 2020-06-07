@@ -56,7 +56,6 @@ def loadDatasets(load_datasets, save_mod):
     else: files = ['testX.npy', 'testy.npy', 'testX.npy', 'testy.npy', 'testX.npy', 'testy.npy']
     datasets = []
     for suffix in files:
-        print("load: ", load_datasets + suffix)
         datasets.append(np.load('output/datasets/' + load_datasets + suffix))
     return datasets
 
