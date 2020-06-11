@@ -432,7 +432,7 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
     print("R^2 together: ", r_sqr)
-    print("R^2 together: ", ynet_results["r"] - r_sqr)
+    print("R^2 together: ", r_sqr - ynet_results["r"])
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
 
     stats = []
