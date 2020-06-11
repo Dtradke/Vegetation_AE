@@ -91,6 +91,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             # val_split_2 = np.concatenate((masterDataSet.valX[:,:,:,3:7], np.expand_dims(masterDataSet.valX[:,:,:,8], axis=3)), axis=3)
 
 
+
             # val_split_1, val_split_2 = masterDataSet.valX[:,:,:,:3], masterDataSet.valX[:,:,:,3:-1]
             print("Split shape: ", X_split_1.shape, " ", X_split_2.shape)
             print("Val Split shape: ", val_split_1.shape, " ", val_split_2.shape)
@@ -100,7 +101,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
                 pretrain_mod = model.unet_split(X_split_1, X_split_2, pretrain=True)
                 mod = model.pretrainYNET(inputs, vals, masterDataSet, pretrain_mod, mod)
             else:
-                mod = model.unet_split(X_split_1, X_split_2)
+                mod = model.ynet_split(X_split_1, X_split_2)
                 # mod = model.unet_branch_dropout(X_split_1, X_split_2)
 
             # es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=20)

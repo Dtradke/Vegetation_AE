@@ -200,7 +200,7 @@ def encoder(inputs):
     return conv1, conv2, conv3, drop4, conv5
 
 
-def unet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
+def ynet_split(X_split_1, X_split_2, pretrain=False, pretrained_weights = None):
     if pretrained_weights:
         fname = 'models/' + pretrained_weights + ".h5"
         model = load_model(fname)
