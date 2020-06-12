@@ -404,16 +404,16 @@ def evaluateRegression(y_preds, masterDataSet):
             continue
         single_r_squareds.append(r)
 
-    #     if i < 500:
-    #         # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
-    #         pred_squares.append(pred)
-    #         val_squares.append(val)
-    #         img_squares.append(masterDataSet.testX[i][:, :, -3])
-    #         viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        if i < 500:
+            # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+            pred_squares.append(pred)
+            val_squares.append(val)
+            img_squares.append(masterDataSet.testX[i][:, :, -3])
+            viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
     #
-    # np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
-    # np.save('new_ynet_squares_ground.npy', np.array(val_squares))
-    # np.save('new_ynet_squares_img.npy', np.array(img_squares))
+    np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
+    np.save('new_ynet_squares_ground.npy', np.array(val_squares))
+    np.save('new_ynet_squares_img.npy', np.array(img_squares))
 
     # calculate result
     ground = masterDataSet.testy.flatten()
@@ -427,7 +427,7 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
     # viz.scatterplotRegression(y_preds, ground)
-    # viz.makeCDFreg(y_preds, ground)
+    viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
