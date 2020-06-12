@@ -205,8 +205,9 @@ class Squares(object):
             cube = []
             for l in loc.layers.keys():
                 layer = loc.layers[l]
+                print("Layer: ", l, " shape: ", layer.shape)
                 # print(l)
-                print(layer.shape)
+                # print(layer.shape)
                 split_indices = [SQUARE_DIM*d for d in range(1,(layer.shape[1]//SQUARE_DIM)+1)]
                 print("h split indices: ", len(split_indices))
                 h_split = np.hsplit(layer, np.array(split_indices))

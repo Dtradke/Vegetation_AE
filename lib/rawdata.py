@@ -242,14 +242,23 @@ class Location(object):
             directory = cwd + '/data/{}/'.format(self.name)
 
         dem = np.loadtxt(directory + 'dem.txt', delimiter=',') #util.openImg(folder+'dem.tif')
+        print("dem: ", dem.shape)
         slope = np.loadtxt(directory + 'slope.txt', delimiter=',')#util.openImg(folder+'slope.tif')
+        print("slope: ", slope.shape)
         band_1 = np.loadtxt(directory + 'band_1.txt', delimiter=',')#util.openImg(folder+'band_1.tif')
+        print("band_1: ", band_1.shape)
         band_2 = np.loadtxt(directory + 'band_2.txt', delimiter=',')#util.openImg(folder+'band_2.tif')
+        print("band_2: ", band_2.shape)
         band_3 = np.loadtxt(directory + 'band_3.txt', delimiter=',')#util.openImg(folder+'band_3.tif')
+        print("band_3: ", band_2.shape)
         band_4 = np.loadtxt(directory + 'band_4.txt', delimiter=',')#util.openImg(folder+'band_4.tif')
+        print("band_4: ", band_2.shape)
         ndvi = np.loadtxt(directory + 'ndvi.txt', delimiter=',')#util.openImg(folder+'ndvi.tif')
+        print("ndvi: ", ndvi.shape)
         aspect = np.loadtxt(directory + 'aspect.txt', delimiter=',')#util.openImg(folder+'aspect.tif')
+        print("aspect: ", aspect.shape)
         footprints = self.loadVeg(self.name)
+        print("footprints: ", footprints.shape)
         print("Layers loaded for ", self.name)
 
         aspect[aspect>359] = 359
@@ -306,6 +315,8 @@ class Location(object):
         obj_heights = np.around(obj_heights, 2)
         obj_heights[obj_heights > 250] = 250
 
+        obj_heights = obj_heights[2:-2,2:-2]
+
         obj_heights[self.specialLayers['footprints'].allVeg == 1] = -1
 
         return obj_heights
@@ -320,6 +331,8 @@ class Location(object):
 
         veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_COLOR)
         veg = veg.astype('uint8')
+
+        veg = veg[2:-2,2:-2]
 
         if veg is None:
             raise RuntimeError('Could not find veg for location {} for the layer'.format(locName))
@@ -337,6 +350,9 @@ class Location(object):
 
         veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_COLOR)
         veg = veg.astype('uint8')
+
+        veg = veg[2:-2,2:-2]
+
         if veg is None:
             raise RuntimeError('Could not find veg for location {} for the layer'.format(locName))
         veg[veg!=0] = 1
@@ -385,6 +401,9 @@ class SpecialLayer(object):
             fname = cwd + '/data/{}/special_layers/footprints.txt'.format(self.locName)
         veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         veg = veg.astype('uint8')
+
+        veg = veg[2:-2,2:-2]
+
         if veg is None:
             raise RuntimeError('Could not find veg for location {} for the layer {}'.format(self.locName, self.layer_name))
         veg[veg!=0] = 1
@@ -400,6 +419,9 @@ class SpecialLayer(object):
 
         not_veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         not_veg = not_veg.astype('uint8')
+
+        not_veg = not_veg[2:-2,2:-2]
+
         if not_veg is None:
             raise RuntimeError('Could not open a footprint for the location {}'.format(self.locName))
         return not_veg
@@ -416,6 +438,8 @@ class SpecialLayer(object):
         obj_heights = obj_heights.astype('float32')
         obj_heights = np.around(obj_heights, 2)
         obj_heights[obj_heights > 250] = 250
+
+        obj_heights = obj_heights[2:-2,2:-2]
 
         obj_heights[self.footprints == 1] = -1
         return obj_heights
