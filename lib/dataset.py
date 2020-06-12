@@ -208,16 +208,18 @@ class Squares(object):
                 # print(l)
                 print(layer.shape)
                 split_indices = [SQUARE_DIM*d for d in range(1,(layer.shape[1]//SQUARE_DIM)+1)]
+                print("h split indices: ", len(split_indices))
                 h_split = np.hsplit(layer, np.array(split_indices))
                 last = h_split[-1]
                 if last.shape[1] < SQUARE_DIM:
                     h_split.pop()
                 layer_squares = []
-                for slice in h_split:
+                for hcount, slice in enumerate(h_split):
                     split_indices = [SQUARE_DIM*d for d in range(1, (layer.shape[0]//SQUARE_DIM)+1)]
+                    if hcount == 0: print("v split indices: ", len(split_indices))
                     v_split = np.vsplit(slice, np.array(split_indices))
                     last = v_split[-1]
-                    print("v split last shape: ", last.shape)
+                    if hcount == 0: print("v split last shape: ", last.shape)
                     if last.shape[0] < SQUARE_DIM:
                         v_split.pop()
                     layer_squares = layer_squares + v_split
@@ -258,12 +260,12 @@ class Squares(object):
         if last.shape[1] < SQUARE_DIM:
             h_split.pop()
         layer_squares = []
-        for slice in h_split:
+        for hcount, slice in enumerate(h_split):
             split_indices = [SQUARE_DIM*d for d in range(1, (label_layer.shape[0]//SQUARE_DIM)+1)]
-            print("v split indices: ", len(split_indices))
+            if hcount == 0: print("v split indices: ", len(split_indices))
             v_split = np.vsplit(slice, np.array(split_indices))
             last = v_split[-1]
-            print("v split last shape: ", last.shape)
+            if hcount == 0: print("v split last shape: ", last.shape)
             if last.shape[0] < SQUARE_DIM:
                 v_split.pop()
             layer_squares = layer_squares + v_split
