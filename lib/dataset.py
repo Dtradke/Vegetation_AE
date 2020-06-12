@@ -206,6 +206,7 @@ class Squares(object):
             for l in loc.layers.keys():
                 layer = loc.layers[l]
                 # print(l)
+                print(layer.shape)
                 split_indices = [SQUARE_DIM*d for d in range(1,(layer.shape[1]//SQUARE_DIM)+1)]
                 h_split = np.hsplit(layer, np.array(split_indices))
                 last = h_split[-1]
@@ -216,6 +217,7 @@ class Squares(object):
                     split_indices = [SQUARE_DIM*d for d in range(1, (layer.shape[0]//SQUARE_DIM)+1)]
                     v_split = np.vsplit(slice, np.array(split_indices))
                     last = v_split[-1]
+                    print("v split last shape: ", last.shape)
                     if last.shape[0] < SQUARE_DIM:
                         v_split.pop()
                     layer_squares = layer_squares + v_split
@@ -247,20 +249,44 @@ class Squares(object):
 
     @staticmethod
     def makeLabel(label_layer):
+        print("label layer: ", label_layer.shape)
         squares = []
-        split_indices = [SQUARE_DIM*d for d in range(1, (label_layer.shape[1]//SQUARE_DIM)+1)]
+        split_indices = [SQUARE_DIM*d for d in range(1,(label_layer.shape[1]//SQUARE_DIM)+1)]
+        print("h split indices: ", len(split_indices))
         h_split = np.hsplit(label_layer, np.array(split_indices))
         last = h_split[-1]
         if last.shape[1] < SQUARE_DIM:
             h_split.pop()
+        layer_squares = []
         for slice in h_split:
             split_indices = [SQUARE_DIM*d for d in range(1, (label_layer.shape[0]//SQUARE_DIM)+1)]
+            print("v split indices: ", len(split_indices))
             v_split = np.vsplit(slice, np.array(split_indices))
             last = v_split[-1]
+            print("v split last shape: ", last.shape)
             if last.shape[0] < SQUARE_DIM:
                 v_split.pop()
-            if not classify and not bin_class:
-                v_split = [np.expand_dims(v, axis=2) for v in v_split]
-            squares = squares + v_split
-        print("labels: ", np.array(squares).shape)
-        return np.array(squares)
+            layer_squares = layer_squares + v_split
+        print("Layer obj heights: ", np.array(layer_squares).shape)
+        return np.array(layer_squares)
+
+        # squares = []
+        # split_indices = [SQUARE_DIM*d for d in range(1, (label_layer.shape[1]//SQUARE_DIM)+1)]
+        # print("h split indices: ", len(split_indices))
+        # h_split = np.hsplit(label_layer, np.array(split_indices))
+        # last = h_split[-1]
+        # if last.shape[1] < SQUARE_DIM:
+        #     h_split.pop()
+        # for slice in h_split:
+        #     split_indices = [SQUARE_DIM*d for d in range(1, (label_layer.shape[0]//SQUARE_DIM)+1)]
+        #     print("v split indices: ", len(split_indices))
+        #     v_split = np.vsplit(slice, np.array(split_indices))
+        #     last = v_split[-1]
+        #     print("v split last shape: ", last.shape)
+        #     if last.shape[0] < SQUARE_DIM:
+        #         v_split.pop()
+        #     if not classify and not bin_class:
+        #         v_split = [np.expand_dims(v, axis=2) for v in v_split]
+        #     squares = squares + v_split
+        # print("labels: ", np.array(squares).shape)
+        # return np.array(squares)
