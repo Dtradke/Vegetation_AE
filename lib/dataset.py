@@ -219,6 +219,7 @@ class Squares(object):
                     if last.shape[0] < SQUARE_DIM:
                         v_split.pop()
                     layer_squares = layer_squares + v_split
+                print("Layer: ", l, " amt: ", np.array(layer_squares).shape)
                 layers_arr.append(np.array(layer_squares))
             cubes = np.stack(layers_arr, axis=3)
             cube_labels = self.makeLabel(loc.layer_obj_heights)
@@ -233,6 +234,7 @@ class Squares(object):
     @staticmethod
     def deleteFootprintSquares(cubes, cube_labels):
         ''' If a square is over 80% non-vegetation, don't include it '''
+        print("Before footprints check - cubes: ", cubes.shape, " labels: ", cube_labels.shape)
         delete_idx = []
         for count, lab in enumerate(cube_labels):
             if np.count_nonzero(lab == -1) >= (lab.size * 0.8):
@@ -240,6 +242,7 @@ class Squares(object):
 
         cubes = np.delete(cubes, delete_idx, axis=0)
         cube_labels = np.delete(cube_labels, delete_idx, axis=0)
+        print("After footprints check - cubes: ", cubes.shape, " labels: ", cube_labels.shape)
         return cubes, cube_labels
 
     @staticmethod
@@ -259,4 +262,5 @@ class Squares(object):
             if not classify and not bin_class:
                 v_split = [np.expand_dims(v, axis=2) for v in v_split]
             squares = squares + v_split
+        print("labels: ", np.array(squares).shape)
         return np.array(squares)
