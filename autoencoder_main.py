@@ -128,7 +128,7 @@ def getModelAndTrain(masterDataSet, mod, test_set, load_datasets=False, save_mod
             # mod.fit(x_train, epochs=1, batch_size=32, validation_data=(x_val, None))
         if save_mod: util.saveExperiment(mod, masterDataSet, test_set, SPLIT)
     else:
-        if SPLIT: mod = model.unet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
+        if SPLIT: mod = model.ynet_split(masterDataSet.trainX[:,:,:,:3], masterDataSet.trainX[:,:,:,3:], pretrained_weights=mod)
         else: mod = model.unet(masterDataSet, pretrained_weights=mod)
     return mod
 
