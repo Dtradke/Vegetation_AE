@@ -4,7 +4,7 @@ from io import StringIO
 from scipy import ndimage
 import sys
 
-files = ['footprints']
+files = ['obj_height']
 # files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'obj_height']
 # files = ['band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'slope', 'evi', 'obj_height']
 # special_layers = ['footprints', 'obj_height']
@@ -32,18 +32,19 @@ for f in files:
     float_formatter = lambda x: "%f" % x
     np.set_printoptions(formatter={'float_kind':float_formatter})
 
-    fname = folder + f + '.tif'
+    fname = folder + f + '.txt' #'.tif'
     print(fname)
-    if f == 'footprints':
-        print("IMREAD_COLOR")
-        layer = cv2.imread(fname, cv2.IMREAD_COLOR)
-        layer = layer[:,:,0]
-    else:
-        layer = cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+    # if f == 'footprints':
+    #     print("IMREAD_COLOR")
+    #     layer = cv2.imread(fname, cv2.IMREAD_COLOR)
+    #     layer = layer[:,:,0]
+    # else:
+    #     layer = cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+    layer = np.loadtxt(fname, delimiter=',')
 
 
     the_type = layer.dtype
-    new_fname = folder + f + '.txt'
+    new_fname = folder + f + '_2runs.txt'
     # print(layer)
 
     # if f == 'obj_height':
