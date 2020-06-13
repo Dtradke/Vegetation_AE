@@ -4,7 +4,7 @@ from io import StringIO
 from scipy import ndimage
 import sys
 
-files = ['obj_height']
+files = ['footprints']
 # files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'obj_height']
 # files = ['band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'slope', 'evi', 'obj_height']
 # special_layers = ['footprints', 'obj_height']
@@ -50,9 +50,10 @@ for f in files:
     # print('OBJ_HEIGHT')
     layer[layer<0] = 0
     # layer[layer>250] = 250
-    # mask = np.ones((3, 3))
+    mask = np.ones((3, 3))
     # mask[1, 1] = 0
     # layer = ndimage.generic_filter(layer, np.nanmean, footprint=mask, mode='constant', cval=np.NaN)
+    layer = ndimage.generic_filter(layer, np.median, footprint=mask, mode='constant', cval=np.NaN)
 
 
 
