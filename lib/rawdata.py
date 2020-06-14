@@ -289,7 +289,7 @@ class Location(object):
         for val in layers.keys():
             layers[val] = layers[val][2:-2,2:-2]
             print(val, ": ", layers[val].shape)
-            self._layershape = layers[va].shape
+            self._layershape = layers[val].shape
 
         for name, layer in layers.items():
             pass
@@ -306,9 +306,9 @@ class Location(object):
         obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         obj_heights = obj_heights.astype('float32')
         obj_heights = np.around(obj_heights, 2)
-        obj_heights[obj_heights > 250] = 250
 
         obj_heights = obj_heights[2:-2,2:-2]
+        obj_heights[obj_heights > 250] = 250
 
         obj_heights[self.specialLayers['footprints'].allVeg == 1] = -1
 
@@ -430,9 +430,9 @@ class SpecialLayer(object):
         obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         obj_heights = obj_heights.astype('float32')
         obj_heights = np.around(obj_heights, 2)
-        obj_heights[obj_heights > 250] = 250
 
         obj_heights = obj_heights[2:-2,2:-2]
+        obj_heights[obj_heights > 250] = 250
 
         obj_heights[self.footprints == 1] = -1
         return obj_heights
