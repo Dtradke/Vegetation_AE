@@ -44,7 +44,7 @@ def openDatasets(test_set, mod):
     if not test_set: #its the test site
         new_data = rawdata.RawData.load(locNames='untrain', special_layers='all', new_data='not_none')
         new_data.normalizeAllLayers()
-        tempmasterDataSet = dataset.Squares(new_data, test_set, mod=mod, test_site)
+        tempmasterDataSet = dataset.Squares(new_data, test_set, mod=mod, test_site=True)
         masterDataSet.teststring = new_data.names
         if mod is not None:
             masterDataSet.trainX = tempmasterDataSet.testX
