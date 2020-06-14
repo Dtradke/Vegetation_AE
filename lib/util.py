@@ -412,15 +412,16 @@ def evaluateRegression(y_preds, masterDataSet):
 
         loc = masterDataSet.test_ids[i]
         row = int(64*loc[1])
-        col = int(64*loc[0])
-        # print(row)
-        # print(col)
+        col = int(64*loc[2])
+        print(row)
+        print(col)
         # print(loc[0])
         # print(row+pred.shape[0])
         # print(row+val.shape[0])
+        print(full_viz_pred[0].shape)
         full_viz_pred[int(loc[0])][row:int(row+pred.shape[0]), col:int(col+pred.shape[1])] += pred
         full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
-        # exit()
+        exit()
         # if i < 500:
             # viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
         # pred_squares.append(pred)
