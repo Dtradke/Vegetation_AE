@@ -55,8 +55,8 @@ def saveDatasets(masterDataSet, fname):
 def loadDatasets(load_datasets, save_mod):
     ''' Loads formatted datasets from directory '''
     print("Loading Datasets: ", load_datasets)
-    if save_mod: files = ['trainX.npy', 'trainy.npy', 'train_ids', 'valX.npy', 'valy.npy', 'val_ids', 'testX.npy', 'testy.npy', 'test_ids']
-    else: files = ['testX.npy', 'testy.npy', 'test_ids', 'testX.npy', 'testy.npy', 'test_ids', 'testX.npy', 'testy.npy', 'test_ids']
+    if save_mod: files = ['trainX.npy', 'trainy.npy', 'train_ids.npy', 'valX.npy', 'valy.npy', 'val_ids.npy', 'testX.npy', 'testy.npy', 'test_ids.npy']
+    else: files = ['testX.npy', 'testy.npy', 'test_ids.npy', 'testX.npy', 'testy.npy', 'test_ids.npy', 'testX.npy', 'testy.npy', 'test_ids.npy']
     datasets = []
     for suffix in files:
         datasets.append(np.load('output/datasets/' + load_datasets + suffix))
