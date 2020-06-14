@@ -170,8 +170,8 @@ def viewFullResultColorbar(val, pred, diff, num=0):
     titles = ['diff', 'val', 'pred']
     arr = [diff, val, pred]
     np.random.seed(19680801)
-    Nr = 2
-    Nc = 2
+    Nr = 1
+    Nc = 3
     cmap = "viridis"
 
     fig, axs = plt.subplots(Nr, Nc)
