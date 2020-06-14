@@ -411,8 +411,8 @@ def evaluateRegression(y_preds, masterDataSet):
         single_r_squareds.append(r)
 
         loc = masterDataSet.test_ids[i]
-        row = (64*loc[1])
-        col = (64*loc[0])
+        row = int(64*loc[1])
+        col = int(64*loc[0])
         full_viz_pred[loc[0]][row:row+pred.shape[0], col:col+pred.shape[1]] += pred
         full_viz_ground[loc[0]][row:row+val.shape[0], col:col+val.shape[1]] += val
 
