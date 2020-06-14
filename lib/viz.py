@@ -175,7 +175,7 @@ def viewFullResultColorbar(val, pred, diff, num=0):
     cmap = "viridis"
 
     fig, axs = plt.subplots(Nr, Nc)
-    fig.suptitle("R^2: " + str(r_squared))
+    # fig.suptitle("viz " + str(r_squared))
 
     images = []
     count = 0
