@@ -42,6 +42,7 @@ class Squares(object):
         if datasets is not None:
             if len(datasets) == 9:
                 self.trainX, self.trainy, self.train_ids, self.valX, self.valy, self.val_ids, self.testX, self.testy, self.test_ids = datasets
+                self.test_arrays = [np.zeros((15996, 14996))] # 2018_dataset
                 self.split_beg = list(range(self.testy.shape[-1]))
             else:
                 self.squares, self.square_labels, self.square_labels_orig = datasets
