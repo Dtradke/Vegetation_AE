@@ -283,9 +283,9 @@ class Squares(object):
                 v_split.pop()
             if not classify and not bin_class:
                 v_split = [np.expand_dims(v, axis=2) for v in v_split]
-            v_ids = np.arange(v_split.shape[0])
-            h_ids = np.ones(v_split.shape[0])*h_id
-            loc_id = np.ones(v_split.shape[0])*loc_id
+            v_ids = np.arange(len(v_split))
+            h_ids = np.ones(len(v_split))*h_id
+            loc_id = np.ones(len(v_split))*loc_id
             ids = ids + list(zip(loc_id, v_ids, h_ids))
             squares = squares + v_split
         # print("labels: ", np.array(squares).shape)
