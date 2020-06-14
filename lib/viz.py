@@ -166,6 +166,46 @@ def viewResultColorbar(layer, val, pred, diff, r_squared=0, num=0):
         plt.savefig(fname, dpi=fig.dpi)
     plt.close()
 
+def viewFullResultColorbar(val, pred, diff, num=0):
+    titles = ['diff', 'val', 'pred']
+    arr = [diff, val, pred]
+    np.random.seed(19680801)
+    Nr = 2
+    Nc = 2
+    cmap = "viridis"
+
+    fig, axs = plt.subplots(Nr, Nc)
+    fig.suptitle("R^2: " + str(r_squared))
+
+    images = []
+    count = 0
+    for i in range(Nr):
+        for j in range(Nc):
+            # Generate data with a range that varies from one plot to the next.
+            data = arr[count]  #((1 + i + j) / 10) * np.random.rand(10, 20) * 1e-6
+            if len(data.shape) > 2:
+                data = np.squeeze(data)
+            images.append(axs[i, j].imshow(data, cmap=cmap))
+            # axs[i, j].label_outer()
+            count+=1
+
+    # Find the min and max of all colors for use in setting the color scale.
+    vmin = min(np.amin(val), np.amin(pred)) #min(image.get_array().min() for image in images)
+    vmax = max(np.amax(val), np.amax(pred)) #max(image.get_array().max() for image in images)
+    norm = colors.Normalize(vmin=vmin, vmax=vmax)
+    for i, im in enumerate(images):
+        if titles[i] != 'layer':
+            im.set_norm(norm)
+
+    cb = fig.colorbar(images[-1], ax=axs, orientation='horizontal', fraction=.1)
+    # cb.ax.tick_params(labelsize=20)
+    # cb.tick_params(labelsize=20)
+
+    if save:
+        fname = "output/figures/full_test_loc" + str(num) + ".png"
+        plt.savefig(fname, dpi=fig.dpi)
+    plt.close()
+
 
 def scatterplotRegression(preds, ground):
     import matplotlib.lines as mlines

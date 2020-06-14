@@ -242,23 +242,14 @@ class Location(object):
             directory = cwd + '/data/{}/'.format(self.name)
 
         dem = np.loadtxt(directory + 'dem.txt', delimiter=',') #util.openImg(folder+'dem.tif')
-        print("dem: ", dem.shape)
         slope = np.loadtxt(directory + 'slope.txt', delimiter=',')#util.openImg(folder+'slope.tif')
-        print("slope: ", slope.shape)
         band_1 = np.loadtxt(directory + 'band_1.txt', delimiter=',')#util.openImg(folder+'band_1.tif')
-        print("band_1: ", band_1.shape)
         band_2 = np.loadtxt(directory + 'band_2.txt', delimiter=',')#util.openImg(folder+'band_2.tif')
-        print("band_2: ", band_2.shape)
         band_3 = np.loadtxt(directory + 'band_3.txt', delimiter=',')#util.openImg(folder+'band_3.tif')
-        print("band_3: ", band_2.shape)
         band_4 = np.loadtxt(directory + 'band_4.txt', delimiter=',')#util.openImg(folder+'band_4.tif')
-        print("band_4: ", band_2.shape)
         ndvi = np.loadtxt(directory + 'ndvi.txt', delimiter=',')#util.openImg(folder+'ndvi.tif')
-        print("ndvi: ", ndvi.shape)
         aspect = np.loadtxt(directory + 'aspect.txt', delimiter=',')#util.openImg(folder+'aspect.tif')
-        print("aspect: ", aspect.shape)
         footprints = self.loadVeg(self.name)
-        print("footprints: ", footprints.shape)
         print("Layers loaded for ", self.name)
 
         aspect[aspect>359] = 359
@@ -297,6 +288,8 @@ class Location(object):
 
         for val in layers.keys():
             layers[val] = layers[val][2:-2,2:-2]
+            print(val, ": ", layers[val].shape)
+            self._layershape = layers[va].shape
 
         for name, layer in layers.items():
             pass

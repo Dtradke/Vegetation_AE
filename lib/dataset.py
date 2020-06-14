@@ -28,8 +28,10 @@ SQUARE_DIM = 64
 class Squares(object):
     '''Makes a dataset of squares for the autoencoders'''
 
-    def __init__(self, data=None, test_set=False, mod=None, datasets=None):
+    def __init__(self, data=None, test_set=False, mod=None, datasets=None, test_site=False):
         print("mod: ", mod)
+        self.test_site = test_site
+        self.test_arrays = []
         self.split_beg = []
         self.split_end = []
         self.trainstring = ''
@@ -44,7 +46,7 @@ class Squares(object):
             else:
                 self.squares, self.square_labels, self.square_labels_orig = datasets
                 self.makeClasses()
-                if test_set: self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
+                if test_set: self.trainX, self.trainy, self.orig_trainy, self.train_ids, self.testX, self.testy, self.orig_testy, self.test_ids = self.splitDataset()
                 else: self.trainX, self.trainy, self.square_labels_orig, self.testX, self.testy = self.squares, self.square_labels, self.square_labels_orig, [], []
                 self.makeValDataset()
         else:
@@ -53,12 +55,12 @@ class Squares(object):
             else:
                 # if mod is None:
                 self.data = data
-                self.squares, self.square_labels, self.square_labels_orig = self.makeSquares()
+                self.squares, self.square_labels, self.square_labels_orig, self.square_ids = self.makeSquares()
                 self.saveRawSquares()
                 # self.measureBal()
                 self.makeClasses()
                 if test_set:
-                    self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.splitDataset()
+                    self.trainX, self.trainy, self.orig_trainy, self.train_ids, self.testX, self.testy, self.orig_testy, self.test_ids = self.splitDataset()
                     self.makeValDataset()
                 else:
                     self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.squares, self.square_labels, self.square_labels_orig, self.squares, self.square_labels, self.square_labels_orig
@@ -80,6 +82,7 @@ class Squares(object):
         np.save('output/raw_squares/' + fname + 'squares.npy', self.squares)
         np.save('output/raw_squares/' + fname + 'labels.npy', self.square_labels)
         np.save('output/raw_squares/' + fname + 'labels_orig.npy', self.square_labels_orig)
+        np.save('output/raw_squares/' + fname + 'square_ids.npy', self.square_ids)
 
     def rotateDatasets(self, size_test=None):
         print("size test: ", size_test)
@@ -167,21 +170,25 @@ class Squares(object):
         self.valX = self.trainX[l:]
         self.valy = self.trainy[l:]
         self.orig_testy = self.orig_trainy[l:]
+        self.val_ids = self.train_ids[l:]
         self.trainX = self.trainX[:l]
         self.trainy = self.trainy[:l]
         self.orig_trainy = self.orig_trainy[:l]
+        self.train_ids = self.train_ids[:l]
 
 
     def splitDataset(self):
-        self.squares, self.square_labels, self.square_labels_orig = shuffle(self.squares, self.square_labels, self.square_labels_orig)
+        self.squares, self.square_labels, self.square_labels_orig, self.square_ids = shuffle(self.squares, self.square_labels, self.square_labels_orig, self.square_ids)
         split = 0.7
         trainX = self.squares[:int(self.squares.shape[0] * split)]
         trainy = self.square_labels[:int(self.squares.shape[0] * split)]
         orig_trainy = self.square_labels_orig[:int(self.squares.shape[0] * split)]
+        train_ids = self.square_ids[:int(self.squares.shape[0] * split)]
         testX = self.squares[int(self.squares.shape[0] * split):]
         testy = self.square_labels[int(self.squares.shape[0] * split):]
         orig_testy = self.square_labels_orig[int(self.squares.shape[0] * split):]
-        return trainX, trainy, orig_trainy, testX, testy, orig_testy
+        test_ids = self.square_ids[int(self.squares.shape[0] * split):]
+        return trainX, trainy, orig_trainy, train_ids, testX, testy, orig_testy, test_ids
 
 
 
@@ -199,8 +206,10 @@ class Squares(object):
     def makeSquares(self):
         all_cubes = []
         all_cubes_labels = []
+        all_cube_ids = []
         for i, loc in enumerate(self.data.locs.values()):
             print("Making squares for: ", loc.name)
+            self.test_arrays.append(np.zeros(loc._layershape))
             layers_arr = []
             cube = []
             for l in loc.layers.keys():
@@ -227,17 +236,19 @@ class Squares(object):
                 print("Layer: ", l, " amt: ", np.array(layer_squares).shape)
                 layers_arr.append(np.array(layer_squares))
             cubes = np.stack(layers_arr, axis=3)
-            cube_labels = self.makeLabel(loc.layer_obj_heights)
-            cubes, cube_labels = self.deleteFootprintSquares(cubes, cube_labels)
-            print(cubes.shape, " labels: ", cube_labels.shape)
+            cube_labels, cube_ids = self.makeLabel(loc.layer_obj_heights, i)
+            cubes, cube_labels, cube_ids = self.deleteFootprintSquares(cubes, cube_labels, cube_ids)
+            print(cubes.shape, " labels: ", cube_labels.shape, " ids: ", cube_ids.shape)
             all_cubes.append(cubes)
             all_cubes_labels.append(cube_labels)
+            all_cube_ids.append(cube_ids)
         all_cubes = np.concatenate(all_cubes, axis=0 )
         all_cubes_labels = np.concatenate(all_cubes_labels, axis=0 )
-        return shuffle(all_cubes, all_cubes_labels, all_cubes_labels)
+        all_cube_ids = np.concatenate(all_cube_ids, axis=0)
+        return shuffle(all_cubes, all_cubes_labels, all_cubes_labels, all_cube_ids)
 
     @staticmethod
-    def deleteFootprintSquares(cubes, cube_labels):
+    def deleteFootprintSquares(cubes, cube_labels, cube_ids):
         ''' If a square is over 80% non-vegetation, don't include it '''
         print("Before footprints check - cubes: ", cubes.shape, " labels: ", cube_labels.shape)
         delete_idx = []
@@ -247,20 +258,22 @@ class Squares(object):
 
         cubes = np.delete(cubes, delete_idx, axis=0)
         cube_labels = np.delete(cube_labels, delete_idx, axis=0)
-        print("After footprints check - cubes: ", cubes.shape, " labels: ", cube_labels.shape)
-        return cubes, cube_labels
+        cube_ids = np.delete(cube_ids, delete_idx, axis=0)
+        print("After footprints check - cubes: ", cubes.shape, " labels: ", cube_labels.shape, " ids: ", cube_ids)
+        return cubes, cube_labels, cube_ids
 
     @staticmethod
-    def makeLabel(label_layer):
+    def makeLabel(label_layer, loc_id):
         print("label layer: ", label_layer.shape)
         squares = []
+        ids = []
         split_indices = [SQUARE_DIM*d for d in range(1, (label_layer.shape[1]//SQUARE_DIM)+1)]
         # print("h split indices: ", len(split_indices))
         h_split = np.hsplit(label_layer, np.array(split_indices))
         last = h_split[-1]
         if last.shape[1] < SQUARE_DIM:
             h_split.pop()
-        for slice in h_split:
+        for h_id, slice in enumerate(h_split):
             split_indices = [SQUARE_DIM*d for d in range(1, (label_layer.shape[0]//SQUARE_DIM)+1)]
             # print("v split indices: ", len(split_indices))
             v_split = np.vsplit(slice, np.array(split_indices))
@@ -270,6 +283,10 @@ class Squares(object):
                 v_split.pop()
             if not classify and not bin_class:
                 v_split = [np.expand_dims(v, axis=2) for v in v_split]
+            v_ids = np.arange(v_split.shape[0])
+            h_ids = np.ones(v_split.shape[0])*h_id
+            loc_id = np.ones(v_split.shape[0])*loc_id
+            ids = ids + list(zip(loc_id, v_ids, h_ids))
             squares = squares + v_split
         # print("labels: ", np.array(squares).shape)
-        return np.array(squares)
+        return np.array(squares), np.array(ids)
