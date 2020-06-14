@@ -431,9 +431,9 @@ def evaluateRegression(y_preds, masterDataSet):
     for i, loc in enumerate(full_viz_pred):
         diff = np.absolute(np.subtract(full_viz_ground[i], full_viz_pred[i]))
         # viz.viewFullResultColorbar(full_viz_ground[i], full_viz_pred[i], diff, num=i)
-        np.save('full_viz_ground.npy', np.array(full_viz_ground[i]))
-        np.save('full_viz_pred.npy', np.array(full_viz_pred[i]))
-        np.save('diff.npy', np.array(diff))
+        np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
+        np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
+        np.save('diff'+str(i)+'.npy', np.array(diff))
 
     # np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
     # np.save('new_ynet_squares_ground.npy', np.array(val_squares))

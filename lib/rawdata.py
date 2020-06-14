@@ -344,7 +344,7 @@ class Location(object):
         veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_COLOR)
         veg = veg.astype('uint8')
 
-        veg = veg[2:-2,2:-2]
+        # veg = veg[2:-2,2:-2]
 
         if veg is None:
             raise RuntimeError('Could not find veg for location {} for the layer'.format(locName))
