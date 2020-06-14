@@ -40,8 +40,8 @@ class Squares(object):
         # self.cor_grass, self.cor_shrub, self.cor_tree, self.cor_tall_tree, self.cor_tallest, self.cor_foot = 0,0,0,0,0,0
         # self.tot_grass, self.tot_shrub, self.tot_tree, self.tot_tall_tree, self.tot_tallest, self.tot_foot = 0,0,0,0,0,0
         if datasets is not None:
-            if len(datasets) == 6:
-                self.trainX, self.trainy, self.valX, self.valy, self.testX, self.testy = datasets
+            if len(datasets) == 9:
+                self.trainX, self.trainy, self.train_ids, self.valX, self.valy, self.val_ids, self.testX, self.testy, self.test_ids = datasets
                 self.split_beg = list(range(self.testy.shape[-1]))
             else:
                 self.squares, self.square_labels, self.square_labels_orig = datasets
@@ -63,7 +63,7 @@ class Squares(object):
                     self.trainX, self.trainy, self.orig_trainy, self.train_ids, self.testX, self.testy, self.orig_testy, self.test_ids = self.splitDataset()
                     self.makeValDataset()
                 else:
-                    self.trainX, self.trainy, self.orig_trainy, self.testX, self.testy, self.orig_testy = self.squares, self.square_labels, self.square_labels_orig, self.squares, self.square_labels, self.square_labels_orig
+                    self.trainX, self.trainy, self.orig_trainy, self.train_ids, self.testX, self.testy, self.orig_testy, self.test_ids = self.squares, self.square_labels, self.square_labels_orig, self.square_ids, self.squares, self.square_labels, self.square_labels_orig, self.square_ids
                     if mod is None: self.makeValDataset()
                 # else:
                 #     self.testX, self.testy, self.square_labels_orig = [], [], []
