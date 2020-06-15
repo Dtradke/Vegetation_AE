@@ -48,9 +48,9 @@ def saveDatasets(masterDataSet, fname):
     np.save('output/datasets/' + fname + masterDataSet.trainstring + 'valX.npy', masterDataSet.valX)
     np.save('output/datasets/' + fname + masterDataSet.trainstring + 'valy.npy', masterDataSet.valy)
     np.save('output/datasets/' + fname + masterDataSet.trainstring + 'val_ids.npy', masterDataSet.val_ids)
-    np.save('output/datasets/' + fname + masterDataSet.teststring + 'testX.npy', masterDataSet.testX)
-    np.save('output/datasets/' + fname + masterDataSet.teststring + 'testy.npy', masterDataSet.testy)
-    np.save('output/datasets/' + fname + masterDataSet.teststring + 'test_ids.npy', masterDataSet.test_ids)
+    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'testX.npy', masterDataSet.testX) #teststring
+    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'testy.npy', masterDataSet.testy)
+    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'test_ids.npy', masterDataSet.test_ids)
 
 def loadDatasets(load_datasets, save_mod):
     ''' Loads formatted datasets from directory '''
