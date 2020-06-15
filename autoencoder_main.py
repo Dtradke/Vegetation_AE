@@ -236,8 +236,11 @@ if __name__ == "__main__":
             openAndTrain(True, save_mod=True)
     else: #python3 autoencoder.py
         print("========= TEST SITE =========")
+        if sys.argv[-1] == 'train':
+            print("Loading datasets and training new model: ", sys.argv[-1])
+            openAndTrain(False, load_datasets=sys.argv[-1], save_mod=True)
         if len(sys.argv) == 2:
             print("Loading model: ", sys.argv[-1])
-            openAndTrain(False, mod=sys.argv[-1])
+            openAndTrain(False, mod=sys.argv[-1], load_datasets=sys.argv[-1])
         else:
             openAndTrain(False, save_mod=True)
