@@ -413,13 +413,11 @@ def evaluateRegression(y_preds, masterDataSet):
         loc = masterDataSet.test_ids[i]
         row = int(64*loc[1])
         col = int(64*loc[2])
-        # print(row)
-        # print(col)
-        # print(loc[0])
-        # print(row+pred.shape[0])
-        # print(row+val.shape[0])
         full_viz_pred[int(loc[0])][row:int(row+pred.shape[0]), col:int(col+pred.shape[1])] += pred
         full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
+        if i == 0:
+            print("pred: ", pred[0])
+            print("ground: ", val[0])
         # if i < 500:
         #     viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
         pred_squares.append(pred)
@@ -431,13 +429,16 @@ def evaluateRegression(y_preds, masterDataSet):
     for i, loc in enumerate(full_viz_pred):
         diff = np.absolute(np.subtract(full_viz_ground[i], full_viz_pred[i]))
         # viz.viewFullResultColorbar(full_viz_ground[i], full_viz_pred[i], diff, num=i)
-        np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
-        np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
-        np.save('diff'+str(i)+'.npy', np.array(diff))
+        print("pred ", i,": ", np.array(full_viz_pred[i])[0])
+        print("ground ", i,": ", np.array(full_viz_ground[i])[0])
+        # np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
+        # np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
+        # np.save('diff'+str(i)+'.npy', np.array(diff))
 
-    np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
-    np.save('new_ynet_squares_ground.npy', np.array(val_squares))
-    np.save('new_ynet_squares_img.npy', np.array(img_squares))
+    # np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
+    # np.save('new_ynet_squares_ground.npy', np.array(val_squares))
+    # np.save('new_ynet_squares_img.npy', np.array(img_squares))
+    exit()
 
     # calculate result
     ground = masterDataSet.testy.flatten()
@@ -451,7 +452,7 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
     # viz.scatterplotRegression(y_preds, ground)
-    viz.makeCDFreg(y_preds, ground)
+    # viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
@@ -467,7 +468,7 @@ def evaluateRegression(y_preds, masterDataSet):
     stats.append(calcError(y_preds, ground, lower=20, upper=50))
     stats.append(calcError(y_preds, ground, lower=50, upper=80))
     stats.append(calcError(y_preds, ground, lower=80, upper=251))
-    viz.makeCDFclasses(stats)
+    # viz.makeCDFclasses(stats)
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     print("mean_squared_error: ", rmse)
