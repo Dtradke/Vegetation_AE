@@ -6,8 +6,8 @@ import sys
 import PIL
 from PIL import Image
 
-files = ['obj_height']
-# files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'obj_height']
+# files = ['obj_height']
+files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'obj_height']
 # files = ['aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'obj_height']
 # files = ['band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'slope', 'evi', 'obj_height']
 # special_layers = ['footprints', 'obj_height']
@@ -57,7 +57,7 @@ for dir in dirs:
 
 
         the_type = layer.dtype
-        new_fname = folder + f + '.txt'
+        new_fname = folder + f + '.npy' #'.txt'
         # print(layer)
 
         # if f == 'obj_height':
@@ -65,18 +65,19 @@ for dir in dirs:
         layer[layer<0] = 0
         # layer[layer>250] = 250
 
-        if f == 'obj_height':
-            mask = np.ones((3, 3))
-            # mask[1, 1] = 0
-            # layer = ndimage.generic_filter(layer, np.nanmean, footprint=mask, mode='constant', cval=np.NaN)
-            layer = ndimage.generic_filter(layer, np.median, footprint=mask, mode='constant', cval=np.NaN)
+        # if f == 'obj_height':
+        #     mask = np.ones((3, 3))
+        #     # mask[1, 1] = 0
+        #     # layer = ndimage.generic_filter(layer, np.nanmean, footprint=mask, mode='constant', cval=np.NaN)
+        #     layer = ndimage.generic_filter(layer, np.median, footprint=mask, mode='constant', cval=np.NaN)
 
 
 
         print(layer.shape)
             # # print(new_fname)
             # exit()
-        np.savetxt(new_fname, layer, delimiter=',')
+        # np.savetxt(new_fname, layer, delimiter=',')
+        np.save(new_fname, layer)
         print(fname)
         print(the_type)
 

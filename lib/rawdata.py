@@ -241,14 +241,22 @@ class Location(object):
         else:
             directory = cwd + '/data/{}/'.format(self.name)
 
-        dem = np.loadtxt(directory + 'dem.txt', delimiter=',') #util.openImg(folder+'dem.tif')
-        slope = np.loadtxt(directory + 'slope.txt', delimiter=',')#util.openImg(folder+'slope.tif')
-        band_1 = np.loadtxt(directory + 'band_1.txt', delimiter=',')#util.openImg(folder+'band_1.tif')
-        band_2 = np.loadtxt(directory + 'band_2.txt', delimiter=',')#util.openImg(folder+'band_2.tif')
-        band_3 = np.loadtxt(directory + 'band_3.txt', delimiter=',')#util.openImg(folder+'band_3.tif')
-        band_4 = np.loadtxt(directory + 'band_4.txt', delimiter=',')#util.openImg(folder+'band_4.tif')
-        ndvi = np.loadtxt(directory + 'ndvi.txt', delimiter=',')#util.openImg(folder+'ndvi.tif')
-        aspect = np.loadtxt(directory + 'aspect.txt', delimiter=',')#util.openImg(folder+'aspect.tif')
+        # dem = np.loadtxt(directory + 'dem.txt', delimiter=',') #util.openImg(folder+'dem.tif')
+        # slope = np.loadtxt(directory + 'slope.txt', delimiter=',')#util.openImg(folder+'slope.tif')
+        # band_1 = np.loadtxt(directory + 'band_1.txt', delimiter=',')#util.openImg(folder+'band_1.tif')
+        # band_2 = np.loadtxt(directory + 'band_2.txt', delimiter=',')#util.openImg(folder+'band_2.tif')
+        # band_3 = np.loadtxt(directory + 'band_3.txt', delimiter=',')#util.openImg(folder+'band_3.tif')
+        # band_4 = np.loadtxt(directory + 'band_4.txt', delimiter=',')#util.openImg(folder+'band_4.tif')
+        # ndvi = np.loadtxt(directory + 'ndvi.txt', delimiter=',')#util.openImg(folder+'ndvi.tif')
+        # aspect = np.loadtxt(directory + 'aspect.txt', delimiter=',')#util.openImg(folder+'aspect.tif')
+        dem = np.load(directory + 'dem.npy')
+        slope = np.load(directory + 'slope.npy')
+        band_1 = np.load(directory + 'band_1.npy')
+        band_2 = np.load(directory + 'band_2.npy')
+        band_3 = np.load(directory + 'band_3.npy')
+        band_4 = np.load(directory + 'band_4.npy')
+        ndvi = np.load(directory + 'ndvi.npy')
+        aspect = np.load(directory + 'aspect.npy')
         footprints = self.loadVeg(self.name)
         print("Layers loaded for ", self.name)
 
@@ -300,10 +308,11 @@ class Location(object):
         cwd = os.getcwd()
         untrained_locNames = listdir_nohidden('data/_untrained/')
         if self.name in untrained_locNames:
-            fname = cwd + '/data/_untrained/{}/special_layers/obj_height.txt'.format(self.name)
+            fname = cwd + '/data/_untrained/{}/special_layers/obj_height.npy'.format(self.name)
         else:
-            fname = cwd + '/data/{}/special_layers/obj_height.txt'.format(self.name)
-        obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+            fname = cwd + '/data/{}/special_layers/obj_height.npy'.format(self.name)
+        # obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+        obj_heights = np.load(fname)
         obj_heights = obj_heights.astype('float32')
         # obj_heights = np.around(obj_heights, 2)
 
@@ -318,11 +327,12 @@ class Location(object):
         cwd = os.getcwd()
         untrained_locNames = listdir_nohidden('data/_untrained/')
         if self.name in untrained_locNames:
-            fname = cwd + '/data/_untrained/{}/special_layers/footprints.txt'.format(self.name)
+            fname = cwd + '/data/_untrained/{}/special_layers/footprints.npy'.format(self.name)
         else:
-            fname = cwd + '/data/{}/special_layers/footprints.txt'.format(self.name)
+            fname = cwd + '/data/{}/special_layers/footprints.npy'.format(self.name)
 
-        veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_COLOR)
+        # veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_COLOR)
+        veg = np.load(fname)
         veg = veg.astype('uint8')
 
         veg = veg[2:-2,2:-2]
@@ -337,11 +347,12 @@ class Location(object):
         cwd = os.getcwd()
         untrainged_locNames = listdir_nohidden('data/_untrained/')
         if locName in untrainged_locNames:
-            fname = cwd + '/data/_untrained/{}/special_layers/footprints.txt'.format(locName)
+            fname = cwd + '/data/_untrained/{}/special_layers/footprints.npy'.format(locName)
         else:
-            fname = cwd + '/data/{}/special_layers/footprints.txt'.format(locName)
+            fname = cwd + '/data/{}/special_layers/footprints.npy'.format(locName)
 
-        veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_COLOR)
+        # veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_COLOR)
+        veg = np.load(fname)
         veg = veg.astype('uint8')
 
         # veg = veg[2:-2,2:-2]
@@ -389,10 +400,11 @@ class SpecialLayer(object):
         cwd = os.getcwd()
         untrainged_locNames = listdir_nohidden('data/_untrained/')
         if self.locName in untrainged_locNames:
-            fname = cwd + '/data/_untrained/{}/special_layers/footprints.txt'.format(self.locName)
+            fname = cwd + '/data/_untrained/{}/special_layers/footprints.npy'.format(self.locName)
         else:
-            fname = cwd + '/data/{}/special_layers/footprints.txt'.format(self.locName)
-        veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+            fname = cwd + '/data/{}/special_layers/footprints.npy'.format(self.locName)
+        # veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+        veg = np.load(fname)
         veg = veg.astype('uint8')
 
         veg = veg[2:-2,2:-2]
@@ -406,11 +418,12 @@ class SpecialLayer(object):
         cwd = os.getcwd()
         untrainged_locNames = listdir_nohidden('data/_untrained/')
         if self.locName in untrainged_locNames:
-            fname = cwd + '/data/_untrained/{}/special_layers/footprints.txt'.format(self.locName)
+            fname = cwd + '/data/_untrained/{}/special_layers/footprints.npy'.format(self.locName)
         else:
-            fname = cwd + '/data/{}/special_layers/footprints.txt'.format(self.locName)
+            fname = cwd + '/data/{}/special_layers/footprints.npy'.format(self.locName)
 
-        not_veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+        # not_veg = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+        not_veg = np.load(fname)
         not_veg = not_veg.astype('uint8')
 
         not_veg = not_veg[2:-2,2:-2]
@@ -424,10 +437,11 @@ class SpecialLayer(object):
         cwd = os.getcwd()
         untrainged_locNames = listdir_nohidden('data/_untrained/')
         if self.locName in untrainged_locNames:
-            fname = cwd + '/data/_untrained/{}/special_layers/obj_height.txt'.format(self.locName)
+            fname = cwd + '/data/_untrained/{}/special_layers/obj_height.npy'.format(self.locName)
         else:
-            fname = cwd + '/data/{}/special_layers/obj_height.txt'.format(self.locName)
-        obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+            fname = cwd + '/data/{}/special_layers/obj_height.npy'.format(self.locName)
+        # obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
+        obj_heights = np.load(fname)
         obj_heights = obj_heights.astype('float32')
         # obj_heights = np.around(obj_heights, 2)
 
