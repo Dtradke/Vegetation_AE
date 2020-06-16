@@ -58,6 +58,7 @@ class Squares(object):
             if len(datasets) == 9:
                 self.trainX, self.trainy, self.train_ids, self.valX, self.valy, self.val_ids, self.testX, self.testy, self.test_ids = datasets
                 layer_shps = getTestLayerShape(test_set)
+                print(">Layer shapes: ", layer_shps)
                 for i in layer_shps:
                     self.test_arrays.append(np.zeros(i))
                 self.split_beg = list(range(self.testy.shape[-1]))
