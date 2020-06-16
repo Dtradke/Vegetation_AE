@@ -14,6 +14,8 @@ from lib import rawdata
 from lib import viz
 from keras.preprocessing.image import ImageDataGenerator
 from sklearn.utils import shuffle
+from os import listdir
+from os.path import isfile, join
 
 AOIRadius = 11
 
@@ -23,6 +25,19 @@ bin_class = False
 balance_classes = False
 
 SQUARE_DIM = 64
+
+def getTestLayerShape(test_set=False):
+    path = 'data/'
+    if not test_set:
+        path = path + '_untrained/'
+
+    shapes = []
+    onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
+    for f in onlyfiles:
+        if f[0] != '.' and f[0] != '_':
+            layer = np.loadtxt(path + f + "ndvi.txt", delimiter=',')
+            shapes.append(layer.shape)
+    return shapes
 
 
 class Squares(object):
@@ -42,7 +57,9 @@ class Squares(object):
         if datasets is not None:
             if len(datasets) == 9:
                 self.trainX, self.trainy, self.train_ids, self.valX, self.valy, self.val_ids, self.testX, self.testy, self.test_ids = datasets
-                self.test_arrays = [np.zeros((15996, 14996))] # 2018_dataset
+                layer_shps = getTestLayerShape(test_set)
+                for i in layer_shps:
+                    self.test_arrays.append(np.zeros(i))
                 self.split_beg = list(range(self.testy.shape[-1]))
             else:
                 self.squares, self.square_labels, self.square_labels_orig = datasets
