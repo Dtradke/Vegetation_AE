@@ -42,15 +42,15 @@ def saveDatasets(masterDataSet, fname):
     ''' saves formatted datasets to directory '''
     fname = fname[7:-3]
     print("Saving datasets: ", fname)
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'trainX.npy', masterDataSet.trainX)
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'trainy.npy', masterDataSet.trainy)
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'train_ids.npy', masterDataSet.train_ids)
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'valX.npy', masterDataSet.valX)
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'valy.npy', masterDataSet.valy)
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'val_ids.npy', masterDataSet.val_ids)
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'testX.npy', masterDataSet.testX) #teststring
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'testy.npy', masterDataSet.testy)
-    np.save('output/datasets/' + fname + masterDataSet.trainstring + 'test_ids.npy', masterDataSet.test_ids)
+    np.save('output/datasets/' + fname + 'trainX.npy', masterDataSet.trainX)
+    np.save('output/datasets/' + fname + 'trainy.npy', masterDataSet.trainy)
+    np.save('output/datasets/' + fname + 'train_ids.npy', masterDataSet.train_ids)
+    np.save('output/datasets/' + fname + 'valX.npy', masterDataSet.valX)
+    np.save('output/datasets/' + fname + 'valy.npy', masterDataSet.valy)
+    np.save('output/datasets/' + fname + 'val_ids.npy', masterDataSet.val_ids)
+    np.save('output/datasets/' + fname + 'testX.npy', masterDataSet.testX) #teststring
+    np.save('output/datasets/' + fname + 'testy.npy', masterDataSet.testy)
+    np.save('output/datasets/' + fname + 'test_ids.npy', masterDataSet.test_ids)
 
 def loadDatasets(load_datasets, save_mod):
     ''' Loads formatted datasets from directory '''
@@ -429,8 +429,8 @@ def evaluateRegression(y_preds, masterDataSet):
     for i, loc in enumerate(full_viz_pred):
         diff = np.absolute(np.subtract(full_viz_ground[i], full_viz_pred[i]))
         # viz.viewFullResultColorbar(full_viz_ground[i], full_viz_pred[i], diff, num=i)
-        print("pred ", i,": ", np.array(full_viz_pred[i])[0])
-        print("ground ", i,": ", np.array(full_viz_ground[i])[0])
+        print("pred ", i,": ", np.array(full_viz_pred[1])[0])
+        print("ground ", i,": ", np.array(full_viz_ground[1])[0])
         # np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
         # np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
         # np.save('diff'+str(i)+'.npy', np.array(diff))
