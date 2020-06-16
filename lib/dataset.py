@@ -32,10 +32,8 @@ def getTestLayerShape(test_set=False):
         path = path + '_untrained/'
 
     shapes = []
-    onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
-    print("onlyfiles: ", onlyfiles)
-    print("pathL ", path)
-    for f in onlyfiles:
+    for f in listdir(path):
+        print(f)
         if f[0] != '.' and f[0] != '_':
             layer = np.loadtxt(path + f + "ndvi.txt", delimiter=',')
             shapes.append(layer.shape)
