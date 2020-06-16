@@ -418,6 +418,7 @@ def evaluateRegression(y_preds, masterDataSet):
         if row == 0 and col == 0:
             print("pred: ", pred[0])
             print("ground: ", val[0])
+            break
         # if i < 500:
         #     viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
         pred_squares.append(pred)
