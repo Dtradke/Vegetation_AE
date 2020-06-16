@@ -393,7 +393,9 @@ def evaluateRegression(y_preds, masterDataSet):
     pred_squares, val_squares, img_squares = [], [], []
 
     full_viz_pred = masterDataSet.test_arrays
-    full_viz_ground = masterDataSet.test_arrays
+    full_viz_ground = []
+    for i in full_viz_pred:
+        full_viz_ground.append(np.zeros(i.shape))
     # make visuals
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
