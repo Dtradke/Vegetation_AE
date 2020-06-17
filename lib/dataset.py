@@ -35,7 +35,7 @@ def getTestLayerShape(test_set=False):
     for f in listdir(path):
         print(f)
         if f[0] != '.' and f[0] != '_':
-            layer = np.loadtxt(path + f + "/ndvi.txt", delimiter=',')
+            layer = np.load(path + f + "/ndvi.npy")
             shapes.append(layer.shape)
     return shapes
 
