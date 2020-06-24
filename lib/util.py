@@ -438,7 +438,7 @@ def evaluateRegression(y_preds, masterDataSet):
         np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
         np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
         np.save('diff'+str(i)+'.npy', np.array(diff))
-        np.save('imagery+'str(i)+'.npy', np.array(full_viz_imagery[i]))
+        np.save('imagery'+str(i)+'.npy', np.array(full_viz_imagery[i]))
 
     np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
     np.save('new_ynet_squares_ground.npy', np.array(val_squares))
