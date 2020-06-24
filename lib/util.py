@@ -395,8 +395,10 @@ def evaluateRegression(y_preds, masterDataSet):
     full_viz_pred = masterDataSet.test_arrays
     print(full_viz_pred[0].shape)
     full_viz_ground = []
+    full_viz_imagery = []
     for i in full_viz_pred:
         full_viz_ground.append(np.zeros(i.shape))
+        full_viz_imagery.append(np.zeros(i.shape))
     # make visuals
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
@@ -418,6 +420,8 @@ def evaluateRegression(y_preds, masterDataSet):
         col = int(64*loc[2])
         full_viz_pred[int(loc[0])][row:int(row+pred.shape[0]), col:int(col+pred.shape[1])] += pred
         full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
+        imagery = masterDataSet.testX[i][:, :, -3]
+        full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
         # if i < 500:
         #     viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
         pred_squares.append(pred)
@@ -434,6 +438,7 @@ def evaluateRegression(y_preds, masterDataSet):
         np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
         np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
         np.save('diff'+str(i)+'.npy', np.array(diff))
+        np.save('imagery+'str(i)+'.npy', np.array(full_viz_imagery[i]))
 
     np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
     np.save('new_ynet_squares_ground.npy', np.array(val_squares))

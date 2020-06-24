@@ -55,11 +55,15 @@ class RawData(object):
                 if '2018_Area2_dataset' in locNames: #'East_Bay'
                     eb_train = True
                     locNames.remove('2018_Area2_dataset') #too large for multiprocessing
+                if '2018_Area3_mid' in locNames:
+                    locNames.remove('2018_Area3_mid')
                 print("LocName: ", locNames)
 
                 with Pool(processes=cores) as pool:
                     location_list_return = pool.map(loadLocations, locNames, chunksize)
-                if eb_train: location_list_return.append(loadLocations('2018_Area2_dataset'))
+                if eb_train:
+                    location_list_return.append(loadLocations('2018_Area2_dataset'))
+                    location_list_return.append(loadLocations('2018_Area3_mid'))
 
                 for i in location_list_return:
                     locs[list(i.keys())[0]] = i[list(i.keys())[0]]
