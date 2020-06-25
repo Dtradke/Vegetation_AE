@@ -435,14 +435,14 @@ def evaluateRegression(y_preds, masterDataSet):
         # viz.viewFullResultColorbar(full_viz_ground[i], full_viz_pred[i], diff, num=i)
         # print("pred ", i,": ", np.array(full_viz_pred[i])[0])
         # print("ground ", i,": ", np.array(full_viz_ground[i])[0])
-        np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
-        np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
-        np.save('diff'+str(i)+'.npy', np.array(diff))
-        np.save('imagery'+str(i)+'.npy', np.array(full_viz_imagery[i]))
-
-    np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
-    np.save('new_ynet_squares_ground.npy', np.array(val_squares))
-    np.save('new_ynet_squares_img.npy', np.array(img_squares))
+    #     np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
+    #     np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
+    #     np.save('diff'+str(i)+'.npy', np.array(diff))
+    #     np.save('imagery'+str(i)+'.npy', np.array(full_viz_imagery[i]))
+    #
+    # np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
+    # np.save('new_ynet_squares_ground.npy', np.array(val_squares))
+    # np.save('new_ynet_squares_img.npy', np.array(img_squares))
 
     # calculate result
     ground = masterDataSet.testy.flatten()
@@ -456,7 +456,7 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
     # viz.scatterplotRegression(y_preds, ground)
-    viz.makeCDFreg(y_preds, ground)
+    # viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
@@ -472,7 +472,7 @@ def evaluateRegression(y_preds, masterDataSet):
     stats.append(calcError(y_preds, ground, lower=20, upper=50))
     stats.append(calcError(y_preds, ground, lower=50, upper=80))
     stats.append(calcError(y_preds, ground, lower=80, upper=251))
-    viz.makeCDFclasses(stats)
+    # viz.makeCDFclasses(stats)
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     print("mean_squared_error: ", rmse)
