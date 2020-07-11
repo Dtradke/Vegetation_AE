@@ -367,6 +367,7 @@ def calculateRSquared(y_pred, ground):
     tss_nosum = np.square(np.subtract(ground,np.mean(ground)))
     print("rss: ", rss_nosum.shape)
     print("tss: ", tss_nosum.shape)
+    print("mean: ", np.mean(ground))
     bad_pred = y_pred[(rss_nosum - tss_nosum) > 1]
     bad_ground = ground[(rss_nosum - tss_nosum) > 1]
 
@@ -447,7 +448,7 @@ def evaluateRegression(y_preds, masterDataSet):
         pred_squares.append(pred)
         val_squares.append(val)
         img_squares.append(masterDataSet.testX[i][:, :, -3])
-        viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
     #
 
     for i, loc in enumerate(full_viz_pred):
