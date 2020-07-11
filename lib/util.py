@@ -425,12 +425,12 @@ def evaluateRegression(y_preds, masterDataSet):
         try: real_height = masterDataSet.orig_testy[i]
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
-        flat_pred = pred[val>0]
-        flat_val = val[val>0]
+        flat_pred = pred[val>=0]
+        flat_val = val[val>=0]
         mse = np.mean(np.square(np.subtract(val, pred)))
         absolute_diff = np.absolute(np.subtract(val, pred))
 
-        _,_,r = calculateRSquared(flat_pred, flat_val)
+        # _,_,r = calculateRSquared(flat_pred, flat_val)
         if math.isnan(r):
             continue
         single_r_squareds.append(r)
