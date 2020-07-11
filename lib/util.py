@@ -352,6 +352,10 @@ def calculateRSquared(y_pred, ground):
     # TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
     # r_squared = 1 - (RSS/TSS)
 
+    print("TOTAL BELOW 0:")
+    print("pred: ", np.count_nonzero(y_pred < 0))
+    print("ground: ", np.count_nonzero(ground < 0))
+
 
     error = np.absolute(np.subtract(y_pred, ground))
     # keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
