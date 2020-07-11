@@ -363,6 +363,22 @@ def calculateRSquared(y_pred, ground):
     # pred = y_pred[keep_idx]
     # val = ground[keep_idx]
 
+    rss_nosum = np.square(np.subtract(ground, y_pred))
+    tss_nosum = np.square(np.subtract(ground,np.mean(ground)))
+    print("rss: ", rss_nosum.shape)
+    print("tss: ", tss_nosum.shape)
+    bad_pred = y_pred[(rss_nosum - tss_nosum) > 1]
+    bad_ground = ground[(rss_nosum - tss_nosum) > 1]
+
+    bads = list(zip(bad_pred,bad_ground))
+    print("bads: ", len(bads))
+    count = 0
+    for bad in bads:
+        print(bad)
+        count+=1
+        if count > 400:
+            break
+
     RSS = np.sum(np.square(np.subtract(ground, y_pred)))
     TSS = np.sum(np.square(np.subtract(ground,np.mean(ground))))
     r_squared = 1 - (RSS/TSS)
