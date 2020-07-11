@@ -431,9 +431,9 @@ def evaluateRegression(y_preds, masterDataSet):
         absolute_diff = np.absolute(np.subtract(val, pred))
 
         # _,_,r = calculateRSquared(flat_pred, flat_val)
-        if math.isnan(r):
-            continue
-        single_r_squareds.append(r)
+        # if math.isnan(r):
+        #     continue
+        # single_r_squareds.append(r)
 
         # loc = masterDataSet.test_ids[i]
         # row = int(64*loc[1])
