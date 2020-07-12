@@ -475,8 +475,8 @@ def evaluateRegression(y_preds, masterDataSet):
     # calculate result
     ground = masterDataSet.testy.flatten()
     y_preds = y_preds.flatten()
-    y_preds = y_preds[ground>=0]
-    ground = ground[ground>=0]
+    y_preds = y_preds[ground>0]
+    ground = ground[ground>0]
 
     print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))) - ynet_results["median"])
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))) - ynet_results["avg"])
