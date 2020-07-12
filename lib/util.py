@@ -381,12 +381,19 @@ ynet_results = {0:{2:1.4370439},
 def calcError(y_preds, ground, lower=0, upper=2):
     import copy
     y_p = copy.deepcopy(y_preds)
-    y_preds = y_preds[(ground >= lower) & (ground < upper) & (np.absolute(np.subtract(ground, y_preds)) < 50)]
-    ground = ground[(ground >= lower) & (ground < upper) & (np.absolute(np.subtract(ground, y_p)) < 50)]
+    y_preds = y_preds[(ground >= lower) & (ground < upper)] # & (np.absolute(np.subtract(ground, y_preds)) < 50)
+    ground = ground[(ground >= lower) & (ground < upper)] # & (np.absolute(np.subtract(ground, y_p)) < 50)
+
+    diff = np.absolute(np.subtract(ground, y_preds))
+    std = np.std(diff)
+    mean = np.mean(diff)
+
+
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     avg_abs = np.mean(np.absolute(np.subtract(ground, y_preds)))
     print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", avg_abs, " - median: ", np.median(np.absolute(np.subtract(ground, y_preds))), " - amt: ", ground.size)
-    print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", (avg_abs - ynet_results[lower][upper]), " - median: ", (np.median(np.absolute(np.subtract(ground, y_preds))) - ynet_results[lower][upper]), " - amt: ", ground.size)
+    print("Confidence = mean: ", mean, " ... upper: ", (mean + 1.96*(std / np.sqrt(ground.size))), " ... lower: ",  (mean - 1.96*(std / np.sqrt(ground.size))))
+    # print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", (avg_abs - ynet_results[lower][upper]), " - median: ", (np.median(np.absolute(np.subtract(ground, y_preds))) - ynet_results[lower][upper]), " - amt: ", ground.size)
     return [y_preds, ground]
     # return rmse
 
