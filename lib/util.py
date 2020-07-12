@@ -477,7 +477,7 @@ def evaluateRegression(y_preds, masterDataSet):
     stats.append(calcError(y_preds, ground, lower=0, upper=2))
     stats.append(calcError(y_preds, ground, lower=2, upper=6))
     stats.append(calcError(y_preds, ground, lower=6, upper=20))
-    stats.append(calcError(y_preds, ground, lower=6, upper=50))
+    # stats.append(calcError(y_preds, ground, lower=6, upper=50))
     stats.append(calcError(y_preds, ground, lower=20, upper=50))
     stats.append(calcError(y_preds, ground, lower=50, upper=80))
     stats.append(calcError(y_preds, ground, lower=80, upper=251))
