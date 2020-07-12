@@ -381,8 +381,8 @@ ynet_results = {0:{2:1.4370439},
 def calcError(y_preds, ground, lower=0, upper=2):
     import copy
     y_p = copy.deepcopy(y_preds)
-    y_preds = y_preds[(ground >= lower) & (ground < upper) & (np.absolute(np.subtract(ground, y_preds)) < 100)]
-    ground = ground[(ground >= lower) & (ground < upper) & (np.absolute(np.subtract(ground, y_p)) < 100)]
+    y_preds = y_preds[(ground >= lower) & (ground < upper) & (np.absolute(np.subtract(ground, y_preds)) < 50)]
+    ground = ground[(ground >= lower) & (ground < upper) & (np.absolute(np.subtract(ground, y_p)) < 50)]
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     avg_abs = np.mean(np.absolute(np.subtract(ground, y_preds)))
     print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", avg_abs, " - median: ", np.median(np.absolute(np.subtract(ground, y_preds))), " - amt: ", ground.size)
