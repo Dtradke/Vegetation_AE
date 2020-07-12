@@ -392,7 +392,7 @@ def calcError(y_preds, ground, lower=0, upper=2):
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     avg_abs = np.mean(np.absolute(np.subtract(ground, y_preds)))
     print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", avg_abs, " - median: ", np.median(np.absolute(np.subtract(ground, y_preds))), " - amt: ", ground.size)
-    print("Confidence = mean: ", mean, " ... upper: ", (mean + (1.96*(std / np.sqrt(ground.size)))), " ... lower: ",  (mean - (1.96*(std / np.sqrt(ground.size)))), " ... added: ", (1.96*(std / np.sqrt(ground.size))))
+    print("Confidence = mean: ", mean, " ... upper: ", (mean + (1.96*(std / np.sqrt(ground.size)))), " ... lower: ",  (mean - (1.96*(std / np.sqrt(ground.size)))), " ... added: ", (1.96*(std / np.sqrt(ground.size))), " ... 95% within: ", np.sort(diff)[int(diff.size * 0.95)])
     # print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", (avg_abs - ynet_results[lower][upper]), " - median: ", (np.median(np.absolute(np.subtract(ground, y_preds))) - ynet_results[lower][upper]), " - amt: ", ground.size)
     return [y_preds, ground]
     # return rmse
