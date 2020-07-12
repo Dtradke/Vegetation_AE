@@ -481,7 +481,7 @@ def evaluateRegression(y_preds, masterDataSet):
     stats.append(calcError(y_preds, ground, lower=20, upper=50))
     stats.append(calcError(y_preds, ground, lower=50, upper=80))
     stats.append(calcError(y_preds, ground, lower=80, upper=251))
-    # viz.makeCDFclasses(stats)
+    viz.makeCDFclasses(stats)
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     print("mean_squared_error: ", rmse)
