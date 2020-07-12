@@ -352,36 +352,12 @@ def calculateRSquared(y_pred, ground):
     # TSS = np.sum(np.square(np.subtract(val,np.mean(val))))
     # r_squared = 1 - (RSS/TSS)
 
-    print("TOTAL BELOW 0:")
-    print("pred: ", np.count_nonzero(y_pred < 0))
-    print("ground: ", np.count_nonzero(ground < 0))
-
 
     error = np.absolute(np.subtract(y_pred, ground))
     # keep_idx = [(error >= np.quantile(error,0.05)) & (error <= np.quantile(error,0.95))]
     # error = error[keep_idx]
     # pred = y_pred[keep_idx]
     # val = ground[keep_idx]
-
-    # rss_nosum = np.square(np.subtract(ground, y_pred))
-    # tss_nosum = np.square(np.subtract(ground,np.mean(ground)))
-    # print("rss: ", rss_nosum.shape)
-    # print("tss: ", tss_nosum.shape)
-    # print("mean: ", np.mean(ground))
-    # bad_pred = y_pred[(rss_nosum - tss_nosum) > 1]
-    # bad_ground = ground[(rss_nosum - tss_nosum) > 1]
-    #
-    # bads = list(zip(bad_pred,bad_ground))
-    # print("bads: ", len(bads))
-    # count = 0
-    # for bad in bads:
-    #     print(bad)
-    #     count+=1
-    #     if count > 400:
-    #         break
-
-    sse = np.sum(np.square(np.subtract(ground, y_pred)))
-    print("SSE: ", sse)
 
     RSS = np.sum(np.square(np.subtract(ground, y_pred)))
     TSS = np.sum(np.square(np.subtract(ground,np.mean(ground))))
@@ -403,10 +379,6 @@ ynet_results = {0:{2:1.4370439},
 
 
 def calcError(y_preds, ground, lower=0, upper=2):
-    if lower == 0:
-        y_preds = y_preds[(ground >= lower) & (ground < upper) & (np.subtract(ground, upper) < 100)]
-        ground = ground[(ground >= lower) & (ground < upper) & (np.subtract(ground, upper) < 100)]
-
     y_preds = y_preds[(ground >= lower) & (ground < upper)]
     ground = ground[(ground >= lower) & (ground < upper)]
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
@@ -433,15 +405,15 @@ def evaluateRegression(y_preds, masterDataSet):
         try: real_height = masterDataSet.orig_testy[i]
         except: real_height = np.array([])
         pred, val = formatPreds(pred, val)
-        flat_pred = pred[val>=0]
-        flat_val = val[val>=0]
+        flat_pred = pred[val>0]
+        flat_val = val[val>0]
         mse = np.mean(np.square(np.subtract(val, pred)))
         absolute_diff = np.absolute(np.subtract(val, pred))
 
-        # _,_,r = calculateRSquared(flat_pred, flat_val)
-        # if math.isnan(r):
-        #     continue
-        # single_r_squareds.append(r)
+        _,_,r = calculateRSquared(flat_pred, flat_val)
+        if math.isnan(r):
+            continue
+        single_r_squareds.append(r)
 
         # loc = masterDataSet.test_ids[i]
         # row = int(64*loc[1])
@@ -452,9 +424,9 @@ def evaluateRegression(y_preds, masterDataSet):
         # full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
         # if i < 500:
         #     viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
-        pred_squares.append(pred)
-        val_squares.append(val)
-        img_squares.append(masterDataSet.testX[i][:, :, -3])
+        # pred_squares.append(pred)
+        # val_squares.append(val)
+        # img_squares.append(masterDataSet.testX[i][:, :, -3])
         # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
     #
 
@@ -475,8 +447,8 @@ def evaluateRegression(y_preds, masterDataSet):
     # calculate result
     ground = masterDataSet.testy.flatten()
     y_preds = y_preds.flatten()
-    y_preds = y_preds[ground>0]
-    ground = ground[ground>0]
+    y_preds = y_preds[ground>=0]
+    ground = ground[ground>=0]
 
     print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))) - ynet_results["median"])
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))) - ynet_results["avg"])
