@@ -363,22 +363,25 @@ def calculateRSquared(y_pred, ground):
     # pred = y_pred[keep_idx]
     # val = ground[keep_idx]
 
-    rss_nosum = np.square(np.subtract(ground, y_pred))
-    tss_nosum = np.square(np.subtract(ground,np.mean(ground)))
-    print("rss: ", rss_nosum.shape)
-    print("tss: ", tss_nosum.shape)
-    print("mean: ", np.mean(ground))
-    bad_pred = y_pred[(rss_nosum - tss_nosum) > 1]
-    bad_ground = ground[(rss_nosum - tss_nosum) > 1]
+    # rss_nosum = np.square(np.subtract(ground, y_pred))
+    # tss_nosum = np.square(np.subtract(ground,np.mean(ground)))
+    # print("rss: ", rss_nosum.shape)
+    # print("tss: ", tss_nosum.shape)
+    # print("mean: ", np.mean(ground))
+    # bad_pred = y_pred[(rss_nosum - tss_nosum) > 1]
+    # bad_ground = ground[(rss_nosum - tss_nosum) > 1]
+    #
+    # bads = list(zip(bad_pred,bad_ground))
+    # print("bads: ", len(bads))
+    # count = 0
+    # for bad in bads:
+    #     print(bad)
+    #     count+=1
+    #     if count > 400:
+    #         break
 
-    bads = list(zip(bad_pred,bad_ground))
-    print("bads: ", len(bads))
-    count = 0
-    for bad in bads:
-        print(bad)
-        count+=1
-        if count > 400:
-            break
+    sse = np.sum(np.square(np.subtract(ground, y_pred)))
+    print("SSE: ", sse)
 
     RSS = np.sum(np.square(np.subtract(ground, y_pred)))
     TSS = np.sum(np.square(np.subtract(ground,np.mean(ground))))
@@ -400,8 +403,12 @@ ynet_results = {0:{2:1.4370439},
 
 
 def calcError(y_preds, ground, lower=0, upper=2):
-    y_preds = y_preds[(ground >= lower) & (ground < upper)]
-    ground = ground[(ground >= lower) & (ground < upper)]
+    if lower = 0:
+        y_preds = y_preds[(ground >= lower) & (ground < upper) & (np.subtract(ground, upper))]
+        ground = ground[(ground >= lower) & (ground < upper) & (np.subtract(ground, upper) < 100)]
+    else:
+        y_preds = y_preds[(ground >= lower) & (ground < upper)]
+        ground = ground[(ground >= lower) & (ground < upper)]
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     avg_abs = np.mean(np.absolute(np.subtract(ground, y_preds)))
     print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", avg_abs, " - median: ", np.median(avg_abs), " - amt: ", ground.size)
