@@ -70,7 +70,8 @@ def viewResult(layer, val, pred, diff, r_squared, num):
 def makeCDFclasses(stats):
     plt.style.use('ggplot')
     plt.figure(figsize=(8,4))
-    labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
+    # labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
+    labels = ["0-2", "2-6", "6-20", "20-50", "50-80", "80-250"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
         y = np.linspace(0,error.max(),error.shape[0])
@@ -82,7 +83,7 @@ def makeCDFclasses(stats):
         # cumsum_error = scipy.stats.norm.cdf(error)
         # x = np.linspace(0, error[-1], error.shape[0])
         plt.plot(error, y, label=labels[i])
-    plt.xlim(left = 0)
+    plt.xlim(left = 0, right=100)
     plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (ft)", fontsize=20)
