@@ -403,7 +403,7 @@ ynet_results = {0:{2:1.4370439},
 
 
 def calcError(y_preds, ground, lower=0, upper=2):
-    if lower = 0:
+    if lower == 0:
         y_preds = y_preds[(ground >= lower) & (ground < upper) & (np.subtract(ground, upper))]
         ground = ground[(ground >= lower) & (ground < upper) & (np.subtract(ground, upper) < 100)]
     else:
