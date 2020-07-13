@@ -466,7 +466,7 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))))
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
-    # viz.densityPlot(y_preds, ground)
+    viz.densityPlot(y_preds, ground)
     # viz.scatterplotRegression(y_preds, ground)
     # viz.makeCDFreg(y_preds, ground)
 

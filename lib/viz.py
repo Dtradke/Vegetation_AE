@@ -213,7 +213,7 @@ def densityPlot(preds, ground):
 
     for g in range(250):
         for p in range(250):
-            grid[g,p]+=np.count_nonzero((ground == g) & (preds == p))
+            grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
 
     np.save('ynet_grid.npy', grid)
 
