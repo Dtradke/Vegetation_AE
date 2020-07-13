@@ -208,6 +208,16 @@ def viewFullResultColorbar(val, pred, diff, num=0):
     plt.close()
 
 
+def densityPlot(preds, ground):
+    grid = np.zeros((250,250))
+
+    for g in range(250):
+        for p in range(250):
+            grid[g,p]+=np.count_nonzero((ground == g) & (preds == p))
+
+    np.save('ynet_grid.npy', grid)
+
+
 def scatterplotRegression(preds, ground):
     import matplotlib.lines as mlines
     error = np.absolute(np.subtract(preds, ground))

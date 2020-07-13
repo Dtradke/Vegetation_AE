@@ -459,13 +459,16 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds = y_preds[ground>=0]
     ground = ground[ground>=0]
 
+
+
     print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))) - ynet_results["median"])
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))) - ynet_results["avg"])
     print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))))
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
+    viz.densityPlot(y_preds, ground)
     # viz.scatterplotRegression(y_preds, ground)
-    viz.makeCDFreg(y_preds, ground)
+    # viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
