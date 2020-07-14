@@ -403,7 +403,7 @@ def densityPlot(preds, ground):
 
     print("pred nonzero: ", np.count_nonzero(preds), " out of: ", preds.size)
     print(preds)
-    exit()
+    # exit()
 
     for g in range(250):
         print("g: ", g, " amt: ", np.count_nonzero(np.around(ground,0) == g))
@@ -411,7 +411,7 @@ def densityPlot(preds, ground):
             print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
             grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
 
-    np.save('ynet_grid.npy', grid)
+    np.save('unet_grid.npy', grid)
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
