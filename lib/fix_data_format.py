@@ -24,11 +24,13 @@ for dir in dirs:
         float_formatter = lambda x: "%f" % x
         np.set_printoptions(formatter={'float_kind':float_formatter})
 
-        fname = folder + f + '.tif'
+        fname = folder + f + '.npy' #'.tif'
         print(fname)
 
-        im = Image.open(fname)
-        layer = np.array(im)
+        # im = Image.open(fname)
+        # layer = np.array(im)
+        layer = np.load(fname)
+
         # the_type = layer.dtype
         # layer = cv2.imread(fname, cv2.IMREAD_COLOR)
         # layer = layer[:,:,0]
