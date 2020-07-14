@@ -211,6 +211,9 @@ def viewFullResultColorbar(val, pred, diff, num=0):
 def densityPlot(preds, ground):
     grid = np.zeros((250,250))
 
+    print("pred nonzero: ", np.count_nonzero(preds), " out of: ", preds.size)
+    exit()
+
     for g in range(250):
         print("g: ", g, " amt: ", np.count_nonzero(np.around(ground,0) == g))
         for p in range(250):
