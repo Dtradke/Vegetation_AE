@@ -397,6 +397,21 @@ def calcError(y_preds, ground, lower=0, upper=2):
     return [y_preds, ground]
     # return rmse
 
+
+def densityPlot(preds, ground):
+    grid = np.zeros((250,250))
+
+    print("pred nonzero: ", np.count_nonzero(preds), " out of: ", preds.size)
+    exit()
+
+    for g in range(250):
+        print("g: ", g, " amt: ", np.count_nonzero(np.around(ground,0) == g))
+        for p in range(250):
+            print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
+            grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
+
+    np.save('ynet_grid.npy', grid)
+
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
     pred_squares, val_squares, img_squares = [], [], []
@@ -466,7 +481,8 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))))
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
-    viz.densityPlot(y_preds, ground)
+    # viz.densityPlot(y_preds, ground)
+    densityPlot(y_preds, ground)
     # viz.scatterplotRegression(y_preds, ground)
     # viz.makeCDFreg(y_preds, ground)
 
