@@ -402,6 +402,7 @@ def densityPlot(preds, ground):
     grid = np.zeros((250,250))
 
     print("pred nonzero: ", np.count_nonzero(preds), " out of: ", preds.size)
+    print(preds)
     exit()
 
     for g in range(250):
