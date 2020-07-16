@@ -411,7 +411,7 @@ def densityPlot(preds, ground):
             # print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
             grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
 
-    np.save('unet_grid.npy', grid)
+    np.save('ynet_noskip_grid.npy', grid)
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
