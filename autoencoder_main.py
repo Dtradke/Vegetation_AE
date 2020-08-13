@@ -164,8 +164,12 @@ def heightsCheck(masterDataSet):
 def regHeightsCheck(masterDataSet):
     flat_train = masterDataSet.trainy.flatten()
     flat_val = masterDataSet.valy.flatten()
-    bottom = [0,2,6,6,20,50,80]
-    top = [2,6,20,50,50,80,251]
+    # imperial
+    # bottom = [0,2,6,6,20,50,80]
+    # top = [2,6,20,50,50,80,251]
+    # metric
+    bottom = [0,0.6,1.83,1.83,6,15.25,24.4]
+    top = [0.6,1.83,6,15.25,15.25,24.4,76.5]
     for i, lower in enumerate(bottom):
         train = flat_train[(flat_train >= lower) & (flat_train < top[i])]
         val = flat_val[(flat_val >= lower) & (flat_val < top[i])]
