@@ -71,7 +71,8 @@ def makeCDFclasses(stats):
     plt.style.use('ggplot')
     plt.figure(figsize=(8,4))
     # labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
-    labels = ["0-2", "2-6", "6-20", "20-50", "50-80", "80-250"]
+    # labels = ["0-2", "2-6", "6-20", "20-50", "50-80", "80-250"]
+    labels = ["0-0.6", "0.6-1.83", "1.83-6", "6-15.25", "15.25-24.4", "24.4+"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
         y = np.linspace(0,error.max(),error.shape[0])

@@ -278,7 +278,7 @@ class Squares(object):
         cubes = np.delete(cubes, delete_idx, axis=0)
         cube_labels = np.delete(cube_labels, delete_idx, axis=0)
         cube_ids = np.delete(cube_ids, delete_idx, axis=0)
-        print("After footprints check - cubes: ", cubes.shape, " labels: ", cube_labels.shape, " ids: ", cube_ids)
+        print("After footprints check - cubes: ", cubes.shape, " labels: ", cube_labels.shape) #, " ids: ", cube_ids
         return cubes, cube_labels, cube_ids
 
     @staticmethod

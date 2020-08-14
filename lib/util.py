@@ -366,12 +366,23 @@ def calculateRSquared(y_pred, ground):
 
 
 ##### YNET RESULTS
-ynet_results = {0:{2:1.4370439},
-                2:{6:3.7907073},
-                6:{20:6.3580565, 50:6.9656744},
-                20:{50:7.217772},
-                50:{80:11.280636},
-                80:{251:25.737791},
+# ynet_results = {0:{2:1.4370439},
+#                 2:{6:3.7907073},
+#                 6:{20:6.3580565, 50:6.9656744},
+#                 20:{50:7.217772},
+#                 50:{80:11.280636},
+#                 80:{251:25.737791},
+#                 "r": 0.833682,
+#                 "median": 1.8250338,
+#                 "avg": 5.2448606,
+#                 "rmse": 10.179926}
+# metric
+ynet_results = {0:{0.6:1.4370439},
+                0.6:{1.83:3.7907073},
+                1.83:{6:6.3580565, 15.25:6.9656744},
+                6:{15.25:7.217772},
+                15.25:{24.4:11.280636},
+                24.4:{76.5:25.737791},
                 "r": 0.833682,
                 "median": 1.8250338,
                 "avg": 5.2448606,
@@ -398,20 +409,20 @@ def calcError(y_preds, ground, lower=0, upper=2):
     # return rmse
 
 
-def densityPlot(preds, ground):
-    grid = np.zeros((250,250))
+def densityPlot(preds, ground): #imperial: 250
+    grid = np.zeros((77,77))
 
     print("pred nonzero: ", np.count_nonzero(preds), " out of: ", preds.size)
     print(preds)
     # exit()
 
-    for g in range(250):
+    for g in range(77):
         # print("g: ", g, " amt: ", np.count_nonzero(np.around(ground,0) == g))
-        for p in range(250):
+        for p in range(77):
             # print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
             grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
 
-    np.save('ynet_noskip_grid.npy', grid)
+    np.save('ynet_grid.npy', grid)
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
@@ -447,12 +458,14 @@ def evaluateRegression(y_preds, masterDataSet):
         # full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
         # imagery = masterDataSet.testX[i][:, :, -3]
         # full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
-        # if i < 500:
-        #     viz.viewResult(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        if i < 500:
+            naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
+            # viz.viewResult(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
         # pred_squares.append(pred)
         # val_squares.append(val)
         # img_squares.append(masterDataSet.testX[i][:, :, -3])
-        # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+            # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+            viz.viewResultColorbar(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
     #
 
     for i, loc in enumerate(full_viz_pred):
@@ -477,8 +490,8 @@ def evaluateRegression(y_preds, masterDataSet):
 
 
 
-    print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))) - ynet_results["median"])
-    print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))) - ynet_results["avg"])
+    print("Median diff: ", np.median(np.absolute(np.subtract(y_preds, ground))) - ynet_results["median"])
+    print("Mean diff: ", np.mean(np.absolute(np.subtract(y_preds, ground))) - ynet_results["avg"])
     print("Median: ", np.median(np.absolute(np.subtract(y_preds, ground))))
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
@@ -490,21 +503,21 @@ def evaluateRegression(y_preds, masterDataSet):
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
     print("R^2 together: ", r_sqr)
-    print("R^2 together: ", r_sqr - ynet_results["r"])
+    print("R^2 together diff: ", r_sqr - ynet_results["r"])
     print("R^2 separate: ", np.mean(np.array(single_r_squareds)))
 
     stats = []
-    stats.append(calcError(y_preds, ground, lower=0, upper=2))
-    stats.append(calcError(y_preds, ground, lower=2, upper=6))
-    stats.append(calcError(y_preds, ground, lower=6, upper=20))
+    stats.append(calcError(y_preds, ground, lower=0, upper=0.6))
+    stats.append(calcError(y_preds, ground, lower=0.6, upper=1.83))
+    stats.append(calcError(y_preds, ground, lower=1.83, upper=6))
     # stats.append(calcError(y_preds, ground, lower=6, upper=50))
-    stats.append(calcError(y_preds, ground, lower=20, upper=50))
-    stats.append(calcError(y_preds, ground, lower=50, upper=80))
-    stats.append(calcError(y_preds, ground, lower=80, upper=251))
+    stats.append(calcError(y_preds, ground, lower=6, upper=15.25))
+    stats.append(calcError(y_preds, ground, lower=15.25, upper=24.4))
+    stats.append(calcError(y_preds, ground, lower=24.4, upper=77))
     viz.makeCDFclasses(stats)
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     print("mean_squared_error: ", rmse)
-    print("mean_squared_error: ", rmse - ynet_results["rmse"])
+    print("mean_squared_error diff: ", rmse - ynet_results["rmse"])
     print("Finished")
     exit()

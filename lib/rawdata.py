@@ -318,7 +318,7 @@ class Location(object):
             fname = cwd + '/data/{}/special_layers/obj_height.npy'.format(self.name)
         # obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         obj_heights = np.load(fname)
-        obj_heights = obj_heights * 3.28
+        obj_heights = obj_heights# * 3.28
         obj_heights = obj_heights.astype('float32')
         # obj_heights = np.around(obj_heights, 2)
 
@@ -448,7 +448,7 @@ class SpecialLayer(object):
             fname = cwd + '/data/{}/special_layers/obj_height.npy'.format(self.locName)
         # obj_heights = np.loadtxt(fname, delimiter=',')#cv2.imread(fname, cv2.IMREAD_UNCHANGED)
         obj_heights = np.load(fname)
-        obj_heights = obj_heights * 3.28
+        obj_heights = obj_heights# * 3.28
         obj_heights = obj_heights.astype('float32')
         # obj_heights = np.around(obj_heights, 2)
 

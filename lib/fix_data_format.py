@@ -6,7 +6,8 @@ import sys
 import PIL
 from PIL import Image
 
-files = ['obj_height']
+# files = ['obj_height']
+files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'obj_height'] #, 'footprints'
 # files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'obj_height', 'footprints'] #, 'footprints'
 
 
@@ -24,12 +25,12 @@ for dir in dirs:
         float_formatter = lambda x: "%f" % x
         np.set_printoptions(formatter={'float_kind':float_formatter})
 
-        fname = folder + f + '.npy' #'.tif'
+        fname = folder + f + '.tif'
         print(fname)
 
-        # im = Image.open(fname)
-        # layer = np.array(im)
-        layer = np.load(fname)
+        im = Image.open(fname)
+        layer = np.array(im)
+        # layer = np.load(fname)
 
         # the_type = layer.dtype
         # layer = cv2.imread(fname, cv2.IMREAD_COLOR)
@@ -38,7 +39,7 @@ for dir in dirs:
 
         # layer = np.load(fname)
         print(layer.shape)
-        new_fname = folder + f + 'filter.npy' #'.txt'
+        new_fname = folder + f + '.npy' #'.txt'
         # print(layer)
 
         # if f == 'obj_height':
