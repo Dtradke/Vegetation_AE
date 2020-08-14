@@ -39,7 +39,7 @@ def view3d(layer):
     print(Z)
     dem3d=ax.plot_surface(X,Y, Z,cmap='afmhot', linewidth=0)
     ax.set_title('RESULT')
-    ax.set_zlabel('Vegetation Height (ft)')
+    ax.set_zlabel('Vegetation Height (m)')
     plt.show()
 
 
@@ -72,7 +72,7 @@ def makeCDFclasses(stats):
     plt.figure(figsize=(8,4))
     # labels = ["0-2", "2-6", "6-20", "6-50", "20-50", "50-80", "80+"]
     # labels = ["0-2", "2-6", "6-20", "20-50", "50-80", "80-250"]
-    labels = ["0-0.6", "0.6-1.83", "1.83-6", "6-15.25", "15.25-24.4", "24.4+"]
+    labels = ["0.0 - 0.6", "0.6 - 1.8", "1.8 - 6.0", "6.0 - 15.3", "15.3 - 24.4", "24.4 +"]
     for i, stat in enumerate(stats):
         error = np.sort(np.absolute(np.subtract(stat[0], stat[1])))
         y = np.linspace(0,error.max(),error.shape[0])
@@ -84,12 +84,12 @@ def makeCDFclasses(stats):
         # cumsum_error = scipy.stats.norm.cdf(error)
         # x = np.linspace(0, error[-1], error.shape[0])
         plt.plot(error, y, label=labels[i])
-    plt.xlim(left = 0, right=100)
+    plt.xlim(left = 0)
     plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
-    plt.xlabel("Absolute Error (ft)", fontsize=20)
+    plt.xlabel("Absolute Error (m)", fontsize=20)
     plt.legend(loc='best')
-    plt.title("CDF - Classes", fontsize=20)
+    plt.title("CDF - Ranges", fontsize=20)
 
     fname = "output/figures/CDF_classes.png"
     plt.savefig(fname,bbox_inches='tight')
@@ -120,7 +120,7 @@ def makeCDFreg(y_pred, ground):
     plt.xlim(left=0)
     plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
-    plt.xlabel("Absolute Error (ft)", fontsize=20)
+    plt.xlabel("Absolute Error (m)", fontsize=20)
     # plt.legend(loc='best')
     plt.title("CDF for Y-NET", fontsize=20)
 

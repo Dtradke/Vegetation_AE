@@ -422,7 +422,7 @@ def densityPlot(preds, ground): #imperial: 250
             # print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
             grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
 
-    np.save('ynet_grid.npy', grid)
+    np.save('ynet_noskip_grid.npy', grid)
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
@@ -458,14 +458,14 @@ def evaluateRegression(y_preds, masterDataSet):
         # full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
         # imagery = masterDataSet.testX[i][:, :, -3]
         # full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
-        if i < 500:
-            naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
-            # viz.viewResult(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
-        # pred_squares.append(pred)
-        # val_squares.append(val)
-        # img_squares.append(masterDataSet.testX[i][:, :, -3])
-            # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
-            viz.viewResultColorbar(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
+        # if i < 500:
+        #     naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
+        #     # viz.viewResult(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
+        # # pred_squares.append(pred)
+        # # val_squares.append(val)
+        # # img_squares.append(masterDataSet.testX[i][:, :, -3])
+        #     # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
+        #     viz.viewResultColorbar(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
     #
 
     for i, loc in enumerate(full_viz_pred):
@@ -514,7 +514,7 @@ def evaluateRegression(y_preds, masterDataSet):
     stats.append(calcError(y_preds, ground, lower=6, upper=15.25))
     stats.append(calcError(y_preds, ground, lower=15.25, upper=24.4))
     stats.append(calcError(y_preds, ground, lower=24.4, upper=77))
-    viz.makeCDFclasses(stats)
+    # viz.makeCDFclasses(stats)
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     print("mean_squared_error: ", rmse)
