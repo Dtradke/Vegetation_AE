@@ -461,10 +461,10 @@ def evaluateRegression(y_preds, masterDataSet):
         # if i < 500:
         #     naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
         #     # viz.viewResult(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
-        pred_squares.append(pred)
-        val_squares.append(val)
-        naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
-        img_squares.append(naip)
+        # pred_squares.append(pred)
+        # val_squares.append(val)
+        # naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
+        # img_squares.append(naip)
         #     # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
         #     viz.viewResultColorbar(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
     #
@@ -479,11 +479,10 @@ def evaluateRegression(y_preds, masterDataSet):
     #     np.save('diff'+str(i)+'.npy', np.array(diff))
     #     np.save('imagery'+str(i)+'.npy', np.array(full_viz_imagery[i]))
     #
-    np.save('metric_ynet_squares_pred.npy', np.array(pred_squares))
-    np.save('metric_ynet_squares_ground.npy', np.array(val_squares))
-    np.save('metric_ynet_squares_img.npy', np.array(img_squares))
-    print("Finished")
-    exit()
+    # np.save('metric_ynet_squares_pred.npy', np.array(pred_squares))
+    # np.save('metric_ynet_squares_ground.npy', np.array(val_squares))
+    # np.save('metric_ynet_squares_img.npy', np.array(img_squares))
+
 
     # calculate result
     ground = masterDataSet.testy.flatten()
@@ -501,7 +500,7 @@ def evaluateRegression(y_preds, masterDataSet):
     # viz.densityPlot(y_preds, ground)
     densityPlot(y_preds, ground)
     # viz.scatterplotRegression(y_preds, ground)
-    # viz.makeCDFreg(y_preds, ground)
+    viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
@@ -517,7 +516,7 @@ def evaluateRegression(y_preds, masterDataSet):
     stats.append(calcError(y_preds, ground, lower=6, upper=15.25))
     stats.append(calcError(y_preds, ground, lower=15.25, upper=24.4))
     stats.append(calcError(y_preds, ground, lower=24.4, upper=77))
-    # viz.makeCDFclasses(stats)
+    viz.makeCDFclasses(stats)
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     print("mean_squared_error: ", rmse)
