@@ -461,9 +461,10 @@ def evaluateRegression(y_preds, masterDataSet):
         # if i < 500:
         #     naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
         #     # viz.viewResult(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
-        # # pred_squares.append(pred)
-        # # val_squares.append(val)
-        # # img_squares.append(masterDataSet.testX[i][:, :, -3])
+        pred_squares.append(pred)
+        val_squares.append(val)
+        naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
+        img_squares.append(naip)
         #     # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
         #     viz.viewResultColorbar(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
     #
@@ -478,9 +479,11 @@ def evaluateRegression(y_preds, masterDataSet):
     #     np.save('diff'+str(i)+'.npy', np.array(diff))
     #     np.save('imagery'+str(i)+'.npy', np.array(full_viz_imagery[i]))
     #
-    # np.save('new_ynet_squares_pred.npy', np.array(pred_squares))
-    # np.save('new_ynet_squares_ground.npy', np.array(val_squares))
-    # np.save('new_ynet_squares_img.npy', np.array(img_squares))
+    np.save('metric_ynet_squares_pred.npy', np.array(pred_squares))
+    np.save('metric_ynet_squares_ground.npy', np.array(val_squares))
+    np.save('metric_ynet_squares_img.npy', np.array(img_squares))
+    print("Finished")
+    exit()
 
     # calculate result
     ground = masterDataSet.testy.flatten()
