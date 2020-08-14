@@ -169,7 +169,7 @@ def regHeightsCheck(masterDataSet):
     # top = [2,6,20,50,50,80,251]
     # metric
     bottom = [0,0.6,1.83,1.83,6,15.25,24.4]
-    top = [0.6,1.83,6,15.25,15.25,24.4,76.5]
+    top = [0.6,1.83,6,15.25,15.25,24.4,77]
     for i, lower in enumerate(bottom):
         train = flat_train[(flat_train >= lower) & (flat_train < top[i])]
         val = flat_val[(flat_val >= lower) & (flat_val < top[i])]
