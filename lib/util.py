@@ -431,7 +431,7 @@ def evaluateRegression(y_preds, masterDataSet):
     abs_diff = np.absolute(masterDataSet.testy - y_preds)
     cutoff = abs_diff.flatten()
     cutoff[cutoff > 75] = 0
-    cutoff = np.sort(cutoff)[-500]
+    cutoff = np.sort(cutoff)[-5000]
 
 
 

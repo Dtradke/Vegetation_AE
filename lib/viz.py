@@ -117,7 +117,7 @@ def makeCDFreg(y_pred, ground):
     # cumsum_error = scipy.stats.norm.cdf(error)
     # x = np.linspace(0, error[-1], error.shape[0])
     plt.plot(error, y)
-    plt.xlim(left=0)
+    plt.xlim(left=0,right=77)
     plt.ylim(bottom=0)
     plt.ylabel("Percent of Predictions (%)", fontsize=20)
     plt.xlabel("Absolute Error (m)", fontsize=20)
@@ -208,20 +208,6 @@ def viewFullResultColorbar(val, pred, diff, num=0):
         plt.savefig(fname, dpi=fig.dpi)
     plt.close()
 
-
-def densityPlot(preds, ground):
-    grid = np.zeros((250,250))
-
-    print("pred nonzero: ", np.count_nonzero(preds), " out of: ", preds.size)
-    exit()
-
-    for g in range(250):
-        print("g: ", g, " amt: ", np.count_nonzero(np.around(ground,0) == g))
-        for p in range(250):
-            print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
-            grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
-
-    np.save('ynet_grid.npy', grid)
 
 
 def scatterplotRegression(preds, ground):
