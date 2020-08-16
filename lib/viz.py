@@ -98,9 +98,6 @@ def makeCDFclasses(stats):
 def makeCDFreg(y_pred, ground):
     plt.style.use('ggplot')
     plt.figure(figsize=(8,4))
-    np.save("y_pred.npy", y_pred)
-    np.save("ground.npy", ground)
-    exit()
     error = np.sort(np.absolute(np.subtract(y_pred, ground)))
     y = np.linspace(0,error.max(),error.shape[0])
     y /= y.max()

@@ -323,7 +323,7 @@ class Location(object):
         # obj_heights = np.around(obj_heights, 2)
 
         obj_heights = obj_heights[2:-2,2:-2]
-        obj_heights[obj_heights > 250] = 250
+        obj_heights[obj_heights > 77] = 77
 
         obj_heights[self.specialLayers['footprints'].allVeg == 1] = -1
 
@@ -453,7 +453,7 @@ class SpecialLayer(object):
         # obj_heights = np.around(obj_heights, 2)
 
         obj_heights = obj_heights[2:-2,2:-2]
-        obj_heights[obj_heights > 250] = 250
+        obj_heights[obj_heights > 77] = 77
 
         obj_heights[self.footprints == 1] = -1
         return obj_heights
