@@ -428,10 +428,10 @@ def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
     pred_squares, val_squares, img_squares = [], [], []
 
-    abs_diff = np.absolute(masterDataSet.testy - y_preds)
-    cutoff = abs_diff.flatten()
-    cutoff[cutoff > 75] = 0
-    cutoff = np.sort(cutoff)[-5000]
+    # abs_diff = np.absolute(masterDataSet.testy - y_preds)
+    # cutoff = abs_diff.flatten()
+    # cutoff[cutoff > 75] = 0
+    # cutoff = np.sort(cutoff)[-5000]
 
 
 
@@ -466,15 +466,15 @@ def evaluateRegression(y_preds, masterDataSet):
         # imagery = masterDataSet.testX[i][:, :, -3]
         # full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
         # if i < 500:
-        if np.amax(absolute_diff) > cutoff:
-            naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
+        # if np.amax(absolute_diff) > cutoff:
+        #     naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
         #     # viz.viewResult(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
         # pred_squares.append(pred)
         # val_squares.append(val)
         # naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
         # img_squares.append(naip)
         #     # viz.viewResultColorbar(masterDataSet.testX[i][:, :, -3], val, pred, absolute_diff, single_r_squareds[-1], i)
-            viz.viewResultColorbar(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
+            # viz.viewResultColorbar(naip, val, pred, absolute_diff, single_r_squareds[-1], i)
     #
 
     for i, loc in enumerate(full_viz_pred):
@@ -508,8 +508,7 @@ def evaluateRegression(y_preds, masterDataSet):
     # viz.densityPlot(y_preds, ground)
     # densityPlot(y_preds, ground)
     # viz.scatterplotRegression(y_preds, ground)
-    viz.makeCDFreg(y_preds, ground)
-    exit()
+    # viz.makeCDFreg(y_preds, ground)
 
     y_preds, ground, r_sqr = calculateRSquared(y_preds, ground)
 
