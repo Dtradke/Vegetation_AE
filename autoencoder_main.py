@@ -238,6 +238,7 @@ if __name__ == "__main__":
             openAndTrain(False, load_datasets=sys.argv[-1], save_mod=True)
         if len(sys.argv) == 2:
             print("Loading model: ", sys.argv[-1])
-            openAndTrain(False, mod=sys.argv[-1], load_datasets=sys.argv[-1])
+            openAndTrain(False, mod=sys.argv[-1])
+            # openAndTrain(False, mod=sys.argv[-1], load_datasets=sys.argv[-1])
         else:
             openAndTrain(False, save_mod=True)
