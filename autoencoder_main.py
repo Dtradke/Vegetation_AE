@@ -161,9 +161,10 @@ def heightsCheck(masterDataSet):
         total_val[6]+=np.count_nonzero(val == 6)
     [print(total_val[i]) for i in total_val.keys()]
 
-def regHeightsCheck(masterDataSet):
+def regHeightsCheck(masterDataSet, mod):
     flat_train = masterDataSet.trainy.flatten()
     flat_val = masterDataSet.valy.flatten()
+
     # imperial
     # bottom = [0,2,6,6,20,50,80]
     # top = [2,6,20,50,50,80,251]
@@ -193,7 +194,8 @@ def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
         heightsCheck(masterDataSet)
         test_len = util.KCross(masterDataSet)
     except:
-        regHeightsCheck(masterDataSet)
+        if test_set == True:
+            regHeightsCheck(masterDataSet)
         test_len = 1
 
     for i in range(test_len):
