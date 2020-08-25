@@ -422,7 +422,7 @@ def densityPlot(preds, ground): #imperial: 250
             # print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
             grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
 
-    np.save('ynet_test_grid.npy', grid)
+    np.save('ynet_test_512_grid.npy', grid)
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
@@ -441,7 +441,7 @@ def evaluateRegression(y_preds, masterDataSet):
     full_viz_imagery = []
     for i in full_viz_pred:
         full_viz_ground.append(np.zeros(i.shape))
-        full_viz_imagery.append(np.zeros(i.shape))
+        full_viz_imagery.append(np.stack((np.zeros(i.shape),np.zeros(i.shape),np.zeros(i.shape))))
     # make visuals
     for i, val in enumerate(masterDataSet.testy):
         pred = y_preds[i]
@@ -459,12 +459,21 @@ def evaluateRegression(y_preds, masterDataSet):
         single_r_squareds.append(r)
 
         loc = masterDataSet.test_ids[i]
-        row = int(64*loc[1])
-        col = int(64*loc[2])
+        row = int(512*loc[1]) #64
+        col = int(512*loc[2])
         full_viz_pred[int(loc[0])][row:int(row+pred.shape[0]), col:int(col+pred.shape[1])] += pred
         full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
-        imagery = masterDataSet.testX[i][:, :, -3]
-        full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
+        # imagery = masterDataSet.testX[i][:, :, -3]
+        # full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
+        red = masterDataSet.testX[i][:, :, -3]
+        green = masterDataSet.testX[i][:, :, -4]
+        blue = masterDataSet.testX[i][:, :, -5]
+        full_viz_imagery[int(loc[0])][0][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += red
+        full_viz_imagery[int(loc[0])][1][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += green
+        full_viz_imagery[int(loc[0])][2][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += blue
+
+
+
         # if i < 500:
         # if np.amax(absolute_diff) > cutoff:
         #     naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
@@ -506,7 +515,7 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
     # viz.densityPlot(y_preds, ground)
-    # densityPlot(y_preds, ground)
+    densityPlot(y_preds, ground)
     # viz.scatterplotRegression(y_preds, ground)
     # viz.makeCDFreg(y_preds, ground)
 
