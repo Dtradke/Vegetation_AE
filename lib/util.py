@@ -470,9 +470,9 @@ def evaluateRegression(y_preds, masterDataSet):
         red = masterDataSet.testX[i][:, :, -3]
         green = masterDataSet.testX[i][:, :, -4]
         blue = masterDataSet.testX[i][:, :, -5]
-        full_viz_imagery[int(loc[0])][0][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += red
-        full_viz_imagery[int(loc[0])][1][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += green
-        full_viz_imagery[int(loc[0])][2][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += blue
+        full_viz_imagery[int(loc[0])][0][row:int(row+red.shape[0]), col:int(col+red.shape[1])] += red
+        full_viz_imagery[int(loc[0])][1][row:int(row+red.shape[0]), col:int(col+red.shape[1])] += green
+        full_viz_imagery[int(loc[0])][2][row:int(row+red.shape[0]), col:int(col+red.shape[1])] += blue
 
 
 
