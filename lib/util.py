@@ -210,6 +210,10 @@ def makeClassification(arr):
     arr[arr < 0] = 0
     return arr
 
+def printHello():
+    print('hello')
+    exit()
+
 def classifyRegression(y_preds, masterDataSet):
     for i in range(masterDataSet.testy.shape[0]):
         y_preds[i] = makeClassification(y_preds[i])
