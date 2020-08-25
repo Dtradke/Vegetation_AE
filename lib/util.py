@@ -458,13 +458,13 @@ def evaluateRegression(y_preds, masterDataSet):
             continue
         single_r_squareds.append(r)
 
-        # loc = masterDataSet.test_ids[i]
-        # row = int(64*loc[1])
-        # col = int(64*loc[2])
-        # full_viz_pred[int(loc[0])][row:int(row+pred.shape[0]), col:int(col+pred.shape[1])] += pred
-        # full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
-        # imagery = masterDataSet.testX[i][:, :, -3]
-        # full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
+        loc = masterDataSet.test_ids[i]
+        row = int(64*loc[1])
+        col = int(64*loc[2])
+        full_viz_pred[int(loc[0])][row:int(row+pred.shape[0]), col:int(col+pred.shape[1])] += pred
+        full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
+        imagery = masterDataSet.testX[i][:, :, -3]
+        full_viz_imagery[int(loc[0])][row:int(row+imagery.shape[0]), col:int(col+imagery.shape[1])] += imagery
         # if i < 500:
         # if np.amax(absolute_diff) > cutoff:
         #     naip = np.stack([masterDataSet.testX[i][:, :,-5],masterDataSet.testX[i][:, :,-4],masterDataSet.testX[i][:, :,-3]],axis=2)
@@ -482,10 +482,10 @@ def evaluateRegression(y_preds, masterDataSet):
         # viz.viewFullResultColorbar(full_viz_ground[i], full_viz_pred[i], diff, num=i)
         # print("pred ", i,": ", np.array(full_viz_pred[i])[0])
         # print("ground ", i,": ", np.array(full_viz_ground[i])[0])
-    #     np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
-    #     np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
-    #     np.save('diff'+str(i)+'.npy', np.array(diff))
-    #     np.save('imagery'+str(i)+'.npy', np.array(full_viz_imagery[i]))
+        np.save('full_viz_ground'+str(i)+'.npy', np.array(full_viz_ground[i]))
+        np.save('full_viz_pred'+str(i)+'.npy', np.array(full_viz_pred[i]))
+        np.save('diff'+str(i)+'.npy', np.array(diff))
+        np.save('imagery'+str(i)+'.npy', np.array(full_viz_imagery[i]))
     #
     # np.save('metric_ynet_squares_pred.npy', np.array(pred_squares))
     # np.save('metric_ynet_squares_ground.npy', np.array(val_squares))
@@ -506,7 +506,7 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
     # viz.densityPlot(y_preds, ground)
-    densityPlot(y_preds, ground)
+    # densityPlot(y_preds, ground)
     # viz.scatterplotRegression(y_preds, ground)
     # viz.makeCDFreg(y_preds, ground)
 
