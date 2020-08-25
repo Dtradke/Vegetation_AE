@@ -422,7 +422,7 @@ def densityPlot(preds, ground): #imperial: 250
             # print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
             grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
 
-    np.save('ynet_test_512_grid.npy', grid)
+    np.save('ynet_test_128_grid.npy', grid)
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
@@ -459,8 +459,8 @@ def evaluateRegression(y_preds, masterDataSet):
         single_r_squareds.append(r)
 
         loc = masterDataSet.test_ids[i]
-        row = int(512*loc[1]) #64
-        col = int(512*loc[2])
+        row = int(128*loc[1]) #64
+        col = int(128*loc[2])
         full_viz_pred[int(loc[0])][row:int(row+pred.shape[0]), col:int(col+pred.shape[1])] += pred
         full_viz_ground[int(loc[0])][row:int(row+val.shape[0]), col:int(col+val.shape[1])] += val
         # imagery = masterDataSet.testX[i][:, :, -3]
