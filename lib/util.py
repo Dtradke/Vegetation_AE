@@ -402,7 +402,7 @@ def calcError(y_preds, ground, lower=0, upper=2):
 
     rmse = np.sqrt(np.mean(np.square(np.subtract(ground, y_preds))))
     avg_abs = np.mean(np.absolute(np.subtract(ground, y_preds)))
-    print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", avg_abs, " - median: ", np.median(np.absolute(np.subtract(ground, y_preds))), " - amt: ", ground.size)
+    print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_m: ", avg_abs, " - median: ", np.median(np.absolute(np.subtract(ground, y_preds))), " - amt: ", ground.size)
     print("Confidence = mean: ", mean, " ... upper: ", (mean + (1.96*(std / np.sqrt(ground.size)))), " ... lower: ",  (mean - (1.96*(std / np.sqrt(ground.size)))), " ... added: ", (1.96*(std / np.sqrt(ground.size))), " ... 80% within: ", np.sort(diff)[int(diff.size * 0.8)])
     # print("lower: ", lower, " - upper: ", upper, " - rmse: ", rmse, " - avg_error_ft: ", (avg_abs - ynet_results[lower][upper]), " - median: ", (np.median(np.absolute(np.subtract(ground, y_preds))) - ynet_results[lower][upper]), " - amt: ", ground.size)
     return [y_preds, ground]
@@ -422,7 +422,7 @@ def densityPlot(preds, ground): #imperial: 250
             # print("p: ", p, " amt: ", np.count_nonzero(np.around(preds,0) == p))
             grid[g,p]+=np.count_nonzero((np.around(ground,0) == g) & (np.around(preds,0) == p))
 
-    np.save('ynet_noskip_grid.npy', grid)
+    np.save('ynet_test_grid.npy', grid)
 
 def evaluateRegression(y_preds, masterDataSet):
     single_r_squareds = []
@@ -506,7 +506,7 @@ def evaluateRegression(y_preds, masterDataSet):
     print("Mean: ", np.mean(np.absolute(np.subtract(y_preds, ground))))
 
     # viz.densityPlot(y_preds, ground)
-    # densityPlot(y_preds, ground)
+    densityPlot(y_preds, ground)
     # viz.scatterplotRegression(y_preds, ground)
     # viz.makeCDFreg(y_preds, ground)
 

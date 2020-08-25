@@ -7,7 +7,7 @@ import PIL
 from PIL import Image
 
 # files = ['obj_height']
-files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'obj_height'] #, 'footprints'
+files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'footprints', 'obj_height'] #, 'footprints'
 # files = ['dem', 'slope', 'aspect', 'band_1', 'band_2', 'band_3', 'band_4', 'ndvi', 'obj_height', 'footprints'] #, 'footprints'
 
 
