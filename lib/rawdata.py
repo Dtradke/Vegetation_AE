@@ -301,7 +301,7 @@ class Location(object):
 
         for val in layers.keys():
             layers[val] = layers[val][2:-2,2:-2]
-            print(val, ": ", layers[val].shape)
+            # print(val, ": ", layers[val].shape)
             self._layershape = layers[val].shape
 
         for name, layer in layers.items():
