@@ -233,7 +233,7 @@ class Squares(object):
             cube = []
             for l in loc.layers.keys():
                 layer = loc.layers[l]
-                print("Layer: ", l, " shape: ", layer.shape)
+                # print("Layer: ", l, " shape: ", layer.shape)
                 # print(l)
                 # print(layer.shape)
                 split_indices = [SQUARE_DIM*d for d in range(1,(layer.shape[1]//SQUARE_DIM)+1)]
@@ -252,7 +252,7 @@ class Squares(object):
                     if last.shape[0] < SQUARE_DIM:
                         v_split.pop()
                     layer_squares = layer_squares + v_split
-                print("Layer: ", l, " amt: ", np.array(layer_squares).shape)
+                # print("Layer: ", l, " amt: ", np.array(layer_squares).shape)
                 layers_arr.append(np.array(layer_squares))
             cubes = np.stack(layers_arr, axis=3)
             cube_labels, cube_ids = self.makeLabel(loc.layer_obj_heights, i)
