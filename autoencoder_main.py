@@ -161,7 +161,7 @@ def heightsCheck(masterDataSet):
         total_val[6]+=np.count_nonzero(val == 6)
     [print(total_val[i]) for i in total_val.keys()]
 
-def regHeightsCheck(masterDataSet, mod):
+def regHeightsCheck(masterDataSet):
     flat_train = masterDataSet.trainy.flatten()
     flat_val = masterDataSet.valy.flatten()
 
@@ -177,7 +177,6 @@ def regHeightsCheck(masterDataSet, mod):
         print("Height ", lower, " to ", top[i], " - train: ", train.size, " - val: ", val.size)
 
 def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
-    # util.printHello()
 
     start_time = time.time()
     if load_datasets is not None:
