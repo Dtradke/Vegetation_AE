@@ -177,7 +177,7 @@ def regHeightsCheck(masterDataSet, mod):
         print("Height ", lower, " to ", top[i], " - train: ", train.size, " - val: ", val.size)
 
 def openAndTrain(test_set=True, mod=None, load_datasets=None, save_mod=False):
-    util.printHello()
+    # util.printHello()
 
     start_time = time.time()
     if load_datasets is not None:
