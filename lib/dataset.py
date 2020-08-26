@@ -24,7 +24,7 @@ bin_class = False
 
 balance_classes = False
 
-SQUARE_DIM = 256 #64
+SQUARE_DIM = 32 #64
 
 def getTestLayerShape(test_set=False):
     path = 'data/'

@@ -13,7 +13,7 @@ import math
 classify = False
 bin_class = False
 
-SQUARE_DIM = 256
+SQUARE_DIM = 32
 
 try:
     import matplotlib.pyplot as plt
@@ -210,9 +210,7 @@ def makeClassification(arr):
     arr[arr < 0] = 0
     return arr
 
-def printHello():
-    print('hello')
-    exit()
+
 
 def classifyRegression(y_preds, masterDataSet):
     for i in range(masterDataSet.testy.shape[0]):
