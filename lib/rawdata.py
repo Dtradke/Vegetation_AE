@@ -167,6 +167,10 @@ class RawData(object):
                     layer_maxs[layer_key].append(np.amax(loc.layers[layer_key]))
                     layer_mins[layer_key].append(np.amin(loc.layers[layer_key]))
 
+        print(layer_maxs)
+        print(layer_mins)
+        exit()
+
 
         for loc in self.locs.values():
             for layer_key in loc.layers.keys():
