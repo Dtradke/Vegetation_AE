@@ -286,7 +286,7 @@ class Location(object):
             b[b<0] = 0
             b[b>255] = 255
 
-        grvi = np.divide(band_4, band_2, out=np.zeros_like(band_4), where=band_2!=0, dtype=float)
+        grvi = np.divide(band_4, band_2, out=np.zeros_like(band_4), where=band_2!=0.0, dtype=float)
         # grvi = band_4 / band_2
 
         layers = {
