@@ -167,10 +167,6 @@ class RawData(object):
                     layer_maxs[layer_key].append(np.amax(loc.layers[layer_key]))
                     layer_mins[layer_key].append(np.amin(loc.layers[layer_key]))
 
-        print(layer_maxs)
-        print(layer_mins)
-        exit()
-
 
         for loc in self.locs.values():
             for layer_key in loc.layers.keys():
@@ -179,6 +175,9 @@ class RawData(object):
                     xmax, xmin = max(layer_maxs[layer_key]), min(layer_mins[layer_key])
                     layer = (layer - xmin) / (xmax - xmin)
                     loc.layers[layer_key] = layer
+                    print(np.amax(layer), " ", np.amin(layer))
+
+        exit()
 
 
     def __repr__(self):
@@ -287,8 +286,8 @@ class Location(object):
             b[b<0] = 0
             b[b>255] = 255
 
-        # grvi = np.divide(band_4, band_2, out=np.zeros_like(band_4), where=band_2!=0, dtype=float)
-        grvi = band_4 / band_2
+        grvi = np.divide(band_4, band_2, out=np.zeros_like(band_4), where=band_2!=0, dtype=float)
+        # grvi = band_4 / band_2
 
         layers = {
                 'dem':dem,
