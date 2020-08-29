@@ -144,20 +144,20 @@ class RawData(object):
                 'dem':[],
                 'slope':[90],
                 'aspect':[359],
-                'band_4':[255],
-                'band_3':[255],
-                'band_2':[255],
-                'band_1':[255],
+                'band_4':[], #255
+                'band_3':[],
+                'band_2':[],
+                'band_1':[],
                 'grvi':[]
                 }
         layer_mins = {
                 'dem':[],
                 'slope':[0],
                 'aspect':[0],
-                'band_4':[0],
-                'band_3':[0],
-                'band_2':[0],
-                'band_1':[0],
+                'band_4':[],
+                'band_3':[],
+                'band_2':[],
+                'band_1':[],
                 'grvi':[]
                 }
 

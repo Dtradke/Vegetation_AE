@@ -13,7 +13,7 @@ import math
 classify = False
 bin_class = False
 
-SQUARE_DIM = 32
+SQUARE_DIM = 64
 
 try:
     import matplotlib.pyplot as plt
