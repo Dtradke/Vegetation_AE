@@ -133,13 +133,6 @@ class RawData(object):
         self.normalizeAllLayers()
 
 
-    # def classifyObjHeights(self):
-    #     vals = []
-    #     for loc in self.locs.values():
-    #         vals.appent(np.squeeze(np.squeeze(loc.obj_heights)))
-    #         print(vals)
-    #         exit()
-
     def normalizeAllLayers(self):
         layer_maxs = {
                 'dem':[],
@@ -176,10 +169,6 @@ class RawData(object):
                     xmax, xmin = max(layer_maxs[layer_key]), min(layer_mins[layer_key])
                     layer = (layer - xmin) / (xmax - xmin)
                     loc.layers[layer_key] = layer
-                    print(np.amax(layer), " ", np.amin(layer))
-
-        exit()
-
 
     def __repr__(self):
         return "Dataset({})".format(list(self.locs.values()))
